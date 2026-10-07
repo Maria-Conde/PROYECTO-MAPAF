@@ -1,0 +1,6 @@
+{
+  "name": "Telemetry Tactical SCADA",
+  "description": "Real-Time Operations Center (RTOC) and Tactical SCADA telemetry platform for industrial upstream and midstream process monitoring.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
