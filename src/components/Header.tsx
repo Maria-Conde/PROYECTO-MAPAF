@@ -1,7 +1,7 @@
 import React from 'react';
-import { AlertOctagon, Volume2, VolumeX, Shield, ShieldCheck } from 'lucide-react';
+import { AlertOctagon, Volume2, VolumeX, Shield, Database } from 'lucide-react';
 
-export type ScreenId = 'overview' | 'wellheads' | 'alarms' | 'historian' | 'facility' | 'roles';
+export type ScreenId = 'overview' | 'wellheads' | 'alarms' | 'historian' | 'facility' | 'roles' | 'comparisons';
 
 interface HeaderProps {
   currentScreen: ScreenId;
@@ -12,6 +12,8 @@ interface HeaderProps {
   onToggleAudio: () => void;
   activeRoleName?: string;
   activeRoleColor?: string;
+  xamppConnected?: boolean;
+  onOpenXamppModal?: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -22,35 +24,40 @@ export const Header: React.FC<HeaderProps> = ({
   audioMuted,
   onToggleAudio,
   activeRoleName = 'Admin',
-  activeRoleColor = 'purple',
+  xamppConnected = false,
+  onOpenXamppModal,
 }) => {
   const navItems: { id: ScreenId; label: string; badge?: number }[] = [
     { id: 'overview', label: 'Visión General' },
     { id: 'wellheads', label: 'Pozos y Válvulas' },
     { id: 'alarms', label: 'Alarmas', badge: unacknowledgedCount },
-    { id: 'historian', label: 'Historiador' },
     { id: 'facility', label: 'Vistas de Planta' },
+    { id: 'comparisons', label: 'Comparativas & Guía' },
+    { id: 'historian', label: 'Historiador' },
     { id: 'roles', label: 'Seguridad y Roles' },
   ];
 
   return (
     <header className="flex items-center justify-between px-4 sm:px-6 py-2.5 bg-[#090d1a] border-b border-slate-800/80 shadow-md select-none shrink-0 z-40">
-      {/* Zone 1: Single Text Element Wordmark in Display Face */}
+      {/* Zone 1: Brand Wordmark */}
       <a
         href="#"
         onClick={(e) => {
           e.preventDefault();
           onSelectScreen('overview');
         }}
-        className="flex items-center gap-2.5 group cursor-pointer"
+        className="flex items-center gap-2 group cursor-pointer"
       >
-        <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-[0_0_8px_#10b981]" />
+        <div className={`w-2.5 h-2.5 rounded-full ${xamppConnected ? 'bg-emerald-500 shadow-[0_0_8px_#10b981]' : 'bg-amber-500 shadow-[0_0_8px_#f59e0b]'}`} />
         <span className="font-display text-sm sm:text-base font-bold tracking-tight text-white group-hover:text-emerald-400 transition-colors whitespace-nowrap">
-          SCADA Táctico · RTOC
+          MAPAF · SCADA
+        </span>
+        <span className="hidden xl:inline text-[9px] font-mono-data bg-emerald-500/10 text-emerald-400 px-1.5 py-0.5 rounded border border-emerald-500/30 uppercase">
+          PHP + MySQL
         </span>
       </a>
 
-      {/* Zone 2: 4-6 Nav Links, 1-2 Word Labels, Single-Line */}
+      {/* Zone 2: Nav Links */}
       <nav className="flex items-center gap-1 sm:gap-2 lg:gap-3 overflow-x-auto py-1">
         {navItems.map((item) => {
           const isActive = currentScreen === item.id;
@@ -75,12 +82,28 @@ export const Header: React.FC<HeaderProps> = ({
         })}
       </nav>
 
-      {/* Zone 3: Actions & Active Role Indicator */}
+      {/* Zone 3: Actions & Indicators */}
       <div className="flex items-center gap-2.5 shrink-0">
+        {/* XAMPP & MySQL Status Button */}
+        <button
+          onClick={onOpenXamppModal}
+          title="Ver estado de conexión con XAMPP, PHP y MySQL"
+          className={`flex items-center gap-1.5 px-2.5 py-1 text-xs font-mono-data rounded-[4px] border transition-all cursor-pointer ${
+            xamppConnected
+              ? 'border-emerald-500/30 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-300'
+              : 'border-amber-500/40 bg-amber-500/10 hover:bg-amber-500/20 text-amber-300'
+          }`}
+        >
+          <Database className={`w-3.5 h-3.5 ${xamppConnected ? 'text-emerald-400' : 'text-amber-400'}`} />
+          <span className="hidden sm:inline font-semibold">
+            {xamppConnected ? 'MySQL mapaf_db' : 'XAMPP Offline'}
+          </span>
+        </button>
+
         <button
           onClick={() => onSelectScreen('roles')}
           title="Ver permisos del rol actual"
-          className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 text-xs font-mono-data rounded-[4px] border border-purple-500/30 bg-purple-500/10 hover:bg-purple-500/20 text-purple-300 transition-colors"
+          className="hidden md:flex items-center gap-1.5 px-2.5 py-1 text-xs font-mono-data rounded-[4px] border border-purple-500/30 bg-purple-500/10 hover:bg-purple-500/20 text-purple-300 transition-colors"
         >
           <Shield className="w-3.5 h-3.5 text-purple-400" />
           <span className="font-semibold">{activeRoleName}</span>

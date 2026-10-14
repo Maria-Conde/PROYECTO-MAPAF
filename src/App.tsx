@@ -11,8 +11,11 @@ import { AlarmsScreen } from './screens/AlarmsScreen';
 import { HistorianScreen } from './screens/HistorianScreen';
 import { FacilityVisualScreen } from './screens/FacilityVisualScreen';
 import { SecurityRolesScreen } from './screens/SecurityRolesScreen';
+import { ArchitectureComparisonsScreen } from './screens/ArchitectureComparisonsScreen';
 import { HoldInterlockModal } from './components/HoldInterlockModal';
 import { EsdModal } from './components/EsdModal';
+import { XamppConnectionModal } from './components/XamppConnectionModal';
+import { mapafApi, XamppStatus } from './services/mapafApi';
 import { ShieldAlert, X, ArrowRight } from 'lucide-react';
 import {
   INITIAL_METRICS,
@@ -78,7 +81,42 @@ export default function App() {
     message: string;
   } | null>(null);
 
-  // Sync roles & users to localStorage
+  // XAMPP (PHP + MySQL) Integration State
+  const [xamppStatus, setXamppStatus] = useState<XamppStatus>({ connected: false });
+  const [isXamppModalOpen, setIsXamppModalOpen] = useState<boolean>(false);
+
+  // Sync data with XAMPP MySQL backend
+  const syncWithXampp = async () => {
+    try {
+      const status = await mapafApi.checkStatus();
+      setXamppStatus(status);
+      if (status.connected) {
+        const remote = await mapafApi.fetchSyncData();
+        if (remote) {
+          if (remote.metrics && remote.metrics.length > 0) setMetrics(remote.metrics);
+          if (remote.wellheads && remote.wellheads.length > 0) setWellheads(remote.wellheads);
+          if (remote.alarms && remote.alarms.length > 0) setAlarms(remote.alarms);
+          if (remote.roles && remote.roles.length > 0) setRoles(remote.roles);
+          if (remote.users && remote.users.length > 0) setUsers(remote.users);
+          if (remote.auditLogs && remote.auditLogs.length > 0) setAuditLogs(remote.auditLogs);
+          if (remote.systemConfig) {
+            setFlowState(remote.systemConfig.flowState || 'nominal');
+            setProductionRate(remote.systemConfig.productionRate || 14820);
+          }
+        }
+      }
+    } catch {
+      // offline fallback
+    }
+  };
+
+  useEffect(() => {
+    syncWithXampp();
+    const timer = setInterval(syncWithXampp, 8000);
+    return () => clearInterval(timer);
+  }, []);
+
+  // Sync roles & users to localStorage as local cache
   useEffect(() => {
     try {
       localStorage.setItem('scada_roles', JSON.stringify(roles));
@@ -124,6 +162,8 @@ export default function App() {
       details,
     };
     setAuditLogs((prev) => [newLog, ...prev]);
+    // Persistir en MySQL en XAMPP
+    mapafApi.addAuditLog(newLog).catch(() => {});
   };
 
   // Estado del modal de enclavamiento de seguridad
@@ -298,6 +338,20 @@ export default function App() {
       0
     );
     setProductionRate(totalFlow);
+
+    // Persistir en MySQL en XAMPP
+    mapafApi.updateWellhead({
+      id: updated.id,
+      chokeOpening: updated.chokeOpening,
+      status: updated.status,
+      ssvOpen: updated.ssvOpen,
+      annulusBleedOpen: updated.annulusBleedOpen,
+      chemicalInjection: updated.chemicalInjection,
+      espFrequency: updated.espFrequency,
+      actionDescription: `Ajuste en pozo ${updated.name}`,
+      userName: 'M. Conde Dussan',
+      roleName: currentRole.name,
+    }).catch(() => {});
   };
 
   // Quick throttle from overview
@@ -386,6 +440,8 @@ export default function App() {
       'EXITOSO',
       'Aislamiento total de estación y cierre de pozos activado exitosamente.'
     );
+    // Persistir en MySQL en XAMPP
+    mapafApi.setEsdState('trip', `M. Conde Dussan (${currentRole.name})`).catch(() => {});
   };
 
   // Reset ESD
@@ -412,6 +468,8 @@ export default function App() {
       'EXITOSO',
       'Sistema restablecido a parámetros nominales de operación.'
     );
+    // Persistir en MySQL en XAMPP
+    mapafApi.setEsdState('reset', `M. Conde Dussan (${currentRole.name})`).catch(() => {});
   };
 
   // Acknowledge Alarm
@@ -442,6 +500,9 @@ export default function App() {
     );
     playBeep(523.25, 'sine', 0.15);
     logAudit('Reconocimiento de Alarma', 'ALARMA', 'EXITOSO', `Evento ${id} reconocido.`);
+
+    // Persistir en MySQL en XAMPP
+    mapafApi.acknowledgeAlarm(id, `M. Conde Dussan (${currentRole.name})`).catch(() => {});
   };
 
   // Acknowledge All Alarms
@@ -468,6 +529,9 @@ export default function App() {
     );
     playBeep(523.25, 'sine', 0.2);
     logAudit('Reconocimiento Masivo (ACK ALL)', 'ALARMA', 'EXITOSO', 'Todas las alertas activas reconocidas.');
+
+    // Persistir en MySQL en XAMPP
+    mapafApi.acknowledgeAllAlarms(`M. Conde Dussan (${currentRole.name})`).catch(() => {});
   };
 
   // Trigger simulated alarm
@@ -651,6 +715,8 @@ export default function App() {
         onToggleAudio={() => setAudioMuted(!audioMuted)}
         activeRoleName={currentRole.name}
         activeRoleColor={currentRole.color}
+        xamppConnected={xamppStatus.connected}
+        onOpenXamppModal={() => setIsXamppModalOpen(true)}
       />
 
       {/* Escenario de Operaciones Principal */}
@@ -693,6 +759,8 @@ export default function App() {
         )}
 
         {currentScreen === 'facility' && <FacilityVisualScreen />}
+
+        {currentScreen === 'comparisons' && <ArchitectureComparisonsScreen />}
 
         {currentScreen === 'roles' && (
           <SecurityRolesScreen
@@ -790,6 +858,14 @@ export default function App() {
           </div>
         </div>
       )}
+
+      {/* Modal de Conexión y Diagnóstico XAMPP (PHP + MySQL) */}
+      <XamppConnectionModal
+        isOpen={isXamppModalOpen}
+        onClose={() => setIsXamppModalOpen(false)}
+        status={xamppStatus}
+        onRefresh={syncWithXampp}
+      />
     </div>
   );
 }
