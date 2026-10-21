@@ -983,6 +983,178 @@ $dbStatus = checkDatabaseStatus();
         .pipe-flow { stroke-dasharray: 6 6; animation: flowDash 1.2s linear infinite; }
         @keyframes flowDash { to { stroke-dashoffset: -12; } }
 
+        /* Modales Trazables (ISA-18.2 & Antipatrón Blind ACK) */
+        .modal-backdrop {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 120;
+        }
+        .ack-modal-dialog {
+            background: #0d1527;
+            border: 1px solid #1e293b;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 520px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+            overflow: hidden;
+            animation: fadeIn 0.2s ease-out;
+        }
+        .ack-modal-header {
+            background: #080d19;
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 1.25rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .modal-close-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            cursor: pointer;
+        }
+        .modal-close-btn:hover { color: #fff; }
+        .ack-modal-body {
+            padding: 1.25rem;
+        }
+
+        /* Domain Badge Active (DDD Bounded Context) */
+        .domain-badge-active {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            background: rgba(56, 189, 248, 0.1);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            color: #38bdf8;
+            padding: 0.25rem 0.65rem;
+            border-radius: 999px;
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            font-weight: 600;
+        }
+
+        /* Command UNDO & State Machine Styles */
+        .btn-undo {
+            background: rgba(245, 158, 11, 0.12);
+            border: 1px solid rgba(245, 158, 11, 0.4);
+            color: #fbbf24;
+            padding: 0.35rem 0.75rem;
+            font-size: 0.72rem;
+            font-family: var(--font-mono);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            width: 100%;
+            justify-content: center;
+            margin-top: 0.45rem;
+        }
+        .btn-undo:hover {
+            background: #f59e0b;
+            color: #000;
+            font-weight: 700;
+        }
+        .state-interlock-box {
+            background: rgba(244, 63, 94, 0.12);
+            border: 1px solid rgba(244, 63, 94, 0.4);
+            color: #fecdd3;
+            padding: 0.6rem 0.8rem;
+            border-radius: 6px;
+            font-size: 0.72rem;
+            font-family: var(--font-mono);
+            margin-top: 0.6rem;
+            line-height: 1.35;
+        }
+
+        /* Strategy & Observer Panels */
+        .strategy-selector-panel {
+            background: linear-gradient(135deg, rgba(16, 24, 44, 0.95), rgba(10, 15, 29, 0.95));
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 1rem 1.25rem;
+            margin-bottom: 1.25rem;
+        }
+        .strategy-btn-group {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.6rem;
+            flex-wrap: wrap;
+        }
+        .strategy-pill-btn {
+            background: #141f38;
+            border: 1px solid var(--border-color);
+            color: #94a3b8;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            padding: 0.45rem 0.85rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .strategy-pill-btn:hover { color: #fff; border-color: #38bdf8; }
+        .strategy-pill-btn.active {
+            background: rgba(168, 85, 247, 0.2);
+            border-color: #a855f7;
+            color: #c084fc;
+            font-weight: 700;
+            box-shadow: 0 0 10px rgba(168, 85, 247, 0.2);
+        }
+
+        .observer-panel {
+            background: rgba(11, 17, 34, 0.85);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 0.85rem 1.15rem;
+            margin-bottom: 1.25rem;
+        }
+        .observer-reactions-bar {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.6rem;
+            flex-wrap: wrap;
+        }
+        .observer-badge {
+            padding: 0.25rem 0.6rem;
+            border-radius: 4px;
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            background: #151f35;
+            color: #94a3b8;
+            border: 1px solid var(--border-color);
+            transition: all 0.25s;
+        }
+        .observer-badge.fired {
+            background: rgba(16, 185, 129, 0.2);
+            border-color: #10b981;
+            color: #34d399;
+            font-weight: bold;
+            box-shadow: 0 0 8px rgba(16, 185, 129, 0.3);
+        }
+
+        .header-role-select {
+            background: #060913;
+            border: 1px solid rgba(168, 85, 247, 0.4);
+            color: #c084fc;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            font-weight: bold;
+            padding: 0.35rem 0.65rem;
+            border-radius: 6px;
+            outline: none;
+            cursor: pointer;
+        }
+
         /* Toast */
         #toast {
             position: fixed;
@@ -1008,6 +1180,187 @@ $dbStatus = checkDatabaseStatus();
         #toast.show { transform: translateY(0); opacity: 1; }
         #toast.success { border-color: #10b981; background: #064e3b; color: #a7f3d0; }
         #toast.error { border-color: #f43f5e; background: #881337; color: #fecdd3; }
+
+        /* Barra Superior de Navegación Rápida Directa */
+        .app-top-nav {
+            background: #090e1d;
+            border-bottom: 1px solid var(--border-color);
+            padding: 0.45rem 1.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            overflow-x: auto;
+            flex-shrink: 0;
+            z-index: 35;
+        }
+        .top-nav-container {
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+            overflow-x: auto;
+        }
+        .top-nav-btn {
+            background: transparent;
+            color: var(--text-muted);
+            border: 1px solid transparent;
+            padding: 0.35rem 0.75rem;
+            border-radius: 6px;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.15s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+        .top-nav-btn:hover {
+            color: #fff;
+            background: rgba(255,255,255,0.05);
+        }
+        .top-nav-btn.active {
+            background: #141f38;
+            color: #38bdf8;
+            border-color: rgba(56, 189, 248, 0.4);
+            box-shadow: 0 0 10px rgba(56, 189, 248, 0.15);
+        }
+        .top-nav-endpoints {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            flex-shrink: 0;
+        }
+        .endpoint-pill {
+            background: rgba(168, 85, 247, 0.12);
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            color: #c084fc;
+            padding: 0.25rem 0.6rem;
+            border-radius: 999px;
+            font-size: 0.7rem;
+            font-family: var(--font-mono);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            transition: all 0.15s;
+        }
+        .endpoint-pill:hover {
+        /* Estilos de Infraestructura y Topología SCADA */
+        .infra-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .infra-card {
+            background: linear-gradient(135deg, rgba(16, 24, 44, 0.95), rgba(10, 15, 29, 0.95));
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 1.15rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.2s ease;
+        }
+        .infra-card:hover {
+            border-color: rgba(56, 189, 248, 0.5);
+            transform: translateY(-2px);
+        }
+        .infra-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+        }
+        .infra-card-title {
+            font-family: var(--font-heading);
+            font-size: 0.92rem;
+            font-weight: 700;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        .badge-pulse {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            font-family: var(--font-mono);
+            font-size: 0.68rem;
+            font-weight: 700;
+            padding: 0.2rem 0.55rem;
+            border-radius: 999px;
+        }
+        .badge-pulse-green {
+            background: rgba(16, 185, 129, 0.15);
+            color: #34d399;
+            border: 1px solid rgba(16, 185, 129, 0.4);
+        }
+        .badge-pulse-green::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #10b981;
+            box-shadow: 0 0 6px #10b981;
+        }
+        .layers-timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+        .layer-box {
+            background: #080d1a;
+            border: 1px solid var(--border-color);
+            border-left: 4px solid #38bdf8;
+            border-radius: 8px;
+            padding: 0.9rem 1.1rem;
+            transition: all 0.2s;
+        }
+        .layer-box:hover {
+            border-color: #38bdf8;
+            background: #0c1424;
+        }
+        .flow-btn-group {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+        }
+        .flow-pill-btn {
+            background: #111a30;
+            border: 1px solid var(--border-color);
+            color: #94a3b8;
+            padding: 0.45rem 0.85rem;
+            border-radius: 8px;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .flow-pill-btn:hover {
+            color: #fff;
+            border-color: #38bdf8;
+        }
+        .flow-pill-btn.active {
+            background: rgba(56, 189, 248, 0.15);
+            color: #38bdf8;
+            border-color: #38bdf8;
+            box-shadow: 0 0 10px rgba(56, 189, 248, 0.2);
+        }
+        .flow-step-item {
+            background: #060913;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 0.75rem;
+            margin-bottom: 0.5rem;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+        }
     </style>
 </head>
 <body>
@@ -1047,6 +1400,22 @@ $dbStatus = checkDatabaseStatus();
                 <span id="dbPillText"><?= $dbStatus['connected'] ? 'MySQL: mapaf_db' : 'MySQL Desconectado' ?></span>
             </div>
 
+            <!-- Selector de Operador & Rol JWT RBAC en Vivo -->
+            <div style="display: flex; align-items: center; gap: 0.35rem;">
+                <span style="font-size: 0.7rem; color: var(--text-muted); font-family: var(--font-mono);">Operador JWT:</span>
+                <select id="activeHeaderRole" onchange="switchOperatorRole(this.value)" class="header-role-select" title="Cambiar identidad y rol RBAC activo con token JWT">
+                    <option value="OP-449" selected>👑 M. Conde Dussan [SYS-ADMIN]</option>
+                    <option value="OP-312">🛠️ H. Manchola [PROCESS-ENG]</option>
+                    <option value="OP-205">⚡ E. Vargas [SUPERVISOR]</option>
+                    <option value="OP-101">💻 Operador de Sala [CONSOLE-OP]</option>
+                    <option value="OP-118">👁️ J. Pinto Díaz [INSTRUCTOR-SENA]</option>
+                </select>
+            </div>
+
+            <button class="btn-action" onclick="switchModule('jwt', 'Arquitectura & SENA', 'Seguridad & Autenticación JWT')" style="background: rgba(168,85,247,0.15); border-color: rgba(168,85,247,0.4); color: #c084fc; font-weight: bold;">
+                🔐 Claims JWT
+            </button>
+
             <button class="btn-action btn-danger" onclick="toggleEsd()" title="Aislamiento Total de Emergencia">
                 ⚠️ ESD-1
             </button>
@@ -1056,6 +1425,56 @@ $dbStatus = checkDatabaseStatus();
             </a>
         </div>
     </header>
+
+    <!-- Barra Superior de Navegación Rápida Directa -->
+    <nav class="app-top-nav">
+        <div class="top-nav-container">
+            <button class="top-nav-btn active" data-topmod="overview" onclick="switchModule('overview', 'Operaciones RTOC', 'Visión General de Telemetría')">
+                📊 Telemetría RTOC
+            </button>
+            <button class="top-nav-btn" data-topmod="wells" onclick="switchModule('wells', 'Operaciones RTOC', 'Control de Pozos y Cabezales')">
+                🛢️ Pozos & Válvulas
+            </button>
+            <button class="top-nav-btn" data-topmod="alarms" onclick="switchModule('alarms', 'Operaciones RTOC', 'Consola de Alarmas ISA-18.2')">
+                🚨 Alarmas ISA-18.2
+            </button>
+            <button class="top-nav-btn" data-topmod="schematics" onclick="switchModule('schematics', 'Ingeniería & P&ID', 'Diagramas Técnicos de Proceso')">
+                🗺️ Diagramas P&ID
+            </button>
+            <button class="top-nav-btn" data-topmod="patterns" onclick="switchModule('patterns', 'Arquitectura & SENA', 'Patrones de Software (GoF) & Antipatrones')">
+                ⚙️ Patrones GoF (8)
+            </button>
+            <button class="top-nav-btn" data-topmod="domains" onclick="switchModule('domains', 'Arquitectura & SENA', 'Dominios del Sistema (DDD)')">
+                🏛️ Dominios DDD (7)
+            </button>
+            <button class="top-nav-btn" data-topmod="jwt" onclick="switchModule('jwt', 'Arquitectura & SENA', 'Seguridad & Autenticación JWT')">
+                🔐 Autenticación JWT
+            </button>
+            <button class="top-nav-btn" data-topmod="security" onclick="switchModule('security', 'Gestión & Sistema', 'Seguridad y Roles de Usuario')">
+                👥 Usuarios & Roles
+            </button>
+            <button class="top-nav-btn" data-topmod="audit" onclick="switchModule('audit', 'Gestión & Sistema', 'Bitácora de Maniobras')">
+                📜 Bitácora Auditoría
+            </button>
+            <button class="top-nav-btn" data-topmod="diag" onclick="switchModule('diag', 'Arquitectura & Sistema', 'Infraestructura & Topología SCADA')">
+                🏗️ Infraestructura (6 Capas)
+            </button>
+        </div>
+        <div class="top-nav-endpoints">
+            <a href="api/patterns.php" class="endpoint-pill" title="Abrir Consola y API REST de Patrones">
+                🔍 API Patrones
+            </a>
+            <a href="api/login.php" class="endpoint-pill" title="Abrir Consola de Autenticación JWT">
+                🔑 Consola JWT
+            </a>
+            <a href="api/domains.php" class="endpoint-pill" title="Abrir Consola de Dominios DDD">
+                🏛️ API Dominios
+            </a>
+            <a href="api/status.php" target="_blank" class="endpoint-pill" title="Consultar Diagnóstico XAMPP">
+                ⚡ Status
+            </a>
+        </div>
+    </nav>
 
     <!-- Cuerpo de la Plataforma -->
     <div class="app-body">
@@ -1133,13 +1552,31 @@ $dbStatus = checkDatabaseStatus();
                             <span>📊</span>
                             <span>3. Arquitectura & SENA</span>
                         </div>
-                        <span class="module-group-count">1</span>
+                        <span class="module-group-count">4</span>
                     </div>
                     <div class="module-items-container" id="grp-items-arch">
                         <button class="nav-link" data-mod="comparisons" onclick="switchModule('comparisons', 'Arquitectura & SENA', 'Comparativas y Sustentación Técnica')">
                             <div class="nav-link-left">
                                 <span class="nav-link-icon">📈</span>
                                 <span>Comparativas & Guía</span>
+                            </div>
+                        </button>
+                        <button class="nav-link" data-mod="patterns" onclick="switchModule('patterns', 'Arquitectura & SENA', 'Patrones de Software (GoF) & Antipatrones')">
+                            <div class="nav-link-left">
+                                <span class="nav-link-icon">⚙️</span>
+                                <span>Patrones & Antipatrones</span>
+                            </div>
+                        </button>
+                        <button class="nav-link" data-mod="domains" onclick="switchModule('domains', 'Arquitectura & SENA', 'Dominios del Sistema (DDD)')">
+                            <div class="nav-link-left">
+                                <span class="nav-link-icon">🏛️</span>
+                                <span>Dominios DDD (7)</span>
+                            </div>
+                        </button>
+                        <button class="nav-link" data-mod="jwt" onclick="switchModule('jwt', 'Arquitectura & SENA', 'Seguridad & Autenticación JWT')">
+                            <div class="nav-link-left">
+                                <span class="nav-link-icon">🔐</span>
+                                <span>Seguridad & JWT</span>
                             </div>
                         </button>
                     </div>
@@ -1197,7 +1634,7 @@ $dbStatus = checkDatabaseStatus();
         <!-- Área de Contenido Principal -->
         <main class="app-main">
 
-            <!-- Barra de Migas de Pan (Breadcrumb) -->
+            <!-- Barra de Migas de Pan (Breadcrumb) & Dominio DDD Activo -->
             <div class="breadcrumb-bar">
                 <div class="breadcrumb-path">
                     <span>MAPAF</span>
@@ -1206,7 +1643,10 @@ $dbStatus = checkDatabaseStatus();
                     <span>›</span>
                     <span class="current" id="bcModule">Visión General de Telemetría</span>
                 </div>
-                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                <div style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
+                    <div id="activeDomainBadge" class="domain-badge-active" title="Dominio Delimitado (Bounded Context) activo bajo arquitectura DDD">
+                        🏛️ DOMINIO 1: RTOC & Telemetría IIoT [TELEMETRY-CTX]
+                    </div>
                     <span style="font-size: 0.7rem; color: var(--text-muted);">Base de Datos: <strong>mapaf_db</strong></span>
                     <button class="btn-action" onclick="loadAllData()" style="padding: 0.25rem 0.6rem; font-size: 0.7rem;">🔄 Refrescar</button>
                 </div>
@@ -1233,6 +1673,69 @@ $dbStatus = checkDatabaseStatus();
                     <div class="hero-actions">
                         <button class="btn-action" onclick="loadAllData()">🔄 Actualizar Sensores</button>
                         <button class="btn-action" onclick="switchModule('wells', 'Operaciones RTOC', 'Control de Pozos y Cabezales')">🛢️ Ir a Pozos</button>
+                    </div>
+                </div>
+
+                <!-- Patrón GoF STRATEGY en Operación: Cálculo Dinámico de Caudal Fiscal -->
+                <div class="strategy-selector-panel">
+                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
+                        <div>
+                            <span class="comp-badge badge-purple" style="margin-bottom: 0.25rem; display: inline-block;">PATRÓN STRATEGY (COMPORTAMIENTO)</span>
+                            <h3 style="font-family: var(--font-heading); font-size: 1rem; color: #fff;">Algoritmo Activo de Cálculo y Fiscalización de Flujo</h3>
+                            <p style="font-size: 0.72rem; color: var(--text-muted); font-family: var(--font-mono);">Al cambiar de estrategia, el backend ejecuta la clase PHP polimórfica sin recargar la página.</p>
+                        </div>
+                        <div id="strategyLiveKpi" style="font-family: var(--font-mono); font-size: 0.75rem; color: #34d399; background: #060913; padding: 0.4rem 0.75rem; border-radius: 6px; border: 1px solid var(--border-color);">
+                            Caudal Calculado: <strong id="strategyBpdDisplay">14,820 BPD</strong> | Gas: <strong id="strategyGasDisplay">3,200 MSCFD</strong>
+                        </div>
+                    </div>
+                    <div class="strategy-btn-group">
+                        <button class="strategy-pill-btn active" id="btn-strat-coriolis" onclick="switchFlowStrategy('coriolis')">
+                            🔘 Coriolis AGA-11 (Fiscal Másico · Alta Precisión)
+                        </button>
+                        <button class="strategy-pill-btn" id="btn-strat-aga3" onclick="switchFlowStrategy('aga3')">
+                            🔘 Placa de Orificio AGA-3 (Diferencial Clásica)
+                        </button>
+                        <button class="strategy-pill-btn" id="btn-strat-beggs" onclick="switchFlowStrategy('beggsAndBrill')">
+                            🔘 Beggs & Brill (Multifásico Gas/Crudo/Agua)
+                        </button>
+                    </div>
+                    <div id="strategyFormulaBox" style="margin-top: 0.6rem; font-family: var(--font-mono); font-size: 0.7rem; color: #cbd5e1; background: #080d19; padding: 0.45rem 0.75rem; border-radius: 4px; border: 1px solid rgba(255,255,255,0.05);">
+                        <strong>Ecuación Activa (AGA-11 Coriolis):</strong> <code>ṁ = ρ · Q_vol | Corrección API MPMS 11.1 a 60°F | Incertidumbre ±0.15%</code>
+                    </div>
+                </div>
+
+                <!-- Patrón GoF OBSERVER en Operación: Telemetría Reactiva -->
+                <div class="observer-panel">
+                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
+                        <div>
+                            <span class="comp-badge badge-blue">PATRÓN OBSERVER (COMPORTAMIENTO)</span>
+                            <strong style="color: #fff; font-size: 0.85rem; margin-left: 0.5rem;">Simulador Reactivo de Inyección de Presión:</strong>
+                            <span style="font-size: 0.72rem; color: var(--text-muted); font-family: var(--font-mono); display: block; margin-top: 0.15rem;">
+                                El sensor (Subject) notifica instantáneamente a los 3 observadores desacoplados.
+                            </span>
+                        </div>
+                        <div style="display: flex; gap: 0.4rem; flex-wrap: wrap;">
+                            <button class="btn-action" onclick="injectTelemetryPressure(1842.5, 'nominal')" style="font-size: 0.7rem;">
+                                🟢 Nominal (1,842 PSI)
+                            </button>
+                            <button class="btn-action" onclick="injectTelemetryPressure(2150.0, 'warning')" style="font-size: 0.7rem; background: rgba(245,158,11,0.15); color: #fbbf24; border-color: #f59e0b;">
+                                🟡 Alerta (2,150 PSI)
+                            </button>
+                            <button class="btn-action btn-danger" onclick="injectTelemetryPressure(3600.0, 'critical')" style="font-size: 0.7rem;">
+                                🔴 Crítico HIHI (3,600 PSI)
+                            </button>
+                        </div>
+                    </div>
+                    <div class="observer-reactions-bar">
+                        <div class="observer-badge" id="obsAlarmBadge">
+                            <span>🚨</span> <span>Observer 1: AlarmTriggerObserver (ISA-18.2)</span>
+                        </div>
+                        <div class="observer-badge" id="obsSafetyBadge">
+                            <span>🛡️</span> <span>Observer 2: SafetyInterlockObserver (ESD-1)</span>
+                        </div>
+                        <div class="observer-badge" id="obsAuditBadge">
+                            <span>📜</span> <span>Observer 3: AuditLoggerObserver (MySQL 21 CFR 11)</span>
+                        </div>
                     </div>
                 </div>
 
@@ -1369,6 +1872,26 @@ $dbStatus = checkDatabaseStatus();
                     </div>
                     <div>
                         <input type="text" class="search-field" placeholder="Buscar pozo..." oninput="searchWells(this.value)">
+                    </div>
+                </div>
+
+                <!-- Consola de Comandos y Maniobras Activas (GoF Command Pattern con UNDO) -->
+                <div style="background: #090e1d; border: 1px solid var(--border-color); border-radius: 8px; padding: 0.85rem 1.15rem; margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem;">
+                    <div>
+                        <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+                            <span class="comp-badge badge-emerald">PATRÓN COMMAND (CON UNDO ACTIVO)</span>
+                            <span class="comp-badge badge-blue">PATRÓN STATE (API 6A)</span>
+                            <span class="comp-badge badge-purple">DOMINIO: WELLHEAD-CTX</span>
+                        </div>
+                        <p style="font-size: 0.75rem; color: var(--text-muted); font-family: var(--font-mono); margin-top: 0.35rem;">
+                            Cada consigna de estrangulador o SSV se despacha como un comando reversible. Si un pozo entra en estado DISPARADO, la máquina de estados bloquea las maniobras hasta su rearme.
+                        </p>
+                    </div>
+                    <div style="display: flex; gap: 0.5rem; align-items: center;">
+                        <span id="cmdStackCount" style="font-size: 0.72rem; font-family: var(--font-mono); color: #38bdf8;">0 maniobras en pila</span>
+                        <button class="btn-action" onclick="undoLastGlobalCommand()" style="background: rgba(245, 158, 11, 0.15); color: #fbbf24; border-color: #f59e0b; font-weight: bold;">
+                            ↺ Deshacer Última Maniobra General
+                        </button>
                     </div>
                 </div>
 
@@ -1933,76 +2456,939 @@ $dbStatus = checkDatabaseStatus();
             </section>
 
             <!-- ========================================== -->
-            <!-- 9. MÓDULO: DIAGNÓSTICO XAMPP               -->
+            <!-- 7. MÓDULO: PATRONES DE DISEÑO & ANTIPATRONES -->
+            <!-- ========================================== -->
+            <section id="tab-patterns" class="section-view">
+                <div class="module-hero" style="margin-bottom: 1.25rem;">
+                    <div class="hero-left">
+                        <div class="hero-icon-box">⚙️</div>
+                        <div class="hero-text">
+                            <h2>Patrones de Diseño (GoF) & Antipatrones de Software</h2>
+                            <p>Sustentación formal para SENA ADSO (Ficha 3413988): Creacionales, Estructurales, Comportamiento y Arquitectónicos.</p>
+                            <div class="hero-tags">
+                                <span class="hero-tag">GoF Design Patterns</span>
+                                <span class="hero-tag">8 Antipatrones Mitigados</span>
+                                <span class="hero-tag">PHP 8.0 OOP</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hero-actions">
+                        <a href="api/patterns.php" target="_blank" class="btn-action">🔍 Ver API REST de Patrones (JSON)</a>
+                    </div>
+                </div>
+
+                <!-- Subtabs de Patrones -->
+                <div class="subtabs-bar">
+                    <button class="subtab-btn active" onclick="switchSubtab('patterns', 'sub-pat-lab', this)">1. Laboratorio en Vivo (PHP)</button>
+                    <button class="subtab-btn" onclick="switchSubtab('patterns', 'sub-pat-anti', this)">2. Antipatrones de Software (8)</button>
+                    <button class="subtab-btn" onclick="switchSubtab('patterns', 'sub-pat-matrix', this)">3. Matriz Académica SENA</button>
+                </div>
+
+                <!-- Subtab 1: Laboratorio en Vivo -->
+                <div id="sub-pat-lab" class="subtab-content active">
+                    <div class="comparison-grid" style="grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));">
+                        
+                        <!-- Singleton -->
+                        <div class="comp-card" style="border-top: 3px solid #6366f1;">
+                            <div class="comp-header">
+                                <span class="comp-title">1. Singleton (DatabaseSingleton.php)</span>
+                                <span class="comp-badge badge-blue">CREACIONAL</span>
+                            </div>
+                            <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.75rem;">
+                                Garantiza una única conexión PDO a MySQL para evitar agotar el pool de sockets en XAMPP.
+                            </p>
+                            <button class="btn-action" onclick="testPatternPhp('test_singleton', 'singletonResult')" style="width: 100%; justify-content: center;">
+                                ▶ Probar Unicidad de Instancia
+                            </button>
+                            <div id="singletonResult" style="margin-top: 0.75rem; font-family: var(--font-mono); font-size: 0.7rem; color: #34d399; background: #060913; padding: 0.5rem; border-radius: 4px; display: none;"></div>
+                        </div>
+
+                        <!-- Command con UNDO -->
+                        <div class="comp-card" style="border-top: 3px solid #10b981;">
+                            <div class="comp-header">
+                                <span class="comp-title">2. Command con UNDO (ScadaCommand.php)</span>
+                                <span class="comp-badge badge-emerald">COMPORTAMIENTO</span>
+                            </div>
+                            <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.75rem;">
+                                Encapsula maniobras críticas de pozo y estrangulador con reversión matemática y auditoría.
+                            </p>
+                            <div style="display: flex; gap: 0.4rem;">
+                                <button class="btn-action" onclick="testPatternPhp('test_command', 'commandResult', {command: 'choke', targetOpening: 65})" style="flex: 1; justify-content: center;">
+                                    ▶ Ejecutar Choke
+                                </button>
+                                <button class="btn-action" onclick="testPatternPhp('test_command', 'commandResult', {command: 'choke', runUndo: true})" style="flex: 1; justify-content: center; background: rgba(245, 158, 11, 0.15); color: #fbbf24; border-color: #f59e0b;">
+                                    ↺ Probar UNDO
+                                </button>
+                            </div>
+                            <div id="commandResult" style="margin-top: 0.75rem; font-family: var(--font-mono); font-size: 0.7rem; color: #38bdf8; background: #060913; padding: 0.5rem; border-radius: 4px; display: none;"></div>
+                        </div>
+
+                        <!-- Observer -->
+                        <div class="comp-card" style="border-top: 3px solid #38bdf8;">
+                            <div class="comp-header">
+                                <span class="comp-title">3. Observer (TelemetryObserver.php)</span>
+                                <span class="comp-badge badge-blue">COMPORTAMIENTO</span>
+                            </div>
+                            <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.75rem;">
+                                Notifica reactivamente a la alarma ISA-18.2, al logger de auditoría y al enclavamiento ESD-1 ante sobrepresión.
+                            </p>
+                            <button class="btn-action" onclick="testPatternPhp('test_observer', 'observerResult', {value: 2450})" style="width: 100%; justify-content: center;">
+                                ▶ Simular Sobrepresión (2450 PSI)
+                            </button>
+                            <div id="observerResult" style="margin-top: 0.75rem; font-family: var(--font-mono); font-size: 0.7rem; color: #f43f5e; background: #060913; padding: 0.5rem; border-radius: 4px; display: none;"></div>
+                        </div>
+
+                        <!-- Strategy -->
+                        <div class="comp-card" style="border-top: 3px solid #a855f7;">
+                            <div class="comp-header">
+                                <span class="comp-title">4. Strategy (FlowCalculationStrategy.php)</span>
+                                <span class="comp-badge badge-purple">COMPORTAMIENTO</span>
+                            </div>
+                            <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.75rem;">
+                                Compara algoritmos de producción: Coriolis Fiscal (AGA-11) vs Orificio (AGA-3) vs Beggs & Brill.
+                            </p>
+                            <button class="btn-action" onclick="testPatternPhp('test_strategy', 'strategyResult')" style="width: 100%; justify-content: center;">
+                                ▶ Comparar 3 Algoritmos de Flujo
+                            </button>
+                            <div id="strategyResult" style="margin-top: 0.75rem; font-family: var(--font-mono); font-size: 0.7rem; color: #c084fc; background: #060913; padding: 0.5rem; border-radius: 4px; display: none;"></div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Subtab 2: Antipatrones -->
+                <div id="sub-pat-anti" class="subtab-content">
+
+                    <!-- Banco de Pruebas en Vivo de Antipatrones -->
+                    <div style="background: linear-gradient(135deg, rgba(16, 24, 44, 0.95), rgba(10, 15, 29, 0.95)); border: 1px solid var(--border-color); border-radius: 10px; padding: 1.25rem; margin-bottom: 1.25rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem;">
+                            <div>
+                                <span class="comp-badge badge-emerald">ESCUDO ACTIVO EN EJECUCIÓN</span>
+                                <h3 style="font-family: var(--font-heading); font-size: 1.05rem; color: #fff; margin-top: 0.25rem;">Laboratorio Operacional de Mitigación de Antipatrones</h3>
+                                <p style="font-size: 0.72rem; color: var(--text-muted); font-family: var(--font-mono);">Ejecute pruebas dinámicas para comprobar cómo MAPAF neutraliza malas prácticas arquitectónicas.</p>
+                            </div>
+                        </div>
+
+                        <div class="comparison-grid" style="grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); margin-bottom: 0;">
+                            <!-- Sandbox 1: SQL Injection -->
+                            <div class="comp-card" style="border-top: 3px solid #f43f5e;">
+                                <div class="comp-header">
+                                    <span class="comp-title" style="font-size: 0.95rem;">1. Escudo SQL Injection (PDO)</span>
+                                    <span class="comp-badge" style="background: rgba(244,63,94,0.2); color: #f43f5e;">MITIGADO</span>
+                                </div>
+                                <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.65rem;">
+                                    Inyecte una carga maliciosa clásica y verifique cómo los Prepared Statements con enlace tipado neutralizan el ataque.
+                                </p>
+                                <div style="display: flex; gap: 0.35rem; margin-bottom: 0.5rem;">
+                                    <input type="text" id="sqliTestInput" value="' OR '1'='1' --" style="flex: 1; background: #060913; border: 1px solid var(--border-color); color: #f43f5e; font-family: var(--font-mono); font-size: 0.72rem; padding: 0.35rem; border-radius: 4px;">
+                                    <button class="btn-action" onclick="testPatternPhp('test_antipattern_sqli', 'sqliResultBox', {input: document.getElementById('sqliTestInput').value})" style="background: rgba(244,63,94,0.2); color: #fda4af; border-color: #f43f5e; font-size: 0.7rem;">
+                                        🛡️ Probar
+                                    </button>
+                                </div>
+                                <div id="sqliResultBox" style="font-family: var(--font-mono); font-size: 0.7rem; color: #34d399; background: #060913; padding: 0.5rem; border-radius: 4px; display: none;"></div>
+                            </div>
+
+                            <!-- Sandbox 2: Blind Alarm Acknowledgment -->
+                            <div class="comp-card" style="border-top: 3px solid #f59e0b;">
+                                <div class="comp-header">
+                                    <span class="comp-title" style="font-size: 0.95rem;">2. Escudo Blind Alarm ACK</span>
+                                    <span class="comp-badge badge-amber">ANSI/ISA-18.2</span>
+                                </div>
+                                <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.65rem;">
+                                    Pruebe silenciar una alarma sin ingresar justificación técnica para comprobar el bloqueo automático del protocolo.
+                                </p>
+                                <button class="btn-action" onclick="openAckModal('ALM-001', 'WHTP-101A (Tubing)', 'critical', '2,450.0 PSI', '2,100.0 PSI')" style="width: 100%; justify-content: center; background: rgba(245,158,11,0.15); color: #fbbf24; border-color: #f59e0b;">
+                                    ⚡ Abrir Modal ISA-18.2 y Probar Blind ACK
+                                </button>
+                            </div>
+
+                            <!-- Sandbox 3: God Object vs DDD -->
+                            <div class="comp-card" style="border-top: 3px solid #38bdf8;">
+                                <div class="comp-header">
+                                    <span class="comp-title" style="font-size: 0.95rem;">3. Escudo God Object (7 Dominios)</span>
+                                    <span class="comp-badge badge-blue">DDD ARCH</span>
+                                </div>
+                                <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.65rem;">
+                                    Verifique el desacoplamiento modular en 6 microcontroladores especializados y 7 Bounded Contexts.
+                                </p>
+                                <button class="btn-action" onclick="testPatternPhp('test_antipattern_god_object', 'godObjResultBox')" style="width: 100%; justify-content: center;">
+                                    🏛️ Inspeccionar Dominios Aislados
+                                </button>
+                                <div id="godObjResultBox" style="font-family: var(--font-mono); font-size: 0.7rem; color: #38bdf8; background: #060913; padding: 0.5rem; border-radius: 4px; display: none;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="table-container">
+                        <div class="table-header">
+                            <div>
+                                <span class="table-title">Catálogo de Antipatrones de Software Mitigados en MAPAF</span>
+                                <p style="font-size: 0.75rem; color: var(--text-muted);">Análisis de malas prácticas industriales y sus patrones de solución</p>
+                            </div>
+                            <span class="comp-badge badge-amber">8 ANTIPATRONES RESUELTOS</span>
+                        </div>
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Antipatrón</th>
+                                    <th>Severidad</th>
+                                    <th>Síntoma en Código</th>
+                                    <th>Riesgo Operacional SCADA</th>
+                                    <th style="color: #34d399;">Patrón Solución en MAPAF</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>The God Object / Blob</strong></td>
+                                    <td><span class="comp-badge" style="background: rgba(244,63,94,0.2); color: #f43f5e;">CRÍTICO</span></td>
+                                    <td>Un archivo monolítico gigante que hace queries, HTML y matemáticas sin modularizar.</td>
+                                    <td>Un error tipográfico en vista detiene la recolección de telemetría de todos los pozos.</td>
+                                    <td><strong style="color: #34d399;">Clean Architecture + Repository + DDD</strong></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>SQL Injection por Concatenación</strong></td>
+                                    <td><span class="comp-badge" style="background: rgba(244,63,94,0.2); color: #f43f5e;">CRÍTICO</span></td>
+                                    <td>Variables de $_POST concatenadas directamente en strings de consulta SQL.</td>
+                                    <td>Atacante altera apertura de estranguladores causando sobrepresión y estallido.</td>
+                                    <td><strong style="color: #34d399;">Prepared Statements PDO Tipados</strong></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Hardcoded Secrets</strong></td>
+                                    <td><span class="comp-badge badge-amber">ALTO</span></td>
+                                    <td>Contraseñas de MySQL y claves JWT quemadas en el código fuente del repo.</td>
+                                    <td>Suplantación de identidad del operador líder y anulación de paradas ESD.</td>
+                                    <td><strong style="color: #34d399;">Singleton de Configuración + getenv()</strong></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Blind Alarm Acknowledgment</strong></td>
+                                    <td><span class="comp-badge" style="background: rgba(244,63,94,0.2); color: #f43f5e;">CRÍTICO</span></td>
+                                    <td>Silenciar alarmas críticas sin exigir operador autenticado ni causa justificada.</td>
+                                    <td>Oculta fugas de gas tóxico H2S violando la norma ANSI/ISA-18.2.</td>
+                                    <td><strong style="color: #34d399;">Command Pattern + Firma JWT + Auditoría</strong></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>The Golden Hammer</strong></td>
+                                    <td><span class="comp-badge badge-amber">ALTO</span></td>
+                                    <td>Pretender usar LocalStorage del navegador para toda la base de datos de la planta.</td>
+                                    <td>Falta de concurrencia multioperador y pérdida de datos al limpiar caché.</td>
+                                    <td><strong style="color: #34d399;">Persistencia Relacional MySQL (mapaf_db)</strong></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Polling Flood / Busy Waiting</strong></td>
+                                    <td><span class="comp-badge badge-blue">MEDIO</span></td>
+                                    <td>Peticiones HTTP GET cada 50ms sin control saturando Apache y MySQL.</td>
+                                    <td>Agotamiento de sockets ("Too many connections") bloqueando la sala de control.</td>
+                                    <td><strong style="color: #34d399;">Observer + Throttling Adaptativo</strong></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Bypass sin Enclavamiento</strong></td>
+                                    <td><span class="comp-badge" style="background: rgba(244,63,94,0.2); color: #f43f5e;">CRÍTICO</span></td>
+                                    <td>Rearmar parada de emergencia ESD con un simple clic sin confirmación de 3s.</td>
+                                    <td>Rearmar un pozo mientras personal mecánico interviene la línea en campo.</td>
+                                    <td><strong style="color: #34d399;">State Pattern + HoldInterlockModal (3s)</strong></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Anemic Domain Model</strong></td>
+                                    <td><span class="comp-badge badge-blue">MEDIO</span></td>
+                                    <td>Clases sin reglas de validación que permiten chokes negativos (-50%) o presiones absurdas.</td>
+                                    <td>Corrupción de datos de producción y fallas en cálculos termodinámicos.</td>
+                                    <td><strong style="color: #34d399;">Domain-Driven Design (DDD) con Invariantes</strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Subtab 3: Matriz Académica -->
+                <div id="sub-pat-matrix" class="subtab-content">
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Patrón GoF</th>
+                                    <th>Tipo</th>
+                                    <th>Archivo PHP</th>
+                                    <th>Problema Resuelto en MAPAF</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Singleton</strong></td>
+                                    <td>Creacional</td>
+                                    <td><code>patterns/Singleton/DatabaseSingleton.php</code></td>
+                                    <td>Mantiene una única conexión PDO a MySQL para todas las peticiones.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Factory Method</strong></td>
+                                    <td>Creacional</td>
+                                    <td><code>patterns/Factory/SensorFactory.php</code></td>
+                                    <td>Crea sensores PT, TT, FT con validaciones y límites ISA-18.2.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Observer</strong></td>
+                                    <td>Comportamiento</td>
+                                    <td><code>patterns/Observer/TelemetryObserver.php</code></td>
+                                    <td>Dispara alarmas, bitácora y parada ESD ante sobrepresión en pozo.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Command</strong></td>
+                                    <td>Comportamiento</td>
+                                    <td><code>patterns/Command/ScadaCommand.php</code></td>
+                                    <td>Encapsula consignas de choke y válvulas con capacidad de UNDO.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Strategy</strong></td>
+                                    <td>Comportamiento</td>
+                                    <td><code>patterns/Strategy/FlowCalculationStrategy.php</code></td>
+                                    <td>Alterna algoritmos de fiscalización AGA-11, AGA-3 y Beggs & Brill.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>State</strong></td>
+                                    <td>Comportamiento</td>
+                                    <td><code>patterns/State/WellheadState.php</code></td>
+                                    <td>Modela el ciclo de vida del pozo (API 6A) con enclavamientos legales.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Adapter</strong></td>
+                                    <td>Estructural</td>
+                                    <td><code>patterns/Adapter/IndustrialProtocolAdapter.php</code></td>
+                                    <td>Convierte tramas Modbus RTU binarias y OPC-UA a JSON estándar.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Repository</strong></td>
+                                    <td>Arquitectónico</td>
+                                    <td><code>patterns/Repository/ScadaRepositories.php</code></td>
+                                    <td>Desacopla lógica de negocio del acceso directo a MySQL mapaf_db.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ========================================== -->
+            <!-- 8. MÓDULO: DOMINIOS DEL SISTEMA (DDD)      -->
+            <!-- ========================================== -->
+            <section id="tab-domains" class="section-view">
+                <div class="module-hero" style="margin-bottom: 1.25rem;">
+                    <div class="hero-left">
+                        <div class="hero-icon-box">🏛️</div>
+                        <div class="hero-text">
+                            <h2>Dominios del Sistema (Domain-Driven Design - DDD)</h2>
+                            <p>Delimitación de los 7 Bounded Contexts de telemetría industrial y normas internacionales.</p>
+                            <div class="hero-tags">
+                                <span class="hero-tag">7 Bounded Contexts</span>
+                                <span class="hero-tag">Normas: ISA-18.2, API 6A, IEC 61511</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hero-actions">
+                        <a href="api/domains.php" target="_blank" class="btn-action">🔍 Ver API de Dominios (JSON)</a>
+                    </div>
+                </div>
+
+                <div class="comparison-grid" style="grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));">
+                    <div class="comp-card" style="border-top: 3px solid #10b981;">
+                        <div class="comp-header">
+                            <span class="comp-title">1. Telemetría e Instrumentación</span>
+                            <span class="comp-badge badge-emerald">ISA-5.1</span>
+                        </div>
+                        <p style="font-size: 0.75rem; color: var(--text-muted);">Supervisión física de presión, temperatura, flujo y frecuencia ESP.</p>
+                        <div style="font-size: 0.7rem; font-family: var(--font-mono); color: #cbd5e1; margin-top: 0.5rem;">
+                            <strong>Entidades:</strong> TelemetryMetric, InstrumentNode, SensorCalibration
+                        </div>
+                    </div>
+
+                    <div class="comp-card" style="border-top: 3px solid #38bdf8;">
+                        <div class="comp-header">
+                            <span class="comp-title">2. Control de Pozos y Actuadores</span>
+                            <span class="comp-badge badge-blue">API 6A</span>
+                        </div>
+                        <p style="font-size: 0.75rem; color: var(--text-muted);">Apertura micrométrica de Chokes, válvulas de superficie SSV y bombas ESP.</p>
+                        <div style="font-size: 0.7rem; font-family: var(--font-mono); color: #cbd5e1; margin-top: 0.5rem;">
+                            <strong>Entidades:</strong> WellheadUnit, ChokeActuator, SurfaceSafetyValve
+                        </div>
+                    </div>
+
+                    <div class="comp-card" style="border-top: 3px solid #f43f5e;">
+                        <div class="comp-header">
+                            <span class="comp-title">3. Seguridad SIS & Paradas ESD</span>
+                            <span class="comp-badge" style="background: rgba(244,63,94,0.2); color: #f43f5e;">IEC 61511</span>
+                        </div>
+                        <p style="font-size: 0.75rem; color: var(--text-muted);">Enclavamiento causa-efecto ESD-1 total y despresurización a antorcha.</p>
+                        <div style="font-size: 0.7rem; font-family: var(--font-mono); color: #cbd5e1; margin-top: 0.5rem;">
+                            <strong>Entidades:</strong> EsdInterlockMatrix, SafetyNode, BypassKey
+                        </div>
+                    </div>
+
+                    <div class="comp-card" style="border-top: 3px solid #f59e0b;">
+                        <div class="comp-header">
+                            <span class="comp-title">4. Gestión de Alarmas</span>
+                            <span class="comp-badge badge-amber">ISA-18.2</span>
+                        </div>
+                        <p style="font-size: 0.75rem; color: var(--text-muted);">Detección, priorización, filtrado de avalanchas y acuse por operador.</p>
+                        <div style="font-size: 0.7rem; font-family: var(--font-mono); color: #cbd5e1; margin-top: 0.5rem;">
+                            <strong>Entidades:</strong> AlarmEvent, AlarmDefinition, SuppressionRule
+                        </div>
+                    </div>
+
+                    <div class="comp-card" style="border-top: 3px solid #a855f7;">
+                        <div class="comp-header">
+                            <span class="comp-title">5. Identidad & Sesión JWT</span>
+                            <span class="comp-badge badge-purple">RFC 7519</span>
+                        </div>
+                        <p style="font-size: 0.75rem; color: var(--text-muted);">Autenticación criptográfica, firma HMAC SHA-256 y matriz de roles RBAC.</p>
+                        <div style="font-size: 0.7rem; font-family: var(--font-mono); color: #cbd5e1; margin-top: 0.5rem;">
+                            <strong>Entidades:</strong> SecurityUser, UserRole, JwtToken
+                        </div>
+                    </div>
+
+                    <div class="comp-card" style="border-top: 3px solid #14b8a6;">
+                        <div class="comp-header">
+                            <span class="comp-title">6. Auditoría y Trazabilidad</span>
+                            <span class="comp-badge" style="background: rgba(20,184,166,0.2); color: #2dd4bf;">21 CFR 11</span>
+                        </div>
+                        <p style="font-size: 0.75rem; color: var(--text-muted);">Bitácora inmutable append-only con timestamp, código de operador y delta.</p>
+                        <div style="font-size: 0.7rem; font-family: var(--font-mono); color: #cbd5e1; margin-top: 0.5rem;">
+                            <strong>Entidades:</strong> AuditLogEntry, HistorianArchive
+                        </div>
+                    </div>
+
+                    <div class="comp-card" style="border-top: 3px solid #6366f1;">
+                        <div class="comp-header">
+                            <span class="comp-title">7. Producción y Balance Fiscal</span>
+                            <span class="comp-badge badge-blue">API MPMS</span>
+                        </div>
+                        <p style="font-size: 0.75rem; color: var(--text-muted);">Fiscalización de crudo neto BPD, gas MSCFD y corrección térmica 60°F.</p>
+                        <div style="font-size: 0.7rem; font-family: var(--font-mono); color: #cbd5e1; margin-top: 0.5rem;">
+                            <strong>Entidades:</strong> ProductionReport, FiscalMeter, WellAllocation
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ========================================== -->
+            <!-- 9. MÓDULO: SEGURIDAD & JWT                 -->
+            <!-- ========================================== -->
+            <section id="tab-jwt" class="section-view">
+                <div class="module-hero" style="margin-bottom: 1.25rem;">
+                    <div class="hero-left">
+                        <div class="hero-icon-box">🔐</div>
+                        <div class="hero-text">
+                            <h2>Autenticación Criptográfica JWT (RFC 7519)</h2>
+                            <p>Emisión y verificación de JSON Web Tokens con algoritmo HMAC SHA-256 en PHP nativo.</p>
+                            <div class="hero-tags">
+                                <span class="hero-tag">Algoritmo: HS256</span>
+                                <span class="hero-tag">Claims RBAC</span>
+                                <span class="hero-tag">Vigencia: 8 Horas</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hero-actions">
+                        <a href="api/login.php" target="_blank" class="btn-action">🔍 Endpoint api/login.php</a>
+                    </div>
+                </div>
+
+                <div class="table-container" style="padding: 1.25rem;">
+                    <div style="display: flex; gap: 1rem; align-items: flex-end; flex-wrap: wrap; margin-bottom: 1.25rem;">
+                        <div>
+                            <label style="font-size: 0.75rem; font-family: var(--font-mono); color: var(--text-muted); display: block; margin-bottom: 0.3rem;">Operador a Autenticar:</label>
+                            <select id="jwtOperatorSelect" style="background: #060913; border: 1px solid var(--border-color); color: #fff; padding: 0.45rem; font-family: var(--font-mono); font-size: 0.75rem; border-radius: 6px;">
+                                <option value="OP-449">OP-449 · María José Conde Dussan (Administrador)</option>
+                                <option value="OP-312">OP-312 · Hernann Thomas Manchola Bocanegra (Ingeniero)</option>
+                                <option value="OP-205">OP-205 · Emilin Tatiana Vargas Manchola (Supervisor)</option>
+                                <option value="OP-118">OP-118 · Javier Humberto Pinto Díaz (Instructor SENA)</option>
+                            </select>
+                        </div>
+                        <button class="btn-action" onclick="generateJwtFromPhp()" style="background: #a855f7; color: #fff; font-weight: bold;">
+                            🔑 Generar y Firmar Token JWT en PHP
+                        </button>
+                    </div>
+
+                    <div id="jwtLiveOutput" style="display: none; background: #060913; border: 1px solid var(--border-color); border-radius: 8px; padding: 1rem; font-family: var(--font-mono); font-size: 0.75rem;">
+                        <div style="color: #c084fc; font-weight: bold; margin-bottom: 0.5rem;">✓ Token JWT Emitido (Header.Payload.Signature):</div>
+                        <div id="jwtTokenString" style="word-break: break-all; color: #34d399; margin-bottom: 1rem; padding: 0.5rem; background: #0b1122; border-radius: 4px;"></div>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 0.75rem;">
+                            <div style="background: rgba(244,63,94,0.1); border: 1px solid rgba(244,63,94,0.3); padding: 0.75rem; border-radius: 6px;">
+                                <div style="color: #f43f5e; font-weight: bold;">1. Header:</div>
+                                <pre style="font-size: 0.7rem; color: #cbd5e1;">{"typ":"JWT","alg":"HS256"}</pre>
+                            </div>
+                            <div style="background: rgba(168,85,247,0.1); border: 1px solid rgba(168,85,247,0.3); padding: 0.75rem; border-radius: 6px;">
+                                <div style="color: #c084fc; font-weight: bold;">2. Payload (Claims):</div>
+                                <div id="jwtPayloadDetails" style="font-size: 0.7rem; color: #cbd5e1; margin-top: 0.25rem;"></div>
+                            </div>
+                            <div style="background: rgba(14,165,233,0.1); border: 1px solid rgba(14,165,233,0.3); padding: 0.75rem; border-radius: 6px;">
+                                <div style="color: #38bdf8; font-weight: bold;">3. Signature:</div>
+                                <div style="font-size: 0.7rem; color: #34d399;">HMAC-SHA256 Verificada con éxito</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ========================================== -->
+            <!-- 10. MÓDULO: INFRAESTRUCTURA & TOPOLOGÍA SCADA -->
             <!-- ========================================== -->
             <section id="tab-diag" class="section-view">
                 <!-- Hero Header -->
                 <div class="module-hero" style="margin-bottom: 1.25rem;">
                     <div class="hero-left">
-                        <div class="hero-icon-box">⚙️</div>
+                        <div class="hero-icon-box">🏗️</div>
                         <div class="hero-text">
-                            <h2>Diagnóstico de Servidores XAMPP & MySQL</h2>
-                            <p>Estado de los servicios Apache, PHP, base de datos `mapaf_db` y puertos locales.</p>
+                            <h2>Infraestructura del Sistema SCADA & Topología de Red IIoT</h2>
+                            <p>Arquitectura de 6 Capas para SENA ADSO (Ficha 3413988): Instrumentación, Pasarela de Protocolos, Backend PHP 8, Dominio DDD, Base de Datos MySQL y HMI Web.</p>
                             <div class="hero-tags">
-                                <span class="hero-tag">Apache 2.4</span>
-                                <span class="hero-tag">PHP <?= phpversion() ?></span>
-                                <span class="hero-tag">MySQL 3306</span>
+                                <span class="hero-tag">Apache 2.4 (Port 80)</span>
+                                <span class="hero-tag">MySQL 10.4 (Port 3306)</span>
+                                <span class="hero-tag">PHP <?= phpversion() ?> OPcache</span>
+                                <span class="hero-tag">Clean Architecture</span>
+                                <span class="hero-tag">7 Bounded Contexts</span>
                             </div>
                         </div>
                     </div>
                     <div class="hero-actions">
                         <a href="/phpmyadmin/index.php?route=/database/structure&db=mapaf_db" target="_blank" class="btn-action">
-                            🗄️ Abrir phpMyAdmin
+                            🗄️ Abrir phpMyAdmin (mapaf_db)
                         </a>
+                        <button class="btn-action" onclick="pingInfrastructure()">
+                            ⚡ Test de Latencia & Salud
+                        </button>
                     </div>
                 </div>
 
-                <div class="table-container" style="max-width: 820px; margin: 0 auto; padding: 1.5rem;">
-                    <table class="data-table" style="margin-bottom: 1.5rem;">
+                <!-- 1. Monitor de Salud de la Infraestructura en Vivo (6 Tarjetas con Ping Reactivo) -->
+                <div class="infra-grid">
+                    <!-- Servidor Web Apache -->
+                    <div class="infra-card">
+                        <div class="infra-card-header">
+                            <span class="infra-card-title">🌐 Servidor Web Apache</span>
+                            <span class="badge-pulse badge-pulse-green">PUERTO 80</span>
+                        </div>
+                        <div style="font-family: var(--font-mono); font-size: 0.75rem; color: #cbd5e1; line-height: 1.6;">
+                            <div><strong>Versión:</strong> Apache 2.4 (Win64)</div>
+                            <div><strong>Protocolo:</strong> HTTP/1.1 con Cabeceras CORS</div>
+                            <div><strong>Host Local:</strong> <code>localhost</code> (127.0.0.1)</div>
+                            <div><strong>Estado:</strong> <span style="color:#34d399; font-weight:bold;">EN LÍNEA (Escuchando)</span></div>
+                        </div>
+                    </div>
+
+                    <!-- Motor PHP Backend -->
+                    <div class="infra-card">
+                        <div class="infra-card-header">
+                            <span class="infra-card-title">🐘 Motor Backend PHP</span>
+                            <span class="badge-pulse badge-pulse-green">PHP <?= phpversion() ?></span>
+                        </div>
+                        <div style="font-family: var(--font-mono); font-size: 0.75rem; color: #cbd5e1; line-height: 1.6;">
+                            <div><strong>SAPI:</strong> <?= php_sapi_name() ?></div>
+                            <div><strong>PDO MySQL:</strong> <span style="color:#34d399;">Habilitado (Tipado Nativo)</span></div>
+                            <div><strong>Criptografía:</strong> <span style="color:#34d399;">OpenSSL HMAC-SHA256</span></div>
+                            <div><strong>Singleton Pool:</strong> <span style="color:#38bdf8;">Instancia Única Activa</span></div>
+                        </div>
+                    </div>
+
+                    <!-- Base de Datos MySQL -->
+                    <div class="infra-card">
+                        <div class="infra-card-header">
+                            <span class="infra-card-title">🐬 Base de Datos MySQL</span>
+                            <span class="badge-pulse badge-pulse-green">PUERTO 3306</span>
+                        </div>
+                        <div style="font-family: var(--font-mono); font-size: 0.75rem; color: #cbd5e1; line-height: 1.6;">
+                            <div><strong>Base de Datos:</strong> <code>mapaf_db</code></div>
+                            <div><strong>Tablas Relacionales:</strong> <span style="color:#34d399; font-weight:bold;"><?= count($dbStatus['tables']) ?> tablas verificadas</span></div>
+                            <div><strong>Motor de Tablas:</strong> InnoDB (ACID Compliance)</div>
+                            <div><strong>Estado:</strong> <span style="color:#34d399; font-weight:bold;">Conectado vía PDO Singleton</span></div>
+                        </div>
+                    </div>
+
+                    <!-- Motor de Ciberseguridad JWT -->
+                    <div class="infra-card">
+                        <div class="infra-card-header">
+                            <span class="infra-card-title">🛡️ Ciberseguridad JWT</span>
+                            <span class="badge-pulse badge-pulse-green">RFC 7519</span>
+                        </div>
+                        <div style="font-family: var(--font-mono); font-size: 0.75rem; color: #cbd5e1; line-height: 1.6;">
+                            <div><strong>Firma:</strong> HMAC-SHA256 (Alg: HS256)</div>
+                            <div><strong>Modelo:</strong> RBAC (Role-Based Access Control)</div>
+                            <div><strong>Roles Configurados:</strong> 5 perfiles (SYS-ADMIN, etc.)</div>
+                            <div><strong>Trazabilidad:</strong> Bitácora 21 CFR Part 11</div>
+                        </div>
+                    </div>
+
+                    <!-- Enlace Simbólico Junction -->
+                    <div class="infra-card">
+                        <div class="infra-card-header">
+                            <span class="infra-card-title">🔗 Enlace XAMPP (Junction)</span>
+                            <span class="badge-pulse badge-pulse-green">HOT-RELOAD</span>
+                        </div>
+                        <div style="font-family: var(--font-mono); font-size: 0.75rem; color: #cbd5e1; line-height: 1.6;">
+                            <div><strong>Directorio XAMPP:</strong> <code>C:\xampp\htdocs\mapaf</code></div>
+                            <div><strong>Proyecto Local:</strong> <code>PROYECTO-MAPAF\backend_php</code></div>
+                            <div><strong>Tipo:</strong> Junction NTFS (Sincronización Inmediata)</div>
+                            <div><strong>Estado:</strong> <span style="color:#34d399; font-weight:bold;">Vinculado 100%</span></div>
+                        </div>
+                    </div>
+
+                    <!-- Latencia y Telemetría -->
+                    <div class="infra-card">
+                        <div class="infra-card-header">
+                            <span class="infra-card-title">⏱️ Latencia & Telemetría</span>
+                            <span class="badge-pulse badge-pulse-green" id="infraPingBadge">TIEMPO REAL</span>
+                        </div>
+                        <div style="font-family: var(--font-mono); font-size: 0.75rem; color: #cbd5e1; line-height: 1.6;">
+                            <div><strong>Ciclo SCADA:</strong> 3.0 segundos (Heartbeat)</div>
+                            <div><strong>Ping REST:</strong> <span id="infraLiveLatency" style="color:#34d399; font-weight:bold;">12 ms</span> (Roundtrip)</div>
+                            <div><strong>Pila de Maniobras:</strong> <span id="infraStackDisplay" style="color:#a855f7;">0 comandos en pila</span></div>
+                            <div><strong>Estado de Red:</strong> <span style="color:#34d399; font-weight:bold;">Excelente (Sin pérdidas)</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. Diagrama Visual Interactivo de las 6 Capas de la Infraestructura -->
+                <div style="background: linear-gradient(135deg, rgba(16, 24, 44, 0.95), rgba(10, 15, 29, 0.95)); border: 1px solid var(--border-color); border-radius: 10px; padding: 1.25rem; margin-bottom: 1.5rem;">
+                    <div style="margin-bottom: 1rem;">
+                        <span class="comp-badge badge-blue">TOPOLOGÍA ARQUITECTÓNICA</span>
+                        <h3 style="font-family: var(--font-heading); font-size: 1.05rem; color: #fff; margin-top: 0.25rem;">
+                            Las 6 Capas de la Infraestructura SCADA MAPAF
+                        </h3>
+                        <p style="font-size: 0.75rem; color: var(--text-muted); font-family: var(--font-mono);">
+                            Estructura de desacoplamiento modular bajo el estándar ISA-95 (Niveles 1 a 3) y Clean Architecture.
+                        </p>
+                    </div>
+
+                    <div class="layers-timeline">
+                        <!-- Capa 1 -->
+                        <div class="layer-box" style="border-left-color: #f43f5e;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
+                                <strong style="color: #f43f5e; font-size: 0.85rem;">CAPA 1: Instrumentación de Campo & Actuadores (Field Level)</strong>
+                                <span class="badge-pulse" style="background: rgba(244,63,94,0.15); color: #fda4af; border: 1px solid rgba(244,63,94,0.3);">ISA-5.1 · API 6A</span>
+                            </div>
+                            <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.35rem;">
+                                Sensores físicos y cabezales de pozo: Transmisores de presión (PT-101 Tubing, PT-102 Casing), Caudalímetro Coriolis (FT-201), Temperatura (TT-301), Bomba electrosumergible (ESP-01), Estranguladores Choke (FCV) y Válvulas Maestras SSV de superficie.
+                            </p>
+                            <div style="font-family: var(--font-mono); font-size: 0.7rem; color: #cbd5e1;">
+                                📍 <strong>Entidades:</strong> 4 Cabezales de Pozo (Alfa-12, Bravo-04, Charlie-09, Delta-02) + 6 Variables de Proceso Continuas.
+                            </div>
+                        </div>
+
+                        <!-- Capa 2 -->
+                        <div class="layer-box" style="border-left-color: #f59e0b;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
+                                <strong style="color: #f59e0b; font-size: 0.85rem;">CAPA 2: Pasarela de Adquisición & Adaptadores Industriales (Gateway)</strong>
+                                <span class="badge-pulse" style="background: rgba(245,158,11,0.15); color: #fbbf24; border: 1px solid rgba(245,158,11,0.3);">MODBUS · OPC-UA</span>
+                            </div>
+                            <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.35rem;">
+                                Transforma tramas binarias industriales heterogéneas (registros Modbus RTU en formato IEEE 754 float y nodos OPC-UA) hacia el formato JSON unificado de telemetría mediante el patrón GoF <code>IndustrialProtocolAdapter</code>.
+                            </p>
+                            <div style="font-family: var(--font-mono); font-size: 0.7rem; color: #cbd5e1;">
+                                📍 <strong>Archivo Backend:</strong> <code>backend_php/patterns/Adapter/IndustrialProtocolAdapter.php</code>
+                            </div>
+                        </div>
+
+                        <!-- Capa 3 -->
+                        <div class="layer-box" style="border-left-color: #38bdf8;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
+                                <strong style="color: #38bdf8; font-size: 0.85rem;">CAPA 3: API Gateway & Microcontroladores Especializados (REST PHP 8)</strong>
+                                <span class="badge-pulse" style="background: rgba(56,189,248,0.15); color: #38bdf8; border: 1px solid rgba(56,189,248,0.3);">MICROCONTROLLERS</span>
+                            </div>
+                            <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.35rem;">
+                                Elimina el antipatrón The God Object al dividir las peticiones en 6 controladores con responsabilidad única:
+                            </p>
+                            <div style="font-family: var(--font-mono); font-size: 0.7rem; color: #cbd5e1; display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                                <span>• <code>api/sync.php</code> (Telemetría)</span>
+                                <span>• <code>api/wellheads.php</code> (Pozos & Command)</span>
+                                <span>• <code>api/alarms.php</code> (ISA-18.2)</span>
+                                <span>• <code>api/patterns.php</code> (Laboratorio GoF)</span>
+                                <span>• <code>api/login.php</code> (JWT RBAC)</span>
+                                <span>• <code>api/audit.php</code> (21 CFR 11)</span>
+                            </div>
+                        </div>
+
+                        <!-- Capa 4 -->
+                        <div class="layer-box" style="border-left-color: #a855f7;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
+                                <strong style="color: #a855f7; font-size: 0.85rem;">CAPA 4: Capa de Dominio DDD & Patrones GoF (Core de Negocio)</strong>
+                                <span class="badge-pulse" style="background: rgba(168,85,247,0.15); color: #c084fc; border: 1px solid rgba(168,85,247,0.3);">7 BOUNDED CONTEXTS</span>
+                            </div>
+                            <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.35rem;">
+                                Alberga la lógica pura de ingeniería de hidrocarburos: <strong>Command</strong> (con consignas reversibles y UNDO), <strong>State</strong> (enclavamiento API 6A), <strong>Strategy</strong> (AGA-11, AGA-3, Beggs & Brill), <strong>Observer</strong> (notificación reactiva de seguridad) y <strong>Factory Method</strong> (calibración de instrumentos).
+                            </p>
+                            <div style="font-family: var(--font-mono); font-size: 0.7rem; color: #cbd5e1;">
+                                📍 <strong>Contextos:</strong> <code>TELEMETRY-CTX</code>, <code>WELLHEAD-CTX</code>, <code>SAFETY-CTX</code>, <code>ALARMS-CTX</code>, <code>IDENTITY-CTX</code>, <code>AUDIT-CTX</code>, <code>PRODUCTION-CTX</code>.
+                            </div>
+                        </div>
+
+                        <!-- Capa 5 -->
+                        <div class="layer-box" style="border-left-color: #10b981;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
+                                <strong style="color: #10b981; font-size: 0.85rem;">CAPA 5: Persistencia & Repositorios (MySQL mapaf_db)</strong>
+                                <span class="badge-pulse" style="background: rgba(16,185,129,0.15); color: #34d399; border: 1px solid rgba(16,185,129,0.3);">SINGLETON + REPOSITORIES</span>
+                            </div>
+                            <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.35rem;">
+                                Base de datos relacional InnoDB en MySQL gestionada mediante <code>DatabaseSingleton</code> para reutilizar una única conexión PDO. La lógica SQL queda encapsulada en <code>WellheadRepository</code>, <code>AlarmRepository</code> y <code>AuditRepository</code> mediante Prepared Statements con tipado estricto contra inyección SQL.
+                            </p>
+                            <div style="font-family: var(--font-mono); font-size: 0.7rem; color: #cbd5e1;">
+                                📍 <strong>Persistencia:</strong> 8 tablas relacionales con integridad referencial, índices y auditoría inmutable append-only.
+                            </div>
+                        </div>
+
+                        <!-- Capa 6 -->
+                        <div class="layer-box" style="border-left-color: #38bdf8;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
+                                <strong style="color: #38bdf8; font-size: 0.85rem;">CAPA 6: HMI Web & Consola Operacional de Telemetría (Presentation)</strong>
+                                <span class="badge-pulse" style="background: rgba(56,189,248,0.15); color: #38bdf8; border: 1px solid rgba(56,189,248,0.3);">SCADA HMI DASHBOARD</span>
+                            </div>
+                            <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.35rem;">
+                                Interfaz táctica interactiva construida en HTML5, Vanilla CSS Glassmorphism y JavaScript ES6 modular. Supervisión RTOC en tiempo real con refresco automático de 3s, controles deslizantes de Choke con rollback visual, modal de acuse ISA-18.2 y conmutador de roles JWT.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. Simulador Interactivo de Flujo de Datos E2E (Traceable Data Flow Simulator) -->
+                <div style="background: linear-gradient(135deg, rgba(16, 24, 44, 0.95), rgba(10, 15, 29, 0.95)); border: 1px solid var(--border-color); border-radius: 10px; padding: 1.25rem; margin-bottom: 1.5rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem;">
+                        <div>
+                            <span class="comp-badge badge-emerald">SIMULADOR EN VIVO</span>
+                            <h3 style="font-family: var(--font-heading); font-size: 1.05rem; color: #fff; margin-top: 0.25rem;">
+                                Rastrear Flujo de Datos E2E a través de la Infraestructura
+                            </h3>
+                            <p style="font-size: 0.75rem; color: var(--text-muted); font-family: var(--font-mono);">
+                                Haz clic en un flujo para visualizar paso a paso cómo viaja la petición entre el navegador, el backend PHP y la base de datos MySQL.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Botones de Selección de Flujo -->
+                    <div class="flow-btn-group">
+                        <button class="flow-pill-btn active" id="btn-flow-choke" onclick="renderDataFlow('choke')">
+                            ▶ 1. Maniobra Choke con UNDO (Command Pattern)
+                        </button>
+                        <button class="flow-pill-btn" id="btn-flow-alarm" onclick="renderDataFlow('alarm')">
+                            ▶ 2. Disparo de Alarma y Acuse Trazable (ISA-18.2)
+                        </button>
+                        <button class="flow-pill-btn" id="btn-flow-jwt" onclick="renderDataFlow('jwt')">
+                            ▶ 3. Autenticación Criptográfica JWT (RFC 7519)
+                        </button>
+                        <button class="flow-pill-btn" id="btn-flow-esd" onclick="renderDataFlow('esd')">
+                            ▶ 4. Parada de Emergencia ESD-1 (IEC 61511)
+                        </button>
+                    </div>
+
+                    <!-- Consola de Trazabilidad del Flujo -->
+                    <div id="flowTraceContainer" style="background: #060913; border: 1px solid var(--border-color); border-radius: 8px; padding: 1rem;">
+                        <!-- Se llena dinámicamente con renderDataFlow() -->
+                    </div>
+                </div>
+
+                <!-- 4. Matriz de Endpoints y Puertos del Ecosistema -->
+                <div class="table-container" style="margin-bottom: 1.5rem;">
+                    <div class="table-header">
+                        <div>
+                            <span class="table-title">Matriz de Endpoints REST & Puertos del Ecosistema MAPAF</span>
+                            <p style="font-size: 0.75rem; color: var(--text-muted);">Mapeo de comunicación entre capas, puertos TCP y controladores PHP</p>
+                        </div>
+                        <span class="comp-badge badge-purple">8 ENDPOINTS OPERACIONALES</span>
+                    </div>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Endpoint REST</th>
+                                <th>Método</th>
+                                <th>Puerto</th>
+                                <th>Dominio DDD</th>
+                                <th>Patrón GoF / Estándar</th>
+                                <th>Tabla MySQL</th>
+                                <th>Propósito en la Infraestructura</th>
+                            </tr>
+                        </thead>
                         <tbody>
                             <tr>
-                                <td style="font-weight: 600;">Servidor Web</td>
-                                <td>Apache 2.4 (XAMPP para Windows)</td>
+                                <td><code>/api/sync.php</code></td>
+                                <td><span style="color:#38bdf8; font-weight:bold;">GET</span></td>
+                                <td>80 (HTTP)</td>
+                                <td><code>TELEMETRY-CTX</code></td>
+                                <td>Strategy & Observer</td>
+                                <td><code>telemetria_metricas</code></td>
+                                <td>Suministra telemetría reactiva en ciclos continuos de 3 segundos al HMI.</td>
                             </tr>
                             <tr>
-                                <td style="font-weight: 600;">Lenguaje Backend</td>
-                                <td>PHP <?= phpversion() ?> (SAPI: <?= php_sapi_name() ?>)</td>
+                                <td><code>/api/wellheads.php</code></td>
+                                <td><span style="color:#10b981; font-weight:bold;">POST/GET</span></td>
+                                <td>80 (HTTP)</td>
+                                <td><code>WELLHEAD-CTX</code></td>
+                                <td>Command & State</td>
+                                <td><code>pozos</code></td>
+                                <td>Ejecuta maniobras de Choke y válvulas con enclavamiento y reversión (UNDO).</td>
                             </tr>
                             <tr>
-                                <td style="font-weight: 600;">Base de Datos</td>
-                                <td>MySQL <?= htmlspecialchars($dbStatus['mysql_version'] ?? 'Conectada') ?></td>
+                                <td><code>/api/alarms.php</code></td>
+                                <td><span style="color:#f59e0b; font-weight:bold;">POST/GET</span></td>
+                                <td>80 (HTTP)</td>
+                                <td><code>ALARMS-CTX</code></td>
+                                <td>Factory Method</td>
+                                <td><code>alarmas</code></td>
+                                <td>Ciclo de vida de alarmas y protocolo de acuse trazable bajo norma ISA-18.2.</td>
                             </tr>
                             <tr>
-                                <td style="font-weight: 600;">Base de Datos Seleccionada</td>
-                                <td><code>mapaf_db</code></td>
+                                <td><code>/api/login.php</code></td>
+                                <td><span style="color:#10b981; font-weight:bold;">POST/GET</span></td>
+                                <td>80 (HTTP)</td>
+                                <td><code>IDENTITY-CTX</code></td>
+                                <td>RFC 7519 JWT</td>
+                                <td><code>usuarios</code>, <code>roles</code></td>
+                                <td>Emite y valida tokens firmados con claims criptográficos y permisos RBAC.</td>
                             </tr>
                             <tr>
-                                <td style="font-weight: 600;">Tablas en `mapaf_db`</td>
-                                <td><span style="color: #34d399; font-weight: bold;"><?= count($dbStatus['tables']) ?> tablas verificadas</span></td>
+                                <td><code>/api/patterns.php</code></td>
+                                <td><span style="color:#c084fc; font-weight:bold;">POST/GET</span></td>
+                                <td>80 (HTTP)</td>
+                                <td><code>ARCHITECTURE</code></td>
+                                <td>8 Patrones GoF</td>
+                                <td><code>mapaf_db</code> (Global)</td>
+                                <td>Laboratorio de validación de patrones y sandbox de mitigación de antipatrones.</td>
                             </tr>
                             <tr>
-                                <td style="font-weight: 600;">Ruta del Proyecto en XAMPP</td>
-                                <td><code>C:\xampp\htdocs\mapaf\</code></td>
+                                <td><code>/api/domains.php</code></td>
+                                <td><span style="color:#38bdf8; font-weight:bold;">GET</span></td>
+                                <td>80 (HTTP)</td>
+                                <td><code>DDD CATALOG</code></td>
+                                <td>Domain-Driven Design</td>
+                                <td>Entidades en memoria</td>
+                                <td>Catálogo de los 7 Bounded Contexts e invariantes de negocio del SCADA.</td>
+                            </tr>
+                            <tr>
+                                <td><code>/api/audit.php</code></td>
+                                <td><span style="color:#38bdf8; font-weight:bold;">GET</span></td>
+                                <td>80 (HTTP)</td>
+                                <td><code>AUDIT-CTX</code></td>
+                                <td>Repository</td>
+                                <td><code>bitacora_auditoria</code></td>
+                                <td>Trazabilidad forense inmutable de maniobras conforme a 21 CFR Part 11.</td>
+                            </tr>
+                            <tr>
+                                <td><code>/api/status.php</code></td>
+                                <td><span style="color:#34d399; font-weight:bold;">GET</span></td>
+                                <td>80 (HTTP)</td>
+                                <td><code>INFRASTRUCTURE</code></td>
+                                <td>Singleton (Database)</td>
+                                <td>Pool de sockets PDO</td>
+                                <td>Diagnóstico de salud de Apache, PHP y disponibilidad del puerto 3306 de MySQL.</td>
                             </tr>
                         </tbody>
                     </table>
+                </div>
 
-                    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-                        <a href="setup_database.php" target="_blank" class="btn-action" style="background: #10b981; color: #000; font-weight: bold;">
-                            ⚙️ Re-ejecutar Instalador de Base de Datos
-                        </a>
-                        <button class="btn-action" onclick="loadAllData()">
-                            🔍 Probar Conexión REST en Vivo
-                        </button>
+                <!-- 5. Directorio de Archivos y Responsabilidades del Proyecto -->
+                <div class="table-container">
+                    <div class="table-header">
+                        <div>
+                            <span class="table-title">Estructura de Directorios del Código Fuente en `backend_php`</span>
+                            <p style="font-size: 0.75rem; color: var(--text-muted);">Organización modular conforme al principio de Responsabilidad Única (SRP)</p>
+                        </div>
+                        <span class="comp-badge badge-blue">ARQUITECTURA MODULAR</span>
                     </div>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Directorio / Ruta</th>
+                                <th>Contenido Principal</th>
+                                <th>Capa del Sistema</th>
+                                <th>Patrones & Normas Implementadas</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>backend_php/api/</code></td>
+                                <td>Controladores REST (`sync.php`, `wellheads.php`, `alarms.php`, etc.)</td>
+                                <td>API Gateway</td>
+                                <td>Separación de responsabilidades, evita The God Object.</td>
+                            </tr>
+                            <tr>
+                                <td><code>backend_php/patterns/</code></td>
+                                <td>Clases de Patrones GoF: Singleton, Command, State, Strategy, Observer, Factory, Repository, Adapter.</td>
+                                <td>Capa de Dominio</td>
+                                <td>GoF Design Patterns orientados a ingeniería de procesos upstream.</td>
+                            </tr>
+                            <tr>
+                                <td><code>backend_php/domain/</code></td>
+                                <td>Modelos de Bounded Contexts (`DomainArchitecture.php`).</td>
+                                <td>Capa de Dominio</td>
+                                <td>Domain-Driven Design (DDD) con delimitación de 7 contextos.</td>
+                            </tr>
+                            <tr>
+                                <td><code>backend_php/auth/</code></td>
+                                <td>Servicio criptográfico JWT y validación RBAC (`jwt.php`).</td>
+                                <td>Seguridad</td>
+                                <td>RFC 7519 HMAC-SHA256, expiración estricta y control de claims.</td>
+                            </tr>
+                            <tr>
+                                <td><code>backend_php/antipatterns/</code></td>
+                                <td>Catálogo de malas prácticas y sus escudos (`AntiPatternCatalog.php`).</td>
+                                <td>Calidad de Software</td>
+                                <td>Mitigación de Blind Alarm ACK, SQL Injection, God Object, etc.</td>
+                            </tr>
+                            <tr>
+                                <td><code>backend_php/config/</code></td>
+                                <td>Configuración de base de datos (`database.php`) y CORS (`cors.php`).</td>
+                                <td>Infraestructura</td>
+                                <td>Variables de entorno, cabeceras HTTP de seguridad y pool de conexión.</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </section>
 
         </main>
     </div>
 
-    <!-- Toast Notification -->
-    <div id="toast">Notificación</div>
+    <!-- Modal de Acuse de Alarmas Trazable ISA-18.2 (Mitigación de Antipatrón Blind ACK) -->
+    <div id="ackModalBackdrop" class="modal-backdrop" style="display: none;">
+        <div class="ack-modal-dialog">
+            <div class="ack-modal-header">
+                <div>
+                    <h3 style="font-family: var(--font-heading); font-size: 1.05rem; color: #fff;">Protocolo de Reconocimiento de Alarmas (ISA-18.2)</h3>
+                    <p style="font-size: 0.72rem; color: var(--text-muted); font-family: var(--font-mono);">Dominio ALARMS-CTX · Escudo Antipatrón Blind ACK Activo</p>
+                </div>
+                <button class="modal-close-btn" onclick="closeAckModal()">✕</button>
+            </div>
+            <div class="ack-modal-body">
+                <div style="background: #060913; border: 1px solid var(--border-color); border-radius: 8px; padding: 0.85rem; margin-bottom: 1rem; font-family: var(--font-mono); font-size: 0.78rem;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.4rem;">
+                        <span style="color: var(--text-muted);">Instrumento / Tag:</span>
+                        <strong style="color: #38bdf8;" id="modalAlarmTag">-</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.4rem;">
+                        <span style="color: var(--text-muted);">Severidad:</span>
+                        <span id="modalAlarmSeverity" style="font-weight: bold;">-</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.4rem;">
+                        <span style="color: var(--text-muted);">Valor Medido:</span>
+                        <span id="modalAlarmValue">-</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <span style="color: var(--text-muted);">Operador en Turno (JWT):</span>
+                        <span style="color: #c084fc; font-weight: bold;" id="modalAlarmOperator">-</span>
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 1rem;">
+                    <label style="font-size: 0.75rem; font-family: var(--font-mono); color: #cbd5e1; display: block; margin-bottom: 0.35rem;">
+                        Causa u Observación Técnica Obligatoria (ANSI/ISA-18.2):
+                    </label>
+                    <textarea id="modalAlarmReason" placeholder="Describa la causa de raíz identificada y la acción correctiva ejecutada en campo (obligatorio)..." style="width: 100%; height: 75px; background: #060913; border: 1px solid var(--border-color); color: #fff; border-radius: 6px; padding: 0.5rem; font-family: var(--font-mono); font-size: 0.75rem; resize: none;"></textarea>
+                </div>
+
+                <div id="modalShieldWarning" style="display: none; background: rgba(244, 63, 94, 0.15); border: 1px solid rgba(244, 63, 94, 0.4); border-radius: 6px; padding: 0.65rem; margin-bottom: 1rem; font-size: 0.72rem; color: #fecdd3; font-family: var(--font-mono);">
+                    ⚠️ <strong>ESCUDO DE ANTIPATRONES MAPAF:</strong> Silenciamiento ciego bloqueado. La norma ANSI/ISA-18.2 prohíbe silenciar alarmas críticas sin causa técnica registrada y trazable en bitácora.
+                </div>
+
+                <div style="display: flex; justify-content: flex-end; gap: 0.5rem;">
+                    <button class="btn-action" style="background: #334155; color: #fff;" onclick="closeAckModal()">Cancelar</button>
+                    <button class="btn-action btn-danger" onclick="submitAckWithReason()">Registrar Reconocimiento Seguro</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script>
         const API_BASE = '/mapaf/api';
@@ -2021,6 +3407,327 @@ $dbStatus = checkDatabaseStatus();
         let currentWellSearch = '';
         let currentAlarmFilter = 'all';
         let currentAlarmSearch = '';
+        let currentStrategy = 'coriolis';
+
+        // 1. Matriz de Dominios (Domain-Driven Design / DDD)
+        const DOMAIN_MAP = {
+            overview: '🏛️ DOMINIO 1: RTOC & Telemetría IIoT [TELEMETRY-CTX] · ISA-5.1',
+            wells: '🏛️ DOMINIO 2: Cabezas de Pozo & Seguridad API 6A [WELLHEAD-CTX]',
+            alarms: '🏛️ DOMINIO 4: Gestión de Alarmas ANSI/ISA-18.2 [ALARMS-CTX]',
+            schematics: '🏛️ DOMINIO 3: Facilidades de Superficie & Separación [SURFACE-CTX]',
+            tags: '🏛️ DOMINIO 3: Instrumentación & Diccionario ISA-5.1 [TAGS-CTX]',
+            patterns: '🏛️ DOMINIO ARQUITECTURA: Patrones GoF (8) & Escudo de Antipatrones Activo',
+            domains: '🏛️ MAPA DE CONTEXTOS DDD: 7 Bounded Contexts Delimitados Formalmente',
+            jwt: '🏛️ DOMINIO 5: Identidad, Seguridad & RBAC RFC 7519 [IDENTITY-RBAC-CTX]',
+            security: '🏛️ DOMINIO 5: Usuarios, Roles y Permisos RBAC [USERS-CTX]',
+            audit: '🏛️ DOMINIO 7: Bitácora Inmutable & Trazabilidad 21 CFR 11 [AUDIT-CTX]',
+            comparisons: '🏛️ DOMINIO ARQUITECTURA: Sustentación ADSO Ficha 3413988',
+            diag: '🏛️ DOMINIO INFRAESTRUCTURA: Servidores XAMPP Apache & MySQL'
+        };
+
+        // 2. Operador & Seguridad JWT (RBAC en Vivo)
+        let currentOperator = {
+            code: 'OP-449',
+            name: 'María José Conde Dussan',
+            role: 'SYS-ADMIN',
+            roleName: 'Administrador del Sistema'
+        };
+        let activeJwtToken = localStorage.getItem('mapaf_jwt_token') || '';
+
+        async function switchOperatorRole(code) {
+            const rolesMap = {
+                'OP-449': { name: 'María José Conde Dussan', role: 'SYS-ADMIN', roleName: 'Administrador del Sistema' },
+                'OP-312': { name: 'Hernann Thomas Manchola', role: 'PROCESS-ENG', roleName: 'Ingeniero de Procesos' },
+                'OP-205': { name: 'Emilin Tatiana Vargas', role: 'SUPERVISOR', roleName: 'Supervisor de Planta' },
+                'OP-101': { name: 'Operador de Sala', role: 'CONSOLE-OP', roleName: 'Operador de Consola' },
+                'OP-118': { name: 'Javier Humberto Pinto Díaz', role: 'INSTRUCTOR-SENA', roleName: 'Instructor SENA' }
+            };
+
+            const info = rolesMap[code] || rolesMap['OP-449'];
+            currentOperator.code = code;
+            currentOperator.name = info.name;
+            currentOperator.role = info.role;
+            currentOperator.roleName = info.roleName;
+
+            // Solicitar token firmado real al backend PHP
+            try {
+                const res = await fetch(`${API_BASE}/login.php`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ employeeCode: code, ttl: 28800 })
+                });
+                const data = await res.json();
+                if (data.success && data.token) {
+                    activeJwtToken = data.token;
+                    localStorage.setItem('mapaf_jwt_token', activeJwtToken);
+                    showToast(`Sesión JWT Activa: ${currentOperator.name} [${currentOperator.role}]`);
+                }
+            } catch(e) {
+                showToast(`Operador cambiado a ${currentOperator.name}`);
+            }
+        }
+
+        function getAuthHeaders() {
+            const headers = { 'Content-Type': 'application/json' };
+            if (activeJwtToken) {
+                headers['Authorization'] = `Bearer ${activeJwtToken}`;
+            }
+            return headers;
+        }
+
+        // 3. Patrón STRATEGY: Selector Dinámico de Algoritmo de Flujo
+        async function switchFlowStrategy(strategyKey) {
+            currentStrategy = strategyKey;
+
+            document.querySelectorAll('.strategy-pill-btn').forEach(btn => btn.classList.remove('active'));
+            const activeBtn = document.getElementById(`btn-strat-${strategyKey.substring(0, 7).toLowerCase()}`) || document.getElementById(`btn-strat-${strategyKey}`);
+            if (activeBtn) activeBtn.classList.add('active');
+
+            const formulaBox = document.getElementById('strategyFormulaBox');
+            if (formulaBox) {
+                if (strategyKey === 'coriolis') {
+                    formulaBox.innerHTML = `<strong>Ecuación Activa (AGA-11 Coriolis):</strong> <code>ṁ = ρ · Q_vol | Medición Fiscal Directa | Precisión ±0.15% | Corrección MPMS 11.1</code>`;
+                } else if (strategyKey === 'aga3') {
+                    formulaBox.innerHTML = `<strong>Ecuación Activa (AGA-3 Placa Orificio):</strong> <code>Q = C_d · E_v · Y · (π/4)·d² · √(2·ΔP·ρ) | Medición por Presión Diferencial</code>`;
+                } else {
+                    formulaBox.innerHTML = `<strong>Ecuación Activa (Beggs & Brill):</strong> <code>ΔP_total = ΔP_fricción + ΔP_elevación + ΔP_aceleración | Flujo Multifásico Crudo/Gas/Agua</code>`;
+                }
+            }
+
+            showToast(`Estrategia de flujo: ${strategyKey.toUpperCase()} activada en backend`);
+            loadAllData();
+        }
+
+        // 4. Patrón OBSERVER: Simulador de Inyección Reactiva
+        async function injectTelemetryPressure(psiValue, severity) {
+            try {
+                const res = await fetch(`${API_BASE}/patterns.php`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action: 'test_observer', value: psiValue, tag: 'WHTP-101A' })
+                });
+                const data = await res.json();
+                
+                // Efecto visual en los observadores
+                const b1 = document.getElementById('obsAlarmBadge');
+                const b2 = document.getElementById('obsSafetyBadge');
+                const b3 = document.getElementById('obsAuditBadge');
+
+                [b1, b2, b3].forEach(b => {
+                    if (b) {
+                        b.classList.add('fired');
+                        setTimeout(() => b.classList.remove('fired'), 3500);
+                    }
+                });
+
+                if (severity === 'critical') {
+                    showToast(`🚨 OBSERVER: Presión crítica ${psiValue} PSI! Alarma generada y pozo aislado en MySQL`, true);
+                } else if (severity === 'warning') {
+                    showToast(`🟡 OBSERVER: ${psiValue} PSI superó umbral preventivo. Registrado en bitácora.`);
+                } else {
+                    showToast(`🟢 OBSERVER: ${psiValue} PSI nominal procesado normalmente.`);
+                }
+
+                loadAllData();
+                loadAuditLogs();
+            } catch(e) {
+                showToast("Error simulando Observer", true);
+            }
+        }
+
+        // 5. Patrón COMMAND: Pila de Comandos con Soporte de UNDO
+        let localCommandStack = [];
+
+        function recordCommand(cmd) {
+            localCommandStack.unshift(cmd);
+            if (localCommandStack.length > 20) localCommandStack.pop();
+            const countEl = document.getElementById('cmdStackCount');
+            if (countEl) countEl.textContent = `${localCommandStack.length} maniobras en pila`;
+        }
+
+        async function undoWellChoke(wellId) {
+            const lastCmd = localCommandStack.find(c => c.wellId === wellId);
+            const targetOpening = lastCmd ? lastCmd.previous : 42.8;
+
+            try {
+                const res = await fetch(`${API_BASE}/wellheads.php`, {
+                    method: 'POST',
+                    headers: getAuthHeaders(),
+                    body: JSON.stringify({
+                        id: wellId,
+                        action: 'undo',
+                        previousOpening: targetOpening,
+                        userName: currentOperator.name,
+                        userCode: currentOperator.code,
+                        roleName: currentOperator.roleName
+                    })
+                });
+                const result = await res.json();
+                if (result.success) {
+                    showToast(`↺ COMMAND UNDO: Pozo ${wellId} retornado a ${targetOpening}% en MySQL`);
+                    const idx = localCommandStack.findIndex(c => c.wellId === wellId);
+                    if (idx !== -1) localCommandStack.splice(idx, 1);
+                    const countEl = document.getElementById('cmdStackCount');
+                    if (countEl) countEl.textContent = `${localCommandStack.length} maniobras en pila`;
+                    loadAllData();
+                    loadAuditLogs();
+                } else {
+                    showToast(result.error || "Error revirtiendo maniobra", true);
+                }
+            } catch(e) {
+                showToast("Error de conexión ejecutando UNDO", true);
+            }
+        }
+
+        async function undoLastGlobalCommand() {
+            if (localCommandStack.length === 0) {
+                showToast("No hay maniobras pendientes en la pila de comandos.");
+                return;
+            }
+            const last = localCommandStack[0];
+            await undoWellChoke(last.wellId);
+        }
+
+        // 6. Patrón STATE: Máquina de Estados API 6A
+        async function resetWellState(wellId) {
+            try {
+                const res = await fetch(`${API_BASE}/wellheads.php`, {
+                    method: 'POST',
+                    headers: getAuthHeaders(),
+                    body: JSON.stringify({
+                        id: wellId,
+                        action: 'reset_state',
+                        userName: currentOperator.name,
+                        userCode: currentOperator.code,
+                        roleName: currentOperator.roleName
+                    })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    showToast(`🛡️ REARME API 6A: Pozo ${wellId} rearmado a estado EN LÍNEA`);
+                    loadAllData();
+                    loadAuditLogs();
+                } else {
+                    showToast(data.error || "Fallo rearmando pozo", true);
+                }
+            } catch(e) {
+                showToast("Error comunicando con API de pozos", true);
+            }
+        }
+
+        async function tripWellState(wellId) {
+            if (!confirm(`⚠️ ¿Desea simular el disparo de seguridad (Trip State) para el pozo ${wellId}?`)) return;
+
+            try {
+                const res = await fetch(`${API_BASE}/wellheads.php`, {
+                    method: 'POST',
+                    headers: getAuthHeaders(),
+                    body: JSON.stringify({
+                        id: wellId,
+                        ssvOpen: false,
+                        chokeOpening: 0,
+                        actionDescription: `Disparo de Seguridad Simulado (State::trip()) en pozo ${wellId}`,
+                        userName: currentOperator.name,
+                        userCode: currentOperator.code,
+                        roleName: currentOperator.roleName
+                    })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    showToast(`⚡ DISPARO EJECUTADO: Pozo ${wellId} en estado DISPARADO con enclavamiento API 6A`, true);
+                    loadAllData();
+                    loadAuditLogs();
+                }
+            } catch(e) {
+                showToast("Error disparando pozo", true);
+            }
+        }
+
+        // 7. Mitigación de Antipatrón: Blind Alarm Acknowledgment (ANSI/ISA-18.2)
+        let activeAlarmToAck = null;
+
+        function openAckModal(id, tag, severity, value, threshold) {
+            activeAlarmToAck = { id, tag, severity, value, threshold };
+
+            document.getElementById('modalAlarmTag').textContent = tag || id;
+            const sevEl = document.getElementById('modalAlarmSeverity');
+            sevEl.textContent = (severity || 'CRITICAL').toUpperCase();
+            sevEl.style.color = severity === 'critical' ? '#f43f5e' : severity === 'warning' ? '#f59e0b' : '#34d399';
+            document.getElementById('modalAlarmValue').textContent = `${value || '-'} (Límite: ${threshold || '-'})`;
+            document.getElementById('modalAlarmOperator').textContent = `${currentOperator.name} [${currentOperator.role}]`;
+            document.getElementById('modalAlarmReason').value = '';
+            document.getElementById('modalShieldWarning').style.display = 'none';
+
+            document.getElementById('ackModalBackdrop').style.display = 'flex';
+        }
+
+        function closeAckModal() {
+            document.getElementById('ackModalBackdrop').style.display = 'none';
+            activeAlarmToAck = null;
+        }
+
+        async function confirmAckWithReason() {
+            if (!activeAlarmToAck) return;
+
+            const reason = document.getElementById('modalAlarmReason').value.trim();
+            if (!reason) {
+                document.getElementById('modalShieldWarning').style.display = 'block';
+                showToast("🛡️ ESCUDO ANTIPATRÓN: Blind Alarm ACK bloqueado. Ingrese justificación técnica.", true);
+                return;
+            }
+
+            try {
+                const res = await fetch(`${API_BASE}/alarms.php`, {
+                    method: 'POST',
+                    headers: getAuthHeaders(),
+                    body: JSON.stringify({
+                        id: activeAlarmToAck.id,
+                        reason: reason,
+                        acknowledgedBy: currentOperator.name,
+                        operatorCode: currentOperator.code,
+                        roleName: currentOperator.roleName
+                    })
+                });
+                const result = await res.json();
+                if (result.success) {
+                    showToast(`✓ Alarma ${activeAlarmToAck.tag} reconocida formalmente con causa en MySQL`);
+                    closeAckModal();
+                    loadAllData();
+                    loadAuditLogs();
+                } else if (result.antipatternMitigated) {
+                    document.getElementById('modalShieldWarning').style.display = 'block';
+                    showToast(result.error, true);
+                } else {
+                    showToast(result.error || "Error reconociendo alarma", true);
+                }
+            } catch(e) {
+                showToast("Error de conexión al reconocer alarma", true);
+            }
+        }
+
+        async function simulateBlindAckAttempt() {
+            if (!activeAlarmToAck) return;
+            try {
+                const res = await fetch(`${API_BASE}/alarms.php`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        id: activeAlarmToAck.id,
+                        reason: '', // Vacío intencional para demostrar mitigación
+                        acknowledgedBy: currentOperator.name,
+                        operatorCode: currentOperator.code,
+                        roleName: currentOperator.roleName
+                    })
+                });
+                const result = await res.json();
+                if (!result.success && result.antipatternMitigated) {
+                    document.getElementById('modalShieldWarning').style.display = 'block';
+                    showToast(`🛡️ ESCUDO ANTIPATRÓN: ${result.error}`, true);
+                }
+            } catch(e) {
+                showToast("Error en prueba de Blind ACK", true);
+            }
+        }
 
         function showToast(msg, isError = false) {
             const toast = document.getElementById('toast');
@@ -2058,7 +3765,6 @@ $dbStatus = checkDatabaseStatus();
                 }
             });
 
-            // Si un grupo no tiene items visibles, ocultar el grupo
             groups.forEach(g => {
                 const visibleLinks = g.querySelectorAll('.nav-link[style*="display: flex"], .nav-link:not([style*="display: none"])');
                 if (q && visibleLinks.length === 0) {
@@ -2069,28 +3775,33 @@ $dbStatus = checkDatabaseStatus();
             });
         }
 
-        // Cambio de módulo principal con actualización de breadcrumb
+        // Cambio de módulo principal con actualización de breadcrumb y Dominio DDD
         function switchModule(moduleId, categoryName, moduleName) {
             document.querySelectorAll('.nav-link').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.top-nav-btn').forEach(btn => btn.classList.remove('active'));
             document.querySelectorAll('.section-view').forEach(sec => sec.classList.remove('active'));
 
-            // Activar botón del sidebar
             const activeBtn = document.querySelector(`.nav-link[data-mod="${moduleId}"]`);
             if (activeBtn) activeBtn.classList.add('active');
 
-            // Activar vista de sección
+            const activeTopBtn = document.querySelector(`.top-nav-btn[data-topmod="${moduleId}"]`);
+            if (activeTopBtn) activeTopBtn.classList.add('active');
+
             const target = document.getElementById('tab-' + moduleId);
             if (target) target.classList.add('active');
 
-            // Actualizar migas de pan
             document.getElementById('bcCategory').textContent = categoryName;
             document.getElementById('bcModule').textContent = moduleName;
 
-            // Scroll arriba en el contenedor principal
+            // Actualizar Dominio Delimitado (DDD Bounded Context)
+            const domBadge = document.getElementById('activeDomainBadge');
+            if (domBadge && DOMAIN_MAP[moduleId]) {
+                domBadge.textContent = DOMAIN_MAP[moduleId];
+            }
+
             document.querySelector('.app-main').scrollTop = 0;
         }
 
-        // Sub-tabs dentro de un módulo (ej. Diagramas o Comparativas)
         function switchSubtab(moduleKey, subtabId, btnElement) {
             const parent = btnElement.parentElement;
             parent.querySelectorAll('.subtab-btn').forEach(b => b.classList.remove('active'));
@@ -2104,7 +3815,6 @@ $dbStatus = checkDatabaseStatus();
             }
         }
 
-        // Reloj en vivo
         function updateClock() {
             const now = new Date();
             document.getElementById('liveClock').textContent = now.toLocaleTimeString('es-CO');
@@ -2112,10 +3822,10 @@ $dbStatus = checkDatabaseStatus();
         setInterval(updateClock, 1000);
         updateClock();
 
-        // Carga de datos desde API PHP / MySQL
+        // Carga de datos desde API PHP / MySQL con Estrategia Activa
         async function loadAllData() {
             try {
-                const res = await fetch(`${API_BASE}/sync.php`);
+                const res = await fetch(`${API_BASE}/sync.php?strategy=${currentStrategy}`);
                 const data = await res.json();
                 if (data.success) {
                     currentData = data;
@@ -2126,13 +3836,23 @@ $dbStatus = checkDatabaseStatus();
                     renderAuditLogs();
                     updateDbPill(true);
 
-                    // Actualizar tickers en encabezado
-                    if (data.systemConfig) {
-                        document.getElementById('kpiProd').textContent = `${Number(data.systemConfig.productionRate).toLocaleString('es-CO')} BPD`;
+                    // Actualizar indicadores con cálculo de la Estrategia Activa
+                    if (data.calculatedProduction) {
+                        const bpdStr = `${Number(data.calculatedProduction.oilRateNetBpd || data.calculatedProduction.totalRateBpd).toLocaleString('es-CO', {maximumFractionDigits: 0})} BPD`;
+                        const gasStr = `${Number(data.calculatedProduction.gasRateMscfd || 3200).toLocaleString('es-CO', {maximumFractionDigits: 0})} MSCFD`;
+                        
+                        document.getElementById('kpiProd').textContent = bpdStr;
+                        const bpdDisplay = document.getElementById('strategyBpdDisplay');
+                        const gasDisplay = document.getElementById('strategyGasDisplay');
+                        if (bpdDisplay) bpdDisplay.textContent = bpdStr;
+                        if (gasDisplay) gasDisplay.textContent = gasStr;
+
                         const flowEl = document.getElementById('kpiFlow');
-                        flowEl.textContent = data.systemConfig.flowState.toUpperCase();
-                        flowEl.style.color = data.systemConfig.flowState === 'tripped' ? '#f43f5e' :
-                                             data.systemConfig.flowState === 'throttled' ? '#f59e0b' : '#34d399';
+                        flowEl.textContent = (data.calculatedProduction.flowState || 'NOMINAL').toUpperCase();
+                        flowEl.style.color = data.calculatedProduction.flowState === 'tripped' ? '#f43f5e' :
+                                             data.calculatedProduction.flowState === 'throttled' ? '#f59e0b' : '#34d399';
+                    } else if (data.systemConfig) {
+                        document.getElementById('kpiProd').textContent = `${Number(data.systemConfig.productionRate).toLocaleString('es-CO')} BPD`;
                     }
                 } else {
                     updateDbPill(false);
@@ -2177,7 +3897,7 @@ $dbStatus = checkDatabaseStatus();
             `).join('');
         }
 
-        // 2. Render Pozos con Filtros
+        // 2. Render Pozos con Filtros, Patrón Command (UNDO) y Patrón State (API 6A)
         function filterWells(status, chip) {
             currentWellFilter = status;
             document.querySelectorAll('#tab-wells .filter-chip').forEach(c => c.classList.remove('active'));
@@ -2208,6 +3928,7 @@ $dbStatus = checkDatabaseStatus();
             }
 
             container.innerHTML = filtered.map(w => {
+                const isTripped = w.status === 'DISPARADO';
                 const statusClass = w.status === 'EN LÍNEA' ? 'status-online' :
                                     w.status === 'ESTRANGULADO' ? 'status-choked' :
                                     w.status === 'DISPARADO' ? 'status-tripped' : 'status-maint';
@@ -2217,9 +3938,12 @@ $dbStatus = checkDatabaseStatus();
                     <div class="well-header">
                         <div>
                             <div class="well-title">${w.name}</div>
-                            <span style="font-size: 0.75rem; color: var(--text-muted); font-family: var(--font-mono);">${w.sector}</span>
+                            <span style="font-size: 0.72rem; color: var(--text-muted); font-family: var(--font-mono);">${w.sector} · API 6A</span>
                         </div>
-                        <span class="well-status ${statusClass}">${w.status}</span>
+                        <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 0.25rem;">
+                            <span class="well-status ${statusClass}">${w.status}</span>
+                            <span style="font-size: 0.62rem; font-family: var(--font-mono); color: #94a3b8;">[STATE PATTERN]</span>
+                        </div>
                     </div>
 
                     <div class="well-readings">
@@ -2241,43 +3965,75 @@ $dbStatus = checkDatabaseStatus();
                         </div>
                     </div>
 
-                    <div class="control-group">
-                        <div class="control-label">
-                            <span>Estrangulador (Choke FCV)</span>
-                            <span id="choke-lbl-${w.id}" style="color: #38bdf8; font-weight: bold;">${w.chokeOpening}%</span>
+                    ${isTripped ? `
+                        <div class="state-interlock-box">
+                            <strong>⚠️ ENCLAVAMIENTO DE SEGURIDAD API 6A ACTIVO:</strong><br>
+                            El pozo se encuentra DISPARADO (Trip de seguridad). Las maniobras de estrangulador y apertura de válvula SSV están bloqueadas por el Patrón State.
                         </div>
-                        <input type="range" min="0" max="100" step="0.5" value="${w.chokeOpening}" class="choke-slider"
-                               oninput="document.getElementById('choke-lbl-${w.id}').textContent = this.value + '%'"
-                               onchange="updateWellChoke('${w.id}', this.value)">
-                    </div>
+                        <button class="btn-action" style="background:#10b981; color:#000; font-weight:bold; width:100%; margin-top:0.6rem; justify-content:center;" onclick="resetWellState('${w.id}')">
+                            🛡️ Rearmar Pozo (State::reset())
+                        </button>
+                    ` : `
+                        <div class="control-group">
+                            <div class="control-label">
+                                <span>Estrangulador (Choke FCV) <span style="font-size:0.65rem; color:#a855f7;">[COMMAND PATTERN]</span></span>
+                                <span id="choke-lbl-${w.id}" style="color: #38bdf8; font-weight: bold;">${w.chokeOpening}%</span>
+                            </div>
+                            <input type="range" min="0" max="100" step="0.5" value="${w.chokeOpening}" class="choke-slider"
+                                   oninput="document.getElementById('choke-lbl-${w.id}').textContent = this.value + '%'"
+                                   onchange="updateWellChoke('${w.id}', this.value, ${w.chokeOpening})">
+                            <button class="btn-undo" id="btn-undo-${w.id}" onclick="undoWellChoke('${w.id}')" title="Revertir última consigna aplicando el Patrón Command UNDO">
+                                ↺ Deshacer Maniobra (Command UNDO)
+                            </button>
+                        </div>
 
-                    <div class="valve-toggles">
-                        <button class="btn-valve ${w.ssvOpen ? 'open' : ''}" onclick="toggleSsv('${w.id}', ${!w.ssvOpen})">
-                            SSV: ${w.ssvOpen ? 'ABIERTA' : 'CERRADA'}
-                        </button>
-                        <button class="btn-valve ${w.chemicalInjection ? 'open' : ''}" onclick="toggleChem('${w.id}', ${!w.chemicalInjection})">
-                            Iny. Química: ${w.chemicalInjection ? 'ACTIVA' : 'INACTIVA'}
-                        </button>
-                    </div>
+                        <div class="valve-toggles">
+                            <button class="btn-valve ${w.ssvOpen ? 'open' : ''}" onclick="toggleSsv('${w.id}', ${!w.ssvOpen})">
+                                SSV: ${w.ssvOpen ? 'ABIERTA' : 'CERRADA'}
+                            </button>
+                            <button class="btn-valve ${w.chemicalInjection ? 'open' : ''}" onclick="toggleChem('${w.id}', ${!w.chemicalInjection})">
+                                Iny. Química: ${w.chemicalInjection ? 'ACTIVA' : 'INACTIVA'}
+                            </button>
+                            <button class="btn-action btn-danger" style="font-size:0.7rem; padding:0.25rem 0.5rem;" onclick="tripWellState('${w.id}')" title="Simular disparo de seguridad para activar enclavamiento de State Pattern">
+                                ⚡ Simular Disparo
+                            </button>
+                        </div>
+                    `}
                 </div>
                 `;
             }).join('');
         }
 
-        async function updateWellChoke(id, val) {
+        async function updateWellChoke(id, val, prevVal) {
+            const previous = typeof prevVal === 'number' ? prevVal : 42.8;
             try {
                 const res = await fetch(`${API_BASE}/wellheads.php`, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ id, chokeOpening: parseFloat(val), actionDescription: `Ajuste estrangulador a ${val}%` })
+                    headers: getAuthHeaders(),
+                    body: JSON.stringify({
+                        id,
+                        chokeOpening: parseFloat(val),
+                        actionDescription: `Ajuste estrangulador a ${val}% (SetChokeCommand)`,
+                        userName: currentOperator.name,
+                        userCode: currentOperator.code,
+                        roleName: currentOperator.roleName
+                    })
                 });
                 const result = await res.json();
                 if (result.success) {
-                    showToast(`Pozo ${id}: Choke actualizado a ${val}% en MySQL`);
+                    recordCommand({ wellId: id, name: 'SetChokeCommand', previous: previous, target: parseFloat(val), time: new Date().toLocaleTimeString() });
+                    showToast(`Pozo ${id}: Choke regulado a ${val}% en MySQL (Reversible con UNDO)`);
+                    loadAllData();
                     loadAuditLogs();
+                } else if (result.securityViolation) {
+                    showToast(`⛔ RBAC DENEGADO: ${result.error}`, true);
+                } else if (result.interlockActive) {
+                    showToast(`⚠️ ENCLAVAMIENTO STATE PATTERN: ${result.error}`, true);
+                } else {
+                    showToast(result.error || "Error en consigna", true);
                 }
             } catch (e) {
-                showToast("Error actualizando en MySQL", true);
+                showToast("Error de comunicación", true);
             }
         }
 
@@ -2285,13 +4041,26 @@ $dbStatus = checkDatabaseStatus();
             try {
                 const res = await fetch(`${API_BASE}/wellheads.php`, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ id, ssvOpen: newOpen, actionDescription: `Maniobra Válvula SSV: ${newOpen ? 'Apertura' : 'Cierre'}` })
+                    headers: getAuthHeaders(),
+                    body: JSON.stringify({
+                        id,
+                        ssvOpen: newOpen,
+                        actionDescription: `Maniobra Válvula SSV: ${newOpen ? 'Apertura' : 'Cierre'} (ToggleSsvCommand)`,
+                        userName: currentOperator.name,
+                        userCode: currentOperator.code,
+                        roleName: currentOperator.roleName
+                    })
                 });
                 const result = await res.json();
                 if (result.success) {
+                    recordCommand({ wellId: id, name: 'ToggleSsvCommand', previous: !newOpen, target: newOpen, time: new Date().toLocaleTimeString() });
                     showToast(`Válvula SSV ${newOpen ? 'Abierta' : 'Cerrada'} en MySQL`);
                     loadAllData();
+                    loadAuditLogs();
+                } else if (result.interlockActive) {
+                    showToast(`⚠️ ENCLAVAMIENTO STATE: ${result.error}`, true);
+                } else {
+                    showToast(result.error || "Error operando válvula", true);
                 }
             } catch (e) {
                 showToast("Error de conexión", true);
@@ -2302,8 +4071,15 @@ $dbStatus = checkDatabaseStatus();
             try {
                 const res = await fetch(`${API_BASE}/wellheads.php`, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ id, chemicalInjection: newChem, actionDescription: `Inyección química ${newChem ? 'Activada' : 'Detenida'}` })
+                    headers: getAuthHeaders(),
+                    body: JSON.stringify({
+                        id,
+                        chemicalInjection: newChem,
+                        actionDescription: `Inyección química ${newChem ? 'Activada' : 'Detenida'}`,
+                        userName: currentOperator.name,
+                        userCode: currentOperator.code,
+                        roleName: currentOperator.roleName
+                    })
                 });
                 const result = await res.json();
                 if (result.success) {
@@ -2315,7 +4091,7 @@ $dbStatus = checkDatabaseStatus();
             }
         }
 
-        // 3. Render Alarmas con Filtros
+        // 3. Render Alarmas con Filtros y Acuse Trazable ISA-18.2
         function filterAlarms(crit, chip) {
             currentAlarmFilter = crit;
             document.querySelectorAll('#tab-alarms .filter-chip').forEach(c => c.classList.remove('active'));
@@ -2346,7 +4122,7 @@ $dbStatus = checkDatabaseStatus();
                         <td style="font-family: var(--font-mono);">${a.value}</td>
                         <td><span style="color: ${a.severity === 'critical' ? '#f43f5e' : a.severity === 'warning' ? '#f59e0b' : '#34d399'}; font-weight: bold;">${a.severity.toUpperCase()}</span></td>
                         <td>
-                            <button class="btn-ack ${a.acknowledged ? 'disabled' : ''}" onclick="ackAlarm('${a.id}')">
+                            <button class="btn-ack ${a.acknowledged ? 'disabled' : ''}" onclick="openAckModal('${a.id}', '${a.tag}', '${a.severity}', '${a.value}', '${a.threshold}')">
                                 ${a.acknowledged ? '✓ RECONOCIDA' : 'RECONOCER'}
                             </button>
                         </td>
@@ -2385,7 +4161,7 @@ $dbStatus = checkDatabaseStatus();
                         <td>${a.acknowledged ? '<span style="color: #34d399;">RECONOCIDA</span>' : '<span style="color: #f43f5e; font-weight: bold;">PENDIENTE</span>'}</td>
                         <td>${a.acknowledgedBy || '-'}</td>
                         <td>
-                            <button class="btn-ack ${a.acknowledged ? 'disabled' : ''}" onclick="ackAlarm('${a.id}')">
+                            <button class="btn-ack ${a.acknowledged ? 'disabled' : ''}" onclick="openAckModal('${a.id}', '${a.tag}', '${a.severity}', '${a.value}', '${a.threshold}')">
                                 ${a.acknowledged ? '✓ RECONOCIDA' : 'RECONOCER'}
                             </button>
                         </td>
@@ -2394,34 +4170,22 @@ $dbStatus = checkDatabaseStatus();
             }
         }
 
-        async function ackAlarm(id) {
-            try {
-                const res = await fetch(`${API_BASE}/alarms.php`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ id, acknowledgedBy: 'M. Conde Dussan (Operador)' })
-                });
-                const result = await res.json();
-                if (result.success) {
-                    showToast(`Alarma ${id} reconocida y guardada en MySQL`);
-                    loadAllData();
-                }
-            } catch (e) {
-                showToast("Error reconociendo alarma", true);
-            }
-        }
-
         async function ackAllAlarms() {
             try {
                 const res = await fetch(`${API_BASE}/alarms.php`, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ action: 'ack_all', acknowledgedBy: 'M. Conde Dussan (Operador)' })
+                    headers: getAuthHeaders(),
+                    body: JSON.stringify({
+                        action: 'ack_all',
+                        acknowledgedBy: currentOperator.name,
+                        operatorCode: currentOperator.code
+                    })
                 });
                 const result = await res.json();
                 if (result.success) {
-                    showToast(`Todas las alarmas reconocidas exitosamente`);
+                    showToast(`Todas las alarmas reconocidas bajo protocolo ISA-18.2`);
                     loadAllData();
+                    loadAuditLogs();
                 }
             } catch (e) {
                 showToast("Error de conexión", true);
@@ -2489,29 +4253,220 @@ $dbStatus = checkDatabaseStatus();
 
         // 6. ESD Emergency Trip
         async function toggleEsd() {
-            if (!confirm("⚠️ ADVERTENCIA CRÍTICA:\n¿Está seguro de activar la Parada de Emergencia ESD-1?\nSe cerrarán todas las válvulas SSV y se estrangularán los pozos.")) {
+            if (!confirm("⚠️ ADVERTENCIA CRÍTICA:\n¿Está seguro de activar la Parada de Emergencia ESD-1?\nSe cerrarán todas las válvulas SSV y se aislarán los pozos.")) {
                 return;
             }
 
             try {
                 const res = await fetch(`${API_BASE}/esd.php`, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ action: 'trip', userName: 'M. Conde Dussan' })
+                    headers: getAuthHeaders(),
+                    body: JSON.stringify({ action: 'trip', userName: currentOperator.name, userCode: currentOperator.code })
                 });
                 const result = await res.json();
                 if (result.success) {
                     showToast("🚨 ESD-1 ACTIVADO: Pozos y válvulas aislados en MySQL", true);
                     loadAllData();
+                    loadAuditLogs();
+                } else if (result.securityViolation) {
+                    showToast(`⛔ RBAC DENEGADO: ${result.error}`, true);
                 }
             } catch (e) {
                 showToast("Error de comunicación", true);
             }
         }
 
-        // Inicializar plataforma
+        // 7. Pruebas en vivo de Patrones PHP vía API REST
+        async function testPatternPhp(actionName, outputElementId, extraParams = {}) {
+            const outEl = document.getElementById(outputElementId);
+            if (outEl) {
+                outEl.style.display = 'block';
+                outEl.textContent = 'Ejecutando patrón/mitigación en PHP...';
+            }
+
+            try {
+                const res = await fetch(`${API_BASE}/patterns.php`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action: actionName, ...extraParams })
+                });
+                const json = await res.json();
+                if (outEl) {
+                    outEl.innerHTML = `<strong>✓ Resultado:</strong> ${json.explanation || 'Ejecutado con éxito'}<br><pre style="margin-top:0.3rem; color:#cbd5e1; font-size:0.65rem;">${JSON.stringify(json.diagnostics || json.executionResult || json.results || json.comparison || json, null, 2)}</pre>`;
+                }
+            } catch (err) {
+                if (outEl) outEl.textContent = 'Error invocando API de patrones: ' + err.message;
+            }
+        }
+
+        // 8. Generador en vivo de JWT desde PHP
+        async function generateJwtFromPhp() {
+            const selectEl = document.getElementById('jwtOperatorSelect');
+            const code = selectEl ? selectEl.value : 'OP-449';
+            const outBox = document.getElementById('jwtLiveOutput');
+            const tokenStr = document.getElementById('jwtTokenString');
+            const payloadDetails = document.getElementById('jwtPayloadDetails');
+
+            try {
+                const res = await fetch(`${API_BASE}/login.php`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ employeeCode: code, ttl: 28800 })
+                });
+                const data = await res.json();
+                if (data.success && data.token) {
+                    activeJwtToken = data.token;
+                    localStorage.setItem('mapaf_jwt_token', activeJwtToken);
+
+                    if (outBox) outBox.style.display = 'block';
+                    if (tokenStr) tokenStr.textContent = data.token;
+                    if (payloadDetails) {
+                        payloadDetails.innerHTML = `
+                            <strong>Operador:</strong> ${data.user.fullName} (${data.user.employeeCode})<br>
+                            <strong>Rol:</strong> ${data.user.roleName} [${data.user.roleCode}]<br>
+                            <strong>Sector:</strong> ${data.user.sector}<br>
+                            <strong>Permisos Autorizados:</strong> ${data.user.permissionsCount} permisos RBAC<br>
+                            <strong>Expira en:</strong> ${data.expiresAt}
+                        `;
+                    }
+                    showToast("Token JWT emitido y sincronizado en sesión activa");
+                } else {
+                    showToast("Error generando JWT: " + (data.error || 'Fallo desconocido'), true);
+                }
+            } catch (err) {
+                showToast("Error de conexión con /api/login.php", true);
+            }
+        }
+
+        // 9. Funciones de Infraestructura y Topología SCADA
+        async function pingInfrastructure() {
+            const t0 = performance.now();
+            const latencyEl = document.getElementById('infraLiveLatency');
+            const badgeEl = document.getElementById('infraPingBadge');
+
+            if (latencyEl) latencyEl.textContent = 'Midiendo...';
+
+            try {
+                const res = await fetch(`${API_BASE}/status.php?format=json`);
+                const data = await res.json();
+                const latency = Math.round(performance.now() - t0);
+
+                if (latencyEl) {
+                    latencyEl.textContent = `${latency} ms`;
+                    latencyEl.style.color = latency < 50 ? '#34d399' : latency < 150 ? '#f59e0b' : '#f43f5e';
+                }
+
+                if (badgeEl) {
+                    badgeEl.textContent = `${latency} MS LATENCIA`;
+                }
+
+                showToast(`⚡ INFRAESTRUCTURA SALUDABLE: Apache + PHP + MySQL (${latency} ms)`);
+            } catch(e) {
+                if (latencyEl) {
+                    latencyEl.textContent = 'Error';
+                    latencyEl.style.color = '#f43f5e';
+                }
+                showToast("Fallo de comunicación con /api/status.php", true);
+            }
+        }
+
+        const FLOW_DEFINITIONS = {
+            choke: {
+                title: "Flujo A: Maniobra de Estrangulador (Choke) con Capacidad de Reversión (UNDO)",
+                domain: "WELLHEAD-CTX · API 6A",
+                pattern: "GoF Command Pattern con Historial de Rollback",
+                steps: [
+                    { num: 1, layer: "Capa 6 (HMI Web)", title: "Acción del Operador", desc: "El operador desliza el estrangulador a una nueva consigna (ej. 68.5%) o pulsa 'Deshacer Maniobra'." },
+                    { num: 2, layer: "Capa 3 (API Gateway)", title: "Transmisión HTTP/JSON", desc: "Se emite petición POST /api/wellheads.php con payload JSON y cabecera 'Authorization: Bearer <token>'." },
+                    { num: 3, layer: "Capa 4 (Seguridad JWT)", title: "Validación RBAC", desc: "JwtService::requirePermission('control_choke') verifica la firma criptográfica y autoriza al usuario." },
+                    { num: 4, layer: "Capa 4 (Patrón Command)", title: "Encapsulamiento GoF", desc: "Se instancia SetChokeCommand($wellId, $prev, $target), registrando el valor anterior para revertir si es necesario." },
+                    { num: 5, layer: "Capa 5 (Persistencia MySQL)", title: "Transacción Relacional", desc: "WellheadRepository ejecuta Prepared Statement: UPDATE pozos SET apertura_choke = :target WHERE id = :id." },
+                    { num: 6, layer: "Capa 5 (Auditoría Forense)", title: "Registro 21 CFR Part 11", desc: "AuditRepository inserta un registro inmutable en bitacora_auditoria con firma del operador." },
+                    { num: 7, layer: "Capa 6 (HMI Dashboard)", title: "Confirmación Reactiva", desc: "El servidor retorna HTTP 200 { success: true, canUndo: true } y el HMI actualiza el widget con botón UNDO activo." }
+                ]
+            },
+            alarm: {
+                title: "Flujo B: Transgresión de Presión y Notificación Desacoplada (ISA-18.2)",
+                domain: "ALARMS-CTX · ANSI/ISA-18.2",
+                pattern: "GoF Observer Pattern & Escudo Antipatrón Blind ACK",
+                steps: [
+                    { num: 1, layer: "Capa 1 (Campo)", title: "Lectura Física de Instrumento", desc: "Transmisor de presión PT-101 detecta sobrepresión en cabezal (ej. 2,450 PSI superando límite de 2,100 PSI)." },
+                    { num: 2, layer: "Capa 2 (Pasarela IIoT)", title: "Adaptación de Trama", desc: "IndustrialProtocolAdapter decodifica el registro Modbus binario hacia la entidad TelemetryEvent." },
+                    { num: 3, layer: "Capa 4 (Patrón Observer)", title: "Notificación Reactiva", desc: "TelemetrySubject dispara simultáneamente a AlarmTriggerObserver, AuditLoggerObserver y SafetyInterlockObserver." },
+                    { num: 4, layer: "Capa 5 (Persistencia MySQL)", title: "Inserción de Alarma", desc: "AlarmRepository inserta la alarma en tabla 'alarmas' con severidad CRITICAL y estado reconocida = 0." },
+                    { num: 5, layer: "Capa 6 (HMI Web)", title: "Alerta Operacional", desc: "El panel RTOC despliega el parpadeo en rojo y actualiza el contador de alarmas no reconocidas." },
+                    { num: 6, layer: "Capa 4 (Escudo Antipatrón)", title: "Protocolo de Acuse Trazable", desc: "El operador abre el modal ISA-18.2; el sistema exige obligatoriamente la causa técnica antes de silenciar." }
+                ]
+            },
+            jwt: {
+                title: "Flujo C: Autenticación Criptográfica JWT y Enlace RBAC",
+                domain: "IDENTITY-CTX · RFC 7519",
+                pattern: "Arquitectura de Seguridad Basada en Tokens Claims",
+                steps: [
+                    { num: 1, layer: "Capa 6 (HMI Web)", title: "Inicio de Turno", desc: "El operador selecciona su credencial de turno en el conmutador superior (ej. OP-449 o ENG-204)." },
+                    { num: 2, layer: "Capa 3 (API Gateway)", title: "Petición de Login", desc: "El navegador envía POST /api/login.php con el código de empleado y tiempo de expiración TTL." },
+                    { num: 3, layer: "Capa 5 (Persistencia MySQL)", title: "Consulta de Credenciales", desc: "El backend consulta las tablas 'usuarios' y 'roles' para obtener los permisos autorizados." },
+                    { num: 4, layer: "Capa 4 (Criptografía PHP)", title: "Emisión de Token JWT", desc: "JwtService genera Header (HS256) + Payload (Claims, exp, nbf) y calcula la firma criptográfica con clave secreta." },
+                    { num: 5, layer: "Capa 6 (Almacenamiento Local)", title: "Sincronización de Sesión", desc: "El frontend recibe el token Bearer y lo almacena en localStorage para inyectarlo en cada operación." }
+                ]
+            },
+            esd: {
+                title: "Flujo D: Parada de Emergencia ESD-1 y Aislamiento de Planta (IEC 61511)",
+                domain: "SAFETY-CTX · IEC 61511 / ISA-84",
+                pattern: "GoF State Pattern & Enclavamiento de Seguridad",
+                steps: [
+                    { num: 1, layer: "Capa 6 (HMI Web)", title: "Pulsación de Botón ESD-1", desc: "El operador o el sistema instrumentado activa la Parada de Emergencia ESD-1." },
+                    { num: 2, layer: "Capa 3 (API Gateway)", title: "Transmisión de Seguridad", desc: "Se emite POST /api/esd.php con firma del operador y autorización verificada." },
+                    { num: 3, layer: "Capa 4 (Patrón State)", title: "Enclavamiento API 6A", desc: "La máquina de estados conmuta los pozos a estado DISPARADO (TRIPPED), bloqueando maniobras manuales." },
+                    { num: 4, layer: "Capa 5 (Persistencia MySQL)", title: "Aislamiento en Base de Datos", desc: "Se ejecuta UPDATE pozos SET valvula_ssv_abierta = 0, apertura_choke = 0, estado = 'DISPARADO'." },
+                    { num: 5, layer: "Capa 5 (Auditoría Forense)", title: "Trazabilidad Crítica", desc: "Se inserta registro de máxima prioridad en 'bitacora_auditoria' para investigación posterior." },
+                    { num: 6, layer: "Capa 6 (HMI Dashboard)", title: "Bloqueo Seguro", desc: "El HMI muestra el banner rojo de enclavamiento; se requiere pulsar 'Rearmar Pozo' para volver a operar." }
+                ]
+            }
+        };
+
+        function renderDataFlow(flowKey) {
+            const flow = FLOW_DEFINITIONS[flowKey] || FLOW_DEFINITIONS.choke;
+            document.querySelectorAll('.flow-pill-btn').forEach(btn => btn.classList.remove('active'));
+            const activeBtn = document.getElementById(`btn-flow-${flowKey}`);
+            if (activeBtn) activeBtn.classList.add('active');
+
+            const container = document.getElementById('flowTraceContainer');
+            if (!container) return;
+
+            container.innerHTML = `
+                <div style="margin-bottom: 0.85rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.6rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
+                    <div>
+                        <strong style="color: #38bdf8; font-size: 0.95rem;">${flow.title}</strong>
+                        <div style="font-size: 0.72rem; color: var(--text-muted); font-family: var(--font-mono); margin-top: 0.2rem;">
+                            Dominio: <span style="color: #34d399;">${flow.domain}</span> · Patrón: <span style="color: #c084fc;">${flow.pattern}</span>
+                        </div>
+                    </div>
+                    <span class="badge-pulse badge-pulse-green">PASO A PASO VERIFICADO</span>
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                    ${flow.steps.map(s => `
+                        <div class="flow-step-item">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.25rem;">
+                                <strong style="color: #fff;">${s.num}. ${s.title}</strong>
+                                <span style="color: #38bdf8; font-size: 0.7rem; font-weight: bold;">[${s.layer}]</span>
+                            </div>
+                            <div style="color: #94a3b8; font-size: 0.72rem; line-height: 1.4;">
+                                ${s.desc}
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        // Inicializar plataforma con JWT por defecto
+        switchOperatorRole('OP-449');
         loadAllData();
+        renderDataFlow('choke');
+        pingInfrastructure();
         setInterval(loadAllData, 3000);
+        setInterval(pingInfrastructure, 15000);
     </script>
 </body>
 </html>

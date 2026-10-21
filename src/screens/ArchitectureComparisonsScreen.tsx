@@ -17,7 +17,7 @@ import {
 } from 'lucide-react';
 
 export const ArchitectureComparisonsScreen: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<'microservices' | 'database' | 'modes' | 'alarms' | 'schematics'>('microservices');
+  const [activeTab, setActiveTab] = useState<'microservices' | 'database' | 'modes' | 'alarms' | 'schematics' | 'patterns'>('microservices');
 
   return (
     <div className="flex-1 flex flex-col gap-5 p-4 lg:p-6 max-w-[1780px] mx-auto w-full overflow-y-auto font-sans">
@@ -92,6 +92,16 @@ export const ArchitectureComparisonsScreen: React.FC = () => {
             }`}
           >
             Diagramas Técnicos P&ID
+          </button>
+          <button
+            onClick={() => setActiveTab('patterns')}
+            className={`px-3 py-1.5 rounded transition-all ${
+              activeTab === 'patterns'
+                ? 'bg-indigo-600 text-white font-bold shadow'
+                : 'text-slate-400 hover:text-slate-200'
+            }`}
+          >
+            Patrones & Antipatrones (GoF)
           </button>
         </div>
       </div>
@@ -424,6 +434,88 @@ export const ArchitectureComparisonsScreen: React.FC = () => {
                 <text x="30" y="234" fontFamily="'JetBrains Mono', monospace" fontSize="8" fill="#94a3b8">CASING-101B (Anular)</text>
                 <text x="30" y="244" fontFamily="'JetBrains Mono', monospace" fontSize="9" fill="#fbbf24" fontWeight="bold">642.0 PSI · Aviso</text>
               </svg>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 6. PATRONES & ANTIPATRONES (GoF) */}
+      {activeTab === 'patterns' && (
+        <div className="space-y-5 animate-fadeIn">
+          <div className="p-4 bg-indigo-950/20 border-l-4 border-indigo-500 rounded-r-xl text-xs text-slate-300">
+            <strong>Criterio de Evaluación SENA (Ficha 3413988):</strong> La implementación de patrones de diseño GoF (Creacionales, Estructurales, Comportamiento) y la mitigación de los 8 antipatrones críticos garantiza alta cohesión, bajo acoplamiento, seguridad operacional en pozos y cumplimiento de normas ISA-18.2, API 6A y RFC 7519 (JWT).
+          </div>
+
+          <div className="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow-lg">
+            <div className="p-4 bg-slate-950/80 border-b border-slate-800 flex justify-between items-center">
+              <h2 className="font-display text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
+                <Cpu className="w-4 h-4 text-indigo-400" />
+                Matriz Resumen de Patrones GoF y Antipatrones en MAPAF SCADA
+              </h2>
+              <span className="text-[11px] font-mono-data text-emerald-400">ACTIVIDAD 3 & 4 ADSO</span>
+            </div>
+
+            <div className="overflow-x-auto">
+              <table className="w-full text-left text-xs text-slate-300 border-collapse">
+                <thead>
+                  <tr className="bg-slate-950/40 border-b border-slate-800 text-[11px] font-mono-data uppercase text-slate-400">
+                    <th className="p-3.5">Patrón GoF</th>
+                    <th className="p-3.5 text-sky-400">Tipo</th>
+                    <th className="p-3.5 text-rose-400">Antipatrón que Evita</th>
+                    <th className="p-3.5 text-emerald-400">Implementación en MAPAF</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-800/60 font-sans">
+                  <tr className="hover:bg-slate-800/30">
+                    <td className="p-3.5 font-bold text-white">Singleton</td>
+                    <td className="p-3.5"><span className="text-[10px] font-mono-data bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded border border-emerald-500/20">Creacional</span></td>
+                    <td className="p-3.5 text-rose-300">Polling Flood & Fuga de Conexiones</td>
+                    <td className="p-3.5 font-mono-data text-slate-300"><code>DatabaseSingleton.php</code> (Conexión PDO única compartida a MySQL mapaf_db)</td>
+                  </tr>
+                  <tr className="hover:bg-slate-800/30">
+                    <td className="p-3.5 font-bold text-white">Factory Method</td>
+                    <td className="p-3.5"><span className="text-[10px] font-mono-data bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded border border-emerald-500/20">Creacional</span></td>
+                    <td className="p-3.5 text-rose-300">Hardcoded Types & Código Espagueti</td>
+                    <td className="p-3.5 font-mono-data text-slate-300"><code>SensorFactory.php</code> (Instancia PT, TT, FT, VFD con calibración ISA-18.2)</td>
+                  </tr>
+                  <tr className="hover:bg-slate-800/30">
+                    <td className="p-3.5 font-bold text-white">Observer</td>
+                    <td className="p-3.5"><span className="text-[10px] font-mono-data bg-sky-500/10 text-sky-400 px-2 py-0.5 rounded border border-sky-500/20">Comportamiento</span></td>
+                    <td className="p-3.5 text-rose-300">Acoplamiento Fuerte entre Telemetría y Alarmas</td>
+                    <td className="p-3.5 font-mono-data text-slate-300"><code>TelemetrySubject.php</code> (Emite lecturas reactivas a alarmas, bitácora y SIS)</td>
+                  </tr>
+                  <tr className="hover:bg-slate-800/30">
+                    <td className="p-3.5 font-bold text-white">Command</td>
+                    <td className="p-3.5"><span className="text-[10px] font-mono-data bg-sky-500/10 text-sky-400 px-2 py-0.5 rounded border border-sky-500/20">Comportamiento</span></td>
+                    <td className="p-3.5 text-rose-300">Maniobras Irreversibles sin Auditoría</td>
+                    <td className="p-3.5 font-mono-data text-slate-300"><code>ScadaCommand.php</code> (Ajuste de Choke y Válvulas con función UNDO y firma JWT)</td>
+                  </tr>
+                  <tr className="hover:bg-slate-800/30">
+                    <td className="p-3.5 font-bold text-white">Strategy</td>
+                    <td className="p-3.5"><span className="text-[10px] font-mono-data bg-purple-500/10 text-purple-400 px-2 py-0.5 rounded border border-purple-500/20">Comportamiento</span></td>
+                    <td className="p-3.5 text-rose-300">Golden Hammer en Cálculo de Producción</td>
+                    <td className="p-3.5 font-mono-data text-slate-300"><code>FlowCalculationStrategy.php</code> (Coriolis AGA-11, Placa AGA-3, Beggs & Brill)</td>
+                  </tr>
+                  <tr className="hover:bg-slate-800/30">
+                    <td className="p-3.5 font-bold text-white">State</td>
+                    <td className="p-3.5"><span className="text-[10px] font-mono-data bg-sky-500/10 text-sky-400 px-2 py-0.5 rounded border border-sky-500/20">Comportamiento</span></td>
+                    <td className="p-3.5 text-rose-300">Bypass sin Enclavamiento (IEC 61511)</td>
+                    <td className="p-3.5 font-mono-data text-slate-300"><code>WellheadState.php</code> (Ciclo de pozo API 6A: Cerrado, Produciendo, Disparado)</td>
+                  </tr>
+                  <tr className="hover:bg-slate-800/30">
+                    <td className="p-3.5 font-bold text-white">Adapter</td>
+                    <td className="p-3.5"><span className="text-[10px] font-mono-data bg-teal-500/10 text-teal-400 px-2 py-0.5 rounded border border-teal-500/20">Estructural</span></td>
+                    <td className="p-3.5 text-rose-300">Incompatibilidad de Protocolos Legacy</td>
+                    <td className="p-3.5 font-mono-data text-slate-300"><code>IndustrialProtocolAdapter.php</code> (Conversor Modbus RTU binario y OPC-UA a JSON)</td>
+                  </tr>
+                  <tr className="hover:bg-slate-800/30">
+                    <td className="p-3.5 font-bold text-white">Repository</td>
+                    <td className="p-3.5"><span className="text-[10px] font-mono-data bg-amber-500/10 text-amber-400 px-2 py-0.5 rounded border border-amber-500/20">Arquitectónico</span></td>
+                    <td className="p-3.5 text-rose-300">The God Object & Inyección SQL</td>
+                    <td className="p-3.5 font-mono-data text-slate-300"><code>ScadaRepositories.php</code> (Desacopla SQL PDO de controladores REST)</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
         </div>

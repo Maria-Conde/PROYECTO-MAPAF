@@ -1,7 +1,7 @@
 import React from 'react';
 import { AlertOctagon, Volume2, VolumeX, Shield, Database } from 'lucide-react';
 
-export type ScreenId = 'overview' | 'wellheads' | 'alarms' | 'historian' | 'facility' | 'roles' | 'comparisons';
+export type ScreenId = 'overview' | 'wellheads' | 'alarms' | 'historian' | 'facility' | 'roles' | 'comparisons' | 'patterns';
 
 interface HeaderProps {
   currentScreen: ScreenId;
@@ -32,6 +32,7 @@ export const Header: React.FC<HeaderProps> = ({
     { id: 'wellheads', label: 'Pozos y Válvulas' },
     { id: 'alarms', label: 'Alarmas', badge: unacknowledgedCount },
     { id: 'facility', label: 'Vistas de Planta' },
+    { id: 'patterns', label: 'Patrones & Dominios' },
     { id: 'comparisons', label: 'Comparativas & Guía' },
     { id: 'historian', label: 'Historiador' },
     { id: 'roles', label: 'Seguridad y Roles' },

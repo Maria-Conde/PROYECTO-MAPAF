@@ -12,7 +12,9 @@ import {
   AuditLogEntry,
 } from '../types/scada';
 
-const API_BASE_URL = 'http://localhost/mapaf/api';
+let CURRENT_API_BASE_URL = 'http://localhost/mapaf/api';
+
+export const getApiBaseUrl = () => CURRENT_API_BASE_URL;
 
 export interface XamppStatus {
   connected: boolean;
@@ -23,6 +25,7 @@ export interface XamppStatus {
   tables?: string[];
   serverTime?: string;
   error?: string;
+  endpointUsed?: string;
 }
 
 export interface SyncDataResponse {
@@ -46,34 +49,48 @@ export interface SyncDataResponse {
 
 export const mapafApi = {
   /**
-   * Verifica el estado de salud del servidor XAMPP, PHP y MySQL
+   * Verifica el estado de salud del servidor XAMPP, PHP y MySQL.
+   * Auto-detecta si el servidor está en puerto 80 (Apache) o puerto 8080 (PHP directo).
    */
   async checkStatus(): Promise<XamppStatus> {
-    try {
-      const res = await fetch(`${API_BASE_URL}/status.php`, {
-        method: 'GET',
-        headers: { Accept: 'application/json' },
-      });
-      if (!res.ok) {
-        return { connected: false, error: `HTTP ${res.status}: Servidor XAMPP no responde adecuadamente.` };
+    const candidateUrls = [
+      'http://localhost/mapaf/api',
+      'http://localhost:8080/api',
+      'http://localhost:8080/mapaf/api',
+    ];
+
+    for (const baseUrl of candidateUrls) {
+      try {
+        const res = await fetch(`${baseUrl}/status.php`, {
+          method: 'GET',
+          headers: { Accept: 'application/json' },
+          signal: AbortSignal.timeout(1500),
+        });
+
+        if (res.ok) {
+          const data = await res.json();
+          CURRENT_API_BASE_URL = baseUrl;
+          return {
+            connected: data.mysql?.connected ?? false,
+            phpVersion: data.php?.version,
+            mysqlVersion: data.mysql?.version,
+            database: data.mysql?.database,
+            tablesCount: data.mysql?.tables_count,
+            tables: data.mysql?.tables,
+            serverTime: data.server_time,
+            error: data.mysql?.error,
+            endpointUsed: baseUrl,
+          };
+        }
+      } catch {
+        // Intentar siguiente URL
       }
-      const data = await res.json();
-      return {
-        connected: data.mysql?.connected ?? false,
-        phpVersion: data.php?.version,
-        mysqlVersion: data.mysql?.version,
-        database: data.mysql?.database,
-        tablesCount: data.mysql?.tables_count,
-        tables: data.mysql?.tables,
-        serverTime: data.server_time,
-        error: data.mysql?.error,
-      };
-    } catch (err: any) {
-      return {
-        connected: false,
-        error: 'No se pudo conectar a http://localhost/mapaf/api/. Verifica que Apache y MySQL estén iniciados en XAMPP.',
-      };
     }
+
+    return {
+      connected: false,
+      error: 'No se pudo conectar ni a http://localhost/mapaf/api/ (Apache) ni a http://localhost:8080/api/ (PHP directo).',
+    };
   },
 
   /**
@@ -81,7 +98,7 @@ export const mapafApi = {
    */
   async fetchSyncData(): Promise<SyncDataResponse | null> {
     try {
-      const res = await fetch(`${API_BASE_URL}/sync.php`, {
+      const res = await fetch(`${CURRENT_API_BASE_URL}/sync.php`, {
         method: 'GET',
         headers: { Accept: 'application/json' },
       });
@@ -112,7 +129,7 @@ export const mapafApi = {
     roleName?: string;
   }): Promise<boolean> {
     try {
-      const res = await fetch(`${API_BASE_URL}/wellheads.php`, {
+      const res = await fetch(`${CURRENT_API_BASE_URL}/wellheads.php`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(params),
@@ -129,7 +146,7 @@ export const mapafApi = {
    */
   async acknowledgeAlarm(id: string, acknowledgedBy: string): Promise<boolean> {
     try {
-      const res = await fetch(`${API_BASE_URL}/alarms.php`, {
+      const res = await fetch(`${CURRENT_API_BASE_URL}/alarms.php`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ id, acknowledgedBy }),
@@ -146,7 +163,7 @@ export const mapafApi = {
    */
   async acknowledgeAllAlarms(acknowledgedBy: string): Promise<boolean> {
     try {
-      const res = await fetch(`${API_BASE_URL}/alarms.php`, {
+      const res = await fetch(`${CURRENT_API_BASE_URL}/alarms.php`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ action: 'ack_all', acknowledgedBy }),
@@ -163,7 +180,7 @@ export const mapafApi = {
    */
   async setEsdState(action: 'trip' | 'reset', userName: string): Promise<boolean> {
     try {
-      const res = await fetch(`${API_BASE_URL}/esd.php`, {
+      const res = await fetch(`${CURRENT_API_BASE_URL}/esd.php`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ action, userName }),
@@ -190,7 +207,7 @@ export const mapafApi = {
     details: string;
   }): Promise<boolean> {
     try {
-      const res = await fetch(`${API_BASE_URL}/audit.php`, {
+      const res = await fetch(`${CURRENT_API_BASE_URL}/audit.php`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(entry),
@@ -207,7 +224,7 @@ export const mapafApi = {
    */
   async saveRolePermissions(roleId: string, permissions: string[]): Promise<boolean> {
     try {
-      const res = await fetch(`${API_BASE_URL}/roles.php`, {
+      const res = await fetch(`${CURRENT_API_BASE_URL}/roles.php`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ id: roleId, permissions }),
@@ -224,7 +241,7 @@ export const mapafApi = {
    */
   async saveUser(user: SecurityUser): Promise<boolean> {
     try {
-      const res = await fetch(`${API_BASE_URL}/users.php`, {
+      const res = await fetch(`${CURRENT_API_BASE_URL}/users.php`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(user),

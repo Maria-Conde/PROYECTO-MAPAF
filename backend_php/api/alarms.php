@@ -51,33 +51,67 @@ if ($method === 'POST') {
         $count = $stmt->rowCount();
 
         // Registrar en auditoría
-        $auditStmt = $pdo->prepare("INSERT INTO `bitacora_auditoria` (`id`, `timestamp_log`, `codigo_usuario`, `nombre_usuario`, `nombre_rol`, `accion`, `categoria`, `estado`, `detalles`) VALUES (:id, :time, 'OP-449', :uname, 'Operador', 'Reconocimiento Masivo de Alarmas (ACK ALL)', 'ALARMA', 'EXITOSO', :details)");
+        $auditStmt = $pdo->prepare("INSERT INTO `bitacora_auditoria` (`id`, `timestamp_log`, `codigo_usuario`, `nombre_usuario`, `nombre_rol`, `accion`, `categoria`, `estado`, `detalles`) VALUES (:id, :time, :code, :uname, 'Operador', 'Reconocimiento Masivo de Alarmas (ACK ALL)', 'ALARMA', 'EXITOSO', :details)");
         $auditStmt->execute([
             ':id' => 'aud-' . substr(strval(time()), -5) . rand(10, 99),
             ':time' => $ackTimestamp,
+            ':code' => $data['operatorCode'] ?? 'OP-449',
             ':uname' => $acknowledgedBy,
-            ':details' => "Se reconocieron {$count} alarmas activas simultáneamente en consola."
+            ':details' => "Se reconocieron {$count} alarmas activas simultáneamente bajo norma ISA-18.2."
         ]);
 
         sendJsonResponse(['success' => true, 'message' => "Todas las alarmas ({$count}) han sido reconocidas.", 'count' => $count]);
     } else {
         $alarmId = $data['id'] ?? null;
+        $reason = trim($data['reason'] ?? '');
+        $operatorCode = $data['operatorCode'] ?? 'OP-449';
+        $roleName = $data['roleName'] ?? 'Operador';
+
         if (!$alarmId) {
             sendJsonResponse(['success' => false, 'error' => 'Se requiere el campo "id" de la alarma'], 400);
         }
 
-        $stmt = $pdo->prepare("UPDATE `alarmas` SET `reconocida` = 1, `reconocida_por` = :by, `ack_timestamp` = :ts WHERE `id` = :id");
-        $stmt->execute([':by' => $acknowledgedBy, ':ts' => $ackTimestamp, ':id' => $alarmId]);
+        // Detección y Mitigación de Antipatrón: Blind Alarm Acknowledgment
+        if (empty($reason)) {
+            // Registrar intento de silenciamiento ciego mitigado
+            $auditStmt = $pdo->prepare("INSERT INTO `bitacora_auditoria` (`id`, `timestamp_log`, `codigo_usuario`, `nombre_usuario`, `nombre_rol`, `accion`, `categoria`, `estado`, `detalles`) VALUES (:id, :time, :code, :uname, :rname, 'Intento de Blind ACK Bloqueado', 'SEGURIDAD', 'RECHAZADO', :details)");
+            $auditStmt->execute([
+                ':id' => 'aud-' . substr(strval(time()), -5) . rand(10, 99),
+                ':time' => $ackTimestamp,
+                ':code' => $operatorCode,
+                ':uname' => $acknowledgedBy,
+                ':rname' => $roleName,
+                ':details' => "ESCUDO ANTIPATRÓN: Se bloqueó intento de silenciar la alarma {$alarmId} sin causa técnica obligatoria (ANSI/ISA-18.2)."
+            ]);
 
-        // Registrar en auditoría
-        $auditStmt = $pdo->prepare("INSERT INTO `bitacora_auditoria` (`id`, `timestamp_log`, `codigo_usuario`, `nombre_usuario`, `nombre_rol`, `accion`, `categoria`, `estado`, `detalles`) VALUES (:id, :time, 'OP-449', :uname, 'Operador', 'Reconocimiento de Alarma Individual', 'ALARMA', 'EXITOSO', :details)");
+            sendJsonResponse([
+                'success' => false,
+                'antipatternMitigated' => 'Blind Alarm Acknowledgment (ANSI/ISA-18.2)',
+                'error' => 'ESCUDO DE CALIDAD MAPAF: No se permite silenciar alarmas sin justificación técnica obligatoria registrada en bitácora.'
+            ], 422);
+        }
+
+        $stmt = $pdo->prepare("UPDATE `alarmas` SET `reconocida` = 1, `reconocida_por` = :by, `ack_timestamp` = :ts, `causa_disparo` = :reason WHERE `id` = :id");
+        $stmt->execute([':by' => $acknowledgedBy, ':ts' => $ackTimestamp, ':reason' => $reason, ':id' => $alarmId]);
+
+        // Registrar en auditoría inmutable
+        $auditStmt = $pdo->prepare("INSERT INTO `bitacora_auditoria` (`id`, `timestamp_log`, `codigo_usuario`, `nombre_usuario`, `nombre_rol`, `accion`, `categoria`, `estado`, `detalles`) VALUES (:id, :time, :code, :uname, :rname, 'Reconocimiento Trazable ISA-18.2', 'ALARMA', 'EXITOSO', :details)");
         $auditStmt->execute([
             ':id' => 'aud-' . substr(strval(time()), -5) . rand(10, 99),
             ':time' => $ackTimestamp,
+            ':code' => $operatorCode,
             ':uname' => $acknowledgedBy,
-            ':details' => "Alarma {$alarmId} reconocida formalmente."
+            ':rname' => $roleName,
+            ':details' => "Alarma {$alarmId} reconocida formalmente. Causa/Justificación: '{$reason}'"
         ]);
 
-        sendJsonResponse(['success' => true, 'message' => "Alarma {$alarmId} reconocida exitosamente.", 'alarmId' => $alarmId]);
+        sendJsonResponse([
+            'success' => true,
+            'pattern' => 'Command & Observer ISA-18.2',
+            'domain' => 'ALARMS-CTX',
+            'message' => "Alarma {$alarmId} reconocida formalmente y registrada en bitácora.",
+            'alarmId' => $alarmId,
+            'reason' => $reason
+        ]);
     }
 }

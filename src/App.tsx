@@ -12,6 +12,7 @@ import { HistorianScreen } from './screens/HistorianScreen';
 import { FacilityVisualScreen } from './screens/FacilityVisualScreen';
 import { SecurityRolesScreen } from './screens/SecurityRolesScreen';
 import { ArchitectureComparisonsScreen } from './screens/ArchitectureComparisonsScreen';
+import { PatternsScreen } from './screens/PatternsScreen';
 import { HoldInterlockModal } from './components/HoldInterlockModal';
 import { EsdModal } from './components/EsdModal';
 import { XamppConnectionModal } from './components/XamppConnectionModal';
@@ -759,6 +760,13 @@ export default function App() {
         )}
 
         {currentScreen === 'facility' && <FacilityVisualScreen />}
+
+        {currentScreen === 'patterns' && (
+          <PatternsScreen
+            xamppConnected={xamppStatus.connected}
+            onOpenXamppModal={() => setIsXamppModalOpen(true)}
+          />
+        )}
 
         {currentScreen === 'comparisons' && <ArchitectureComparisonsScreen />}
 
