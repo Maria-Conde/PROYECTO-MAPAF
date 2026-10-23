@@ -1,5 +1,5 @@
 @echo off
-title PROYECTO MAPAF - Centro de Control de Infraestructura (XAMPP + PHP + MySQL)
+title PROYECTO MAPAF - Centro de Control (XAMPP + PHP + MySQL)
 color 0A
 cls
 
@@ -21,15 +21,15 @@ if not exist "C:\xampp" (
     exit /b
 )
 
-:: 2. Vincular archivos de backend a C:\xampp\htdocs\mapaf
+:: 2. Vincular archivos limpios a C:\xampp\htdocs\mapaf
 if not exist "C:\xampp\htdocs\mapaf" (
-    cmd /c mklink /J "C:\xampp\htdocs\mapaf" "%~dp0backend_php" 2>nul
+    cmd /c mklink /J "C:\xampp\htdocs\mapaf" "%~dp0" 2>nul
     if not exist "C:\xampp\htdocs\mapaf" (
         mkdir "C:\xampp\htdocs\mapaf"
-        xcopy /E /Y /I "%~dp0backend_php\*" "C:\xampp\htdocs\mapaf\" >nul
+        xcopy /E /Y /I /EXCLUDE:%~dp0.gitignore "%~dp0*" "C:\xampp\htdocs\mapaf\" >nul
     )
 ) else (
-    xcopy /E /Y /I /D "%~dp0backend_php\*" "C:\xampp\htdocs\mapaf\" >nul 2>nul
+    xcopy /E /Y /I /D "%~dp0*" "C:\xampp\htdocs\mapaf\" >nul 2>nul
 )
 
 :: 3. Iniciar MySQL si no esta corriendo
@@ -63,27 +63,26 @@ if not "%ERRORLEVEL%"=="0" (
 echo  ESTADO DE SERVICIOS:
 echo   - Apache (HTTP / Puerto 80) : ACTIVO
 echo   - MySQL (TCP / Puerto 3306) : ACTIVO
-echo   - Backend PHP 8.2           : VINCULADO en C:\xampp\htdocs\mapaf
-echo   - Base de Datos             : mapaf_db (8 Tablas Relacionales)
+echo   - Plataforma PHP 8.2        : VINCULADA en C:\xampp\htdocs\mapaf
+echo   - Base de Datos             : mapaf_db (Esquema Normalizado)
 echo.
 echo ======================================================================
 echo                     OPCIONES DEL SISTEMA MAPAF
 echo ======================================================================
 echo   [1] Abrir Dashboard SCADA en el Navegador (http://localhost/mapaf/)
 echo   [2] Abrir Base de Datos en phpMyAdmin
-echo   [3] Ejecutar Diagnostico CLI de Patrones, Antipatrones y Dominios
-echo   [4] Reinstalar / Restaurar Base de Datos MySQL (setup_database.php)
-echo   [5] Ver Estado de Infraestructura en JSON (api/status.php)
-echo   [6] Abrir Manual de Infraestructura (INFRAESTRUCTURA.md)
+echo   [3] Inicializar / Restaurar Base de Datos MySQL (setup_database.php)
+echo   [4] Ver Estado de Infraestructura en JSON (api/status.php)
+echo   [5] Abrir Documentacion Tecnica (README.md)
 echo   [0] Salir
 echo ======================================================================
 echo.
 
-set /p OPT="Seleccione una opcion (0-6) [Por defecto 1]: "
+set /p OPT="Seleccione una opcion (0-5) [Por defecto 1]: "
 if "%OPT%"=="" set OPT=1
 
 if "%OPT%"=="1" (
-    echo Abriendo SCADA Prototype...
+    echo Abriendo SCADA en navegador...
     start http://localhost/mapaf/
     goto MAIN_MENU
 )
@@ -96,10 +95,10 @@ if "%OPT%"=="2" (
 
 if "%OPT%"=="3" (
     cls
-    echo Ejecutando bateria de pruebas de patrones en PHP...
+    echo Inicializando y verificando base de datos mapaf_db en MySQL...
     echo.
     if exist "C:\xampp\php\php.exe" (
-        "C:\xampp\php\php.exe" "%~dp0test_all_patterns_live.php"
+        "C:\xampp\php\php.exe" "%~dp0setup_database.php"
     )
     echo.
     pause
@@ -107,24 +106,12 @@ if "%OPT%"=="3" (
 )
 
 if "%OPT%"=="4" (
-    cls
-    echo Reinstalando y verificando base de datos mapaf_db...
-    echo.
-    if exist "C:\xampp\php\php.exe" (
-        "C:\xampp\php\php.exe" "%~dp0backend_php\setup_database.php"
-    )
-    echo.
-    pause
-    goto MAIN_MENU
-)
-
-if "%OPT%"=="5" (
     start http://localhost/mapaf/api/status.php
     goto MAIN_MENU
 )
 
-if "%OPT%"=="6" (
-    start notepad "%~dp0INFRAESTRUCTURA.md"
+if "%OPT%"=="5" (
+    start notepad "%~dp0README.md"
     goto MAIN_MENU
 )
 

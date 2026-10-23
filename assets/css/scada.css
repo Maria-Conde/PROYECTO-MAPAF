@@ -1,0 +1,603 @@
+/**
+ * PROYECTO MAPAF - Hoja de Estilos SCADA Táctico Industrial (Vanilla CSS)
+ * SENA Centro de la Industria, la Empresa y los Servicios (Regional Huila)
+ * Ficha: 3413988 - ADSO
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap');
+
+:root {
+    --bg-base: #060913;
+    --bg-surface: #0a0f1d;
+    --bg-sidebar: #0b1122;
+    --bg-card: #0f172a;
+    --bg-card-hover: #15223c;
+    --border-color: #1a253c;
+    --border-highlight: #38bdf8;
+    
+    --primary: #10b981;
+    --primary-glow: rgba(16, 185, 129, 0.25);
+    --danger: #f43f5e;
+    --danger-glow: rgba(244, 63, 94, 0.35);
+    --warning: #f59e0b;
+    --warning-glow: rgba(245, 158, 11, 0.25);
+    --info: #0ea5e9;
+    --purple: #a855f7;
+
+    --text-main: #f8fafc;
+    --text-muted: #8492a6;
+    --text-dim: #4b5563;
+
+    --font-main: 'Inter', -apple-system, sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+    --font-heading: 'Space Grotesk', sans-serif;
+
+    --sidebar-width: 250px;
+    --header-height: 60px;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg-base);
+    color: var(--text-main);
+    font-family: var(--font-main);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+}
+
+/* Scrollbar personalizado */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-base); }
+::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #334155; }
+
+/* Header Superior */
+.app-header {
+    height: var(--header-height);
+    background: rgba(11, 17, 34, 0.98);
+    border-bottom: 1px solid var(--border-color);
+    padding: 0 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    backdrop-filter: blur(8px);
+}
+
+.header-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+}
+
+.brand-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--primary);
+    box-shadow: 0 0 10px var(--primary);
+    animation: pulse 2s infinite ease-in-out;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.85); }
+}
+
+.brand-title {
+    font-family: var(--font-heading);
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.brand-subtitle {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--text-muted);
+}
+
+.header-kpis {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    background: #090e1d;
+    border: 1px solid var(--border-color);
+    padding: 0.35rem 1.25rem;
+    border-radius: 999px;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+}
+
+.kpi-unit { color: var(--text-muted); font-size: 0.7rem; }
+.kpi-val { font-weight: 700; color: #fff; }
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.operator-select {
+    background: #10182c;
+    color: var(--text-main);
+    border: 1px solid var(--border-color);
+    padding: 0.45rem 0.85rem;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-family: var(--font-mono);
+    cursor: pointer;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.operator-select:hover {
+    border-color: var(--border-highlight);
+}
+
+.btn-esd-top {
+    background: var(--danger);
+    color: #fff;
+    border: none;
+    font-weight: 700;
+    padding: 0.45rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    letter-spacing: 0.05em;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    box-shadow: 0 0 12px var(--danger-glow);
+    transition: transform 0.15s, opacity 0.15s;
+}
+
+.btn-esd-top:hover {
+    transform: scale(1.02);
+    opacity: 0.95;
+}
+
+/* Layout Principal con Sidebar */
+.app-container {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+}
+
+.app-sidebar {
+    width: var(--sidebar-width);
+    background: var(--bg-sidebar);
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    padding: 1rem 0;
+    flex-shrink: 0;
+}
+
+.sidebar-category {
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    letter-spacing: 0.08em;
+    font-weight: 700;
+    padding: 0.6rem 1.25rem 0.3rem;
+}
+
+.sidebar-link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.65rem 1.25rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: all 0.2s;
+    border-left: 3px solid transparent;
+}
+
+.sidebar-link:hover {
+    background: rgba(255, 255, 255, 0.03);
+    color: #fff;
+}
+
+.sidebar-link.active {
+    background: rgba(16, 185, 129, 0.08);
+    color: var(--primary);
+    border-left-color: var(--primary);
+    font-weight: 600;
+}
+
+.app-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1.5rem;
+    background: var(--bg-base);
+}
+
+/* Banner de Alerta ESD-1 */
+.esd-alert-banner {
+    display: none;
+    background: linear-gradient(90deg, #991b1b, #7f1d1d);
+    color: #fff;
+    padding: 0.85rem 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    border: 1px solid var(--danger);
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 0 25px var(--danger-glow);
+    animation: pulse-danger 1.5s infinite;
+}
+
+@keyframes pulse-danger {
+    0%, 100% { border-color: #f43f5e; }
+    50% { border-color: #fb7185; }
+}
+
+.esd-alert-banner.active {
+    display: flex;
+}
+
+/* Tarjetas y Rejillas */
+.section-title {
+    font-family: var(--font-heading);
+    font-size: 1.15rem;
+    color: #fff;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.grid-kpis {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.grid-wells {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.scada-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 1.25rem;
+    transition: border-color 0.2s;
+}
+
+.scada-card:hover {
+    border-color: rgba(56, 189, 248, 0.4);
+}
+
+.card-header-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 0.75rem;
+}
+
+.card-tag {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--text-muted);
+}
+
+.card-name {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #fff;
+}
+
+.card-value {
+    font-family: var(--font-mono);
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #fff;
+    display: flex;
+    align-items: baseline;
+    gap: 0.35rem;
+    margin: 0.5rem 0;
+}
+
+.card-unit {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+/* Badges de Severidad y Estado */
+.badge-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.25rem 0.65rem;
+    border-radius: 999px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+}
+
+.badge-nominal { background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); }
+.badge-advisory { background: rgba(14, 165, 233, 0.15); color: #38bdf8; border: 1px solid rgba(14, 165, 233, 0.3); }
+.badge-warning { background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
+.badge-critical { background: rgba(244, 63, 94, 0.2); color: #f43f5e; border: 1px solid rgba(244, 63, 94, 0.4); animation: pulse 1s infinite; }
+
+.badge-online { background: rgba(16, 185, 129, 0.15); color: #34d399; }
+.badge-throttled { background: rgba(245, 158, 11, 0.15); color: #fbbf24; }
+.badge-tripped { background: rgba(244, 63, 94, 0.2); color: #f43f5e; }
+.badge-maintenance { background: rgba(148, 163, 184, 0.15); color: #94a3b8; }
+
+/* Controles de Pozo */
+.well-metrics {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.6rem;
+    background: #090e1d;
+    padding: 0.75rem;
+    border-radius: 6px;
+    margin: 0.85rem 0;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+}
+
+.well-metric-lbl { color: var(--text-muted); font-size: 0.7rem; }
+.well-metric-val { color: #fff; font-weight: 600; }
+
+.choke-control-row {
+    margin-top: 0.85rem;
+}
+
+.choke-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.78rem;
+    font-family: var(--font-mono);
+    margin-bottom: 0.35rem;
+}
+
+.choke-slider {
+    width: 100%;
+    accent-color: var(--primary);
+    cursor: pointer;
+}
+
+.well-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.btn-well {
+    flex: 1;
+    padding: 0.5rem;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1px solid var(--border-color);
+    background: #10182c;
+    color: var(--text-main);
+    transition: all 0.2s;
+    text-align: center;
+}
+
+.btn-well:hover {
+    background: #16223d;
+    border-color: var(--border-highlight);
+}
+
+.btn-ssv-open { border-color: rgba(16, 185, 129, 0.5); color: #34d399; }
+.btn-ssv-closed { border-color: rgba(244, 63, 94, 0.5); color: #f43f5e; }
+
+/* Tablas */
+.scada-table-container {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    overflow-x: auto;
+}
+
+.scada-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.82rem;
+    text-align: left;
+}
+
+.scada-table th {
+    background: #0b1122;
+    color: var(--text-muted);
+    padding: 0.85rem 1rem;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.scada-table td {
+    padding: 0.85rem 1rem;
+    border-bottom: 1px solid var(--border-color);
+    color: #cbd5e1;
+}
+
+.scada-table tr:hover td {
+    background: rgba(255, 255, 255, 0.02);
+}
+
+/* Modales */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(4px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+}
+
+.modal-overlay.active {
+    display: flex;
+}
+
+.modal-box {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    max-width: 520px;
+    width: 90%;
+    padding: 1.75rem;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.modal-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #fff;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+.modal-form-group {
+    margin-bottom: 1rem;
+}
+
+.modal-label {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-bottom: 0.35rem;
+    font-weight: 500;
+}
+
+.modal-input, .modal-textarea {
+    width: 100%;
+    background: #090e1d;
+    border: 1px solid var(--border-color);
+    color: #fff;
+    padding: 0.65rem 0.85rem;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    outline: none;
+}
+
+.modal-input:focus, .modal-textarea:focus {
+    border-color: var(--primary);
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+}
+
+.btn-confirm {
+    background: var(--primary);
+    color: #000;
+    border: none;
+    font-weight: 700;
+    padding: 0.6rem 1.25rem;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.btn-cancel {
+    background: #1e293b;
+    color: #fff;
+    border: none;
+    padding: 0.6rem 1.25rem;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+/* Toast Notificaciones */
+#toast-container {
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    z-index: 200;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.toast {
+    background: #0f172a;
+    border: 1px solid var(--border-color);
+    color: #fff;
+    padding: 0.85rem 1.25rem;
+    border-radius: 8px;
+    font-size: 0.82rem;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    border-left: 4px solid var(--primary);
+    animation: slideIn 0.25s ease-out;
+}
+
+.toast-error {
+    border-left-color: var(--danger);
+}
+
+@keyframes slideIn {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+/* Footer */
+.app-footer {
+    height: 38px;
+    background: #090e1d;
+    border-top: 1px solid var(--border-color);
+    padding: 0 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+}
+
+@media (max-width: 900px) {
+    .header-kpis { display: none; }
+    .app-sidebar { width: 70px; }
+    .sidebar-category { display: none; }
+    .sidebar-text { display: none; }
+    .sidebar-link { justify-content: center; padding: 0.8rem 0; }
+}

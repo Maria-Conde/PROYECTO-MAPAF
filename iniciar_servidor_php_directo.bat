@@ -16,13 +16,8 @@ if not exist "C:\xampp\php\php.exe" (
     exit /b
 )
 
-:: 2. Sincronizar archivos a C:\xampp\htdocs\mapaf
-echo [1/3] Sincronizando archivos a C:\xampp\htdocs\mapaf...
-if not exist "C:\xampp\htdocs\mapaf" mkdir "C:\xampp\htdocs\mapaf"
-xcopy /E /Y /I "%~dp0backend_php\*" "C:\xampp\htdocs\mapaf\" >nul
-
-:: 3. Iniciar MySQL si no esta activo
-echo [2/3] Verificando MySQL...
+:: 2. Iniciar MySQL si no esta activo
+echo [1/2] Verificando MySQL...
 tasklist /FI "IMAGENAME eq mysqld.exe" 2>NUL | find /I /N "mysqld.exe">NUL
 if "%ERRORLEVEL%"=="0" (
     echo  - MySQL ya esta activo en puerto 3306.
@@ -38,8 +33,8 @@ if "%ERRORLEVEL%"=="0" (
     timeout /t 2 /nobreak >nul
 )
 
-:: 4. Lanzar servidor PHP integrado en puerto 8080
-echo [3/3] Iniciando Servidor Web PHP en http://localhost:8080...
+:: 3. Lanzar servidor PHP integrado directamente desde la raiz del proyecto
+echo [2/2] Iniciando Servidor Web PHP en http://localhost:8080...
 echo.
 echo ======================================================================
 echo  SERVIDOR ACTIVO EN: http://localhost:8080
@@ -49,5 +44,5 @@ echo.
 
 start http://localhost:8080
 
-"C:\xampp\php\php.exe" -S localhost:8080 -t "C:\xampp\htdocs\mapaf"
+"C:\xampp\php\php.exe" -S localhost:8080 -t "%~dp0"
 pause

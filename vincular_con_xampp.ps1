@@ -11,7 +11,6 @@ Write-Host ""
 
 $xamppPath = "C:\xampp"
 $projectRoot = $PSScriptRoot
-$backendSource = Join-Path $projectRoot "backend_php"
 $htdocsTarget = Join-Path $xamppPath "htdocs\mapaf"
 
 # 1. Verificar existencia de C:\xampp
@@ -24,14 +23,32 @@ if (-not (Test-Path $xamppPath)) {
 Write-Host "[1/5] XAMPP detectado en: $xamppPath" -ForegroundColor Green
 
 # 2. Copiar y vincular archivos a C:\xampp\htdocs\mapaf
-Write-Host "[2/5] Vinculando y copiando archivos a $htdocsTarget..." -ForegroundColor Yellow
+Write-Host "[2/5] Vinculando archivos limpios a $htdocsTarget..." -ForegroundColor Yellow
 
 if (-not (Test-Path $htdocsTarget)) {
     New-Item -ItemType Directory -Path $htdocsTarget -Force | Out-Null
 }
 
-Copy-Item -Path "$backendSource\*" -Destination $htdocsTarget -Recurse -Force
-Write-Host "      ✓ Archivos copiados: index.php, api/, patterns/, auth/, domain/, antipatterns/" -ForegroundColor Green
+# Copiar carpetas del proyecto PHP
+$foldersToCopy = @("config", "models", "controllers", "views", "api", "assets", "sql")
+foreach ($folder in $foldersToCopy) {
+    $src = Join-Path $projectRoot $folder
+    $dst = Join-Path $htdocsTarget $folder
+    if (Test-Path $src) {
+        Copy-Item -Path $src -Destination $htdocsTarget -Recurse -Force
+    }
+}
+
+# Copiar archivos raíz
+$filesToCopy = @("index.php", "setup_database.php", ".env.example")
+foreach ($file in $filesToCopy) {
+    $src = Join-Path $projectRoot $file
+    if (Test-Path $src) {
+        Copy-Item -Path $src -Destination $htdocsTarget -Force
+    }
+}
+
+Write-Host "      ✓ Estructura MVC sincronizada en htdocs\mapaf" -ForegroundColor Green
 
 # 3. Iniciar MySQL si no está activo
 Write-Host "[3/5] Verificando servicio de Base de Datos MySQL (Puerto 3306)..." -ForegroundColor Yellow
@@ -52,7 +69,7 @@ if ($mysqlProc) {
 }
 
 # 4. Inicializar Base de Datos MySQL (mapaf_db)
-Write-Host "[4/5] Ejecutando setup_database.php para crear mapaf_db en MySQL..." -ForegroundColor Yellow
+Write-Host "[4/5] Ejecutando setup_database.php para inicializar mapaf_db..." -ForegroundColor Yellow
 $phpExe = Join-Path $xamppPath "php\php.exe"
 $setupScript = Join-Path $htdocsTarget "setup_database.php"
 
@@ -78,15 +95,6 @@ if ($apacheProc) {
     }
     Start-Sleep -Seconds 2
     Write-Host "      ✓ Apache iniciado en segundo plano." -ForegroundColor Green
-}
-
-# Abrir XAMPP Control Panel si está cerrado
-$controlProc = Get-Process -Name "xampp-control" -ErrorAction SilentlyContinue
-if (-not $controlProc) {
-    $controlExe = Join-Path $xamppPath "xampp-control.exe"
-    if (Test-Path $controlExe) {
-        Start-Process -FilePath $controlExe
-    }
 }
 
 Write-Host ""
