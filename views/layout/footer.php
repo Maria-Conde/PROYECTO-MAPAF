@@ -68,11 +68,6 @@
 <!-- Contenedor de Alertas Toast -->
 <div id="toast-container"></div>
 
-<footer class="app-footer">
-    <div>SENA Regional Huila · ADSO 3413988 · MAPAF Upstream SCADA</div>
-    <div>Apache 2.4 + PHP <?= phpversion() ?> + MariaDB/MySQL (XAMPP 3306)</div>
-</footer>
-
 <script src="assets/js/scada.js"></script>
 </body>
 </html>

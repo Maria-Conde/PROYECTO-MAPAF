@@ -23,7 +23,7 @@ $esdState = (new EsdModel())->getSystemState();
                     <span>PROYECTO MAPAF</span>
                     <span style="font-size:0.65rem; background:#1e293b; color:#38bdf8; padding:0.15rem 0.5rem; border-radius:4px; font-family:var(--font-mono); font-weight:normal;">XAMPP · PHP 8 · MySQL</span>
                 </div>
-                <div class="brand-subtitle">SENA REGIONAL HUILA · ADSO <?= SENA_FICHA ?></div>
+                <div class="brand-subtitle">SCADA UPSTREAM OIL & GAS · ESTACIÓN TERMINAL NEIVA</div>
             </div>
         </div>
 

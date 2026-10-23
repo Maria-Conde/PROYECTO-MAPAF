@@ -14,6 +14,60 @@ $wells = $pozoModel->getAll();
     </p>
 </div>
 
+<!-- Tarjeta Técnica con Imagen Isométrica de Cabezal API 6A -->
+<div class="wellhead-technical-card">
+    <div style="position:relative; overflow:hidden;">
+        <img src="assets/images/scada_wellhead_isometric.jpg" alt="Esquema Isométrico Cabezal API 6A" class="wellhead-technical-img">
+        <div style="position:absolute; bottom:0; left:0; width:100%; background:linear-gradient(180deg, transparent, rgba(15,23,42,0.95)); padding:1rem;">
+            <span class="badge-status badge-advisory" style="font-size:0.7rem;">ESQUEMA INSTRUMENTADO API 6A</span>
+            <div style="font-size:0.85rem; color:#fff; font-weight:600; margin-top:0.25rem;">
+                Árbol de Navidad (Christmas Tree) & Válvula Choke FCV
+            </div>
+        </div>
+    </div>
+    
+    <div style="padding:1.5rem; display:flex; flex-direction:column; justify-content:space-between;">
+        <div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.75rem;">
+                <h3 style="color:#38bdf8; font-size:1.05rem; font-weight:700;">Anatomía Operativa del Pozo</h3>
+                <span class="badge-status badge-nominal">NORMA API 6A / 10,000 PSI</span>
+            </div>
+            <p style="font-size:0.8rem; color:#94a3b8; line-height:1.5; margin-bottom:1rem;">
+                Cada cabezal de pozo cuenta con instrumentación redundante SIL-3 para monitorizar la presión de tubing (WHTP) y anular casing, gobernado por un estrangulador angular de aguja con accionamiento electrohidráulico.
+            </p>
+
+            <div style="display:flex; flex-direction:column; gap:0.55rem; font-size:0.78rem; font-family:var(--font-mono);">
+                <div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--border-color); padding-bottom:0.35rem;">
+                    <span style="color:var(--text-muted);">Válvula Maestra Inferior:</span>
+                    <span style="color:#34d399; font-weight:bold;">Hidráulica Actuada (SSV)</span>
+                </div>
+                <div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--border-color); padding-bottom:0.35rem;">
+                    <span style="color:var(--text-muted);">Actuador de Choke:</span>
+                    <span style="color:#38bdf8; font-weight:bold;">Posicionador Digital 4-20mA</span>
+                </div>
+                <div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--border-color); padding-bottom:0.35rem;">
+                    <span style="color:var(--text-muted);">Límite de Presión Casing:</span>
+                    <span style="color:#fbbf24; font-weight:bold;">Trip a 950 PSI</span>
+                </div>
+                <div style="display:flex; justify-content:space-between;">
+                    <span style="color:var(--text-muted);">Enclavamiento SIS:</span>
+                    <span style="color:#f43f5e; font-weight:bold;">Cierre por ESD-1 &lt; 1.2s</span>
+                </div>
+            </div>
+        </div>
+
+        <div style="background:#090e1d; border:1px solid var(--border-color); border-radius:8px; padding:0.75rem 1rem; margin-top:1rem; display:flex; justify-content:space-between; align-items:center;">
+            <div style="font-size:0.75rem; color:var(--text-muted); font-family:var(--font-mono);">
+                Tasa Agregada PAD 04 & 09:
+            </div>
+            <div style="font-size:1.1rem; color:#34d399; font-family:var(--font-mono); font-weight:700;">
+                14,820 BPD
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Tabla de Control de Pozos -->
 <div class="scada-table-container">
     <table class="scada-table">
         <thead>
