@@ -34,9 +34,13 @@ if (-not $hasUncommittedChanges -and -not $commitsAhead) {
 
 # 3. Validar Seguridad: Prevenir fuga de secretos
 if ($hasUncommittedChanges) {
-    $sensitivePatterns = @('\.env$', '\.key$', '\.pem$', 'credentials\.json')
+    $sensitivePatterns = @('\.env(\..+)?$', '\.key$', '\.pem$', '\.cert$', 'id_rsa', 'credentials\.json', 'secrets/')
     foreach ($line in $statusPorcelain) {
-        $file = $line.Substring(3).Trim()
+        $rawFile = $line.Substring(2).Trim()
+        if ($rawFile -match '->') {
+            $rawFile = ($rawFile -split '->')[-1].Trim()
+        }
+        $file = $rawFile.Trim('"')
         foreach ($pattern in $sensitivePatterns) {
             if ($file -match $pattern -and $file -notmatch '\.env\.example') {
                 Write-Host "[ALERTA DE SEGURIDAD] Se bloqueo la subida: Archivo sensible detectado: $file" -ForegroundColor Red
@@ -49,15 +53,21 @@ if ($hasUncommittedChanges) {
     # 4. Comprobacion de sintaxis PHP en archivos modificados
     $phpExe = "C:\xampp\php\php.exe"
     if (Test-Path $phpExe) {
-        $phpFiles = git status --porcelain | Where-Object { $_ -match '\.php$' } | ForEach-Object { $_.Substring(3).Trim() }
-        foreach ($pf in $phpFiles) {
-            $fullPath = Join-Path $projectRoot $pf
-            if (Test-Path $fullPath) {
-                $lintOutput = & $phpExe -l $fullPath 2>&1
-                if ($LASTEXITCODE -ne 0) {
-                    Write-Host "[ERROR DE SINTAXIS] Fallo la verificacion en $pf :" -ForegroundColor Red
-                    Write-Host $lintOutput -ForegroundColor Red
-                    exit 1
+        foreach ($line in $statusPorcelain) {
+            $rawFile = $line.Substring(2).Trim()
+            if ($rawFile -match '->') {
+                $rawFile = ($rawFile -split '->')[-1].Trim()
+            }
+            $pf = $rawFile.Trim('"')
+            if ($pf -match '\.php$') {
+                $fullPath = Join-Path $projectRoot $pf
+                if (Test-Path $fullPath) {
+                    $lintOutput = & $phpExe -l $fullPath 2>&1
+                    if ($LASTEXITCODE -ne 0) {
+                        Write-Host "[ERROR DE SINTAXIS] Fallo la verificacion en $pf :" -ForegroundColor Red
+                        Write-Host $lintOutput -ForegroundColor Red
+                        exit 1
+                    }
                 }
             }
         }
@@ -66,12 +76,12 @@ if ($hasUncommittedChanges) {
     # 5. Generar mensaje de commit si no fue proporcionado
     if (-not $Message) {
         $changedCount = ($statusPorcelain | Measure-Object).Count
-        $Message = "chore: sincronizacion automatica de archivos en MAPAF"
+        $Message = "chore: sincronizacion automatica ($changedCount archivos actualizados)"
     }
 
     # 6. Preparar y realizar commit
     $env:MAPAF_SYNCING = "1"
-    git add .
+    git add -A
     git commit -m "$Message"
     $commitCode = $LASTEXITCODE
     $env:MAPAF_SYNCING = "0"
@@ -79,7 +89,7 @@ if ($hasUncommittedChanges) {
         Write-Host "[ERROR] No se pudo crear el commit en Git." -ForegroundColor Red
         exit 1
     }
-    Write-Host "OK - Commit creado: $Message" -ForegroundColor Green
+    Write-Host "OK - Commit creado exitosamente: $Message" -ForegroundColor Green
 }
 
 # 7. Subir a GitHub (git push)
@@ -89,7 +99,7 @@ $env:GIT_TERMINAL_PROMPT = "0"
 $env:GCM_INTERACTIVE = "never"
 $origPref = $ErrorActionPreference
 $ErrorActionPreference = "SilentlyContinue"
-$pushOutput = (git push origin $currentBranch 2>&1) | Out-String
+$pushOutput = (& git push origin $currentBranch 2>&1) | Out-String
 $pushCode = $LASTEXITCODE
 $ErrorActionPreference = $origPref
 
@@ -105,11 +115,13 @@ if ($pushCode -eq 0) {
 } else {
     Write-Host "  [AVISO] COMMITS GUARDADOS LOCALMENTE, PERO REQUIERE AUTENTICACION" -ForegroundColor Yellow
     Write-Host "======================================================================" -ForegroundColor Cyan
-    Write-Host "  - Estado:            Commits guardados localmente; Push en espera" -ForegroundColor Yellow
+    Write-Host "  - Estado:            Commits guardados localmente; Push en espera de credenciales" -ForegroundColor Yellow
     Write-Host "  - Rama:              $currentBranch" -ForegroundColor White
     Write-Host "  - Ultimo Commit:     $((git log -1 --oneline))" -ForegroundColor White
-    Write-Host "  - Detalle:           $pushOutput" -ForegroundColor Red
+    if ($pushOutput) {
+        Write-Host "  - Detalle del error: $($pushOutput.Trim())" -ForegroundColor Red
+    }
     Write-Host ""
-    Write-Host "  [SOLUCION]: Ejecuta 'subir_a_github.bat' para autenticar tu cuenta una sola vez." -ForegroundColor Yellow
+    Write-Host "  [ACCION REQUERIDA]: Ejecuta 'subir_a_github.bat' para autenticarte una sola vez con tu cuenta de GitHub (Opcion 1 o 2), o proporciona un Token Personal (PAT)." -ForegroundColor Yellow
     exit 2
 }
