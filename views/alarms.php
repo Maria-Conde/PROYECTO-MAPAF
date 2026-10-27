@@ -3,10 +3,17 @@
  * PROYECTO MAPAF - Vista: Consola de Alarmas Industriales (ANSI/ISA-18.2)
  * SENA ADSO - Ficha 3413988
  */
-$alarmaModel = new AlarmaModel();
+$alarms = [];
+$counts = ['critical' => 0, 'warning' => 0, 'advisory' => 0, 'total' => 0];
 $pendingOnly = isset($_GET['filter']) && $_GET['filter'] === 'pending';
-$alarms = $alarmaModel->getAll($pendingOnly);
-$counts = $alarmaModel->getPendingCounts();
+
+try {
+    $alarmaModel = new AlarmaModel();
+    $alarms = $alarmaModel->getAll($pendingOnly);
+    $counts = $alarmaModel->getPendingCounts();
+} catch (Throwable $e) {
+    // Degrada graciosamente
+}
 ?>
 
 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem; flex-wrap:wrap; gap:1rem;">

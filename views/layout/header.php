@@ -3,8 +3,23 @@
  * PROYECTO MAPAF - Layout: Encabezado Superior (Header)
  * SENA ADSO - Ficha 3413988
  */
-$kpis = (new TelemetriaModel())->getPlantKpis();
-$esdState = (new EsdModel())->getSystemState();
+try {
+    $kpis = (new TelemetriaModel())->getPlantKpis();
+    $esdState = (new EsdModel())->getSystemState();
+} catch (Throwable $e) {
+    $kpis = [
+        'total_production'    => 0,
+        'avg_tubing_pressure' => 0.0,
+        'avg_temperature'     => 0.0,
+        'active_wells_count'  => 0,
+        'total_wells_count'   => 0
+    ];
+    $esdState = [
+        'esd_triggered'    => false,
+        'esd_trigger_time' => '',
+        'flow_state'       => 'degraded'
+    ];
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">

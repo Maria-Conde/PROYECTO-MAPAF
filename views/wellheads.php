@@ -3,8 +3,13 @@
  * PROYECTO MAPAF - Vista: Control de Cabezales de Pozo (API 6A)
  * SENA ADSO - Ficha 3413988
  */
-$pozoModel = new PozoModel();
-$wells = $pozoModel->getAll();
+$wells = [];
+try {
+    $pozoModel = new PozoModel();
+    $wells = $pozoModel->getAll();
+} catch (Throwable $e) {
+    // Degrada graciosamente
+}
 ?>
 
 <div style="margin-bottom:1.5rem;">

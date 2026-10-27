@@ -89,6 +89,8 @@ class WellheadController {
                     'message' => "Choke de {$well['nombre']} ajustado a {$newChoke}%",
                     'well'    => $this->pozoModel->getById($wellId)
                 ]);
+            } else {
+                sendJsonResponse(['success' => false, 'error' => "No se pudo actualizar el estrangulador de {$well['nombre']}"], 500);
             }
         }
 
@@ -112,6 +114,8 @@ class WellheadController {
                     'message' => "Válvula SSV de {$well['nombre']} conmutada a " . ($ssvOpen ? 'ABIERTA' : 'CERRADA'),
                     'well'    => $this->pozoModel->getById($wellId)
                 ]);
+            } else {
+                sendJsonResponse(['success' => false, 'error' => "No se pudo conmutar la válvula SSV de {$well['nombre']}"], 500);
             }
         }
 
@@ -133,6 +137,8 @@ class WellheadController {
                     'message' => "Pozo {$well['nombre']} rearmado exitosamente a estado EN LÍNEA",
                     'well'    => $this->pozoModel->getById($wellId)
                 ]);
+            } else {
+                sendJsonResponse(['success' => false, 'error' => "No se pudo rearmar el pozo {$well['nombre']}"], 500);
             }
         }
 

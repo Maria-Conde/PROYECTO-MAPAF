@@ -3,8 +3,13 @@
  * PROYECTO MAPAF - Vista: Bitácora Forense de Auditoría (21 CFR Part 11)
  * SENA ADSO - Ficha 3413988
  */
-$auditoriaModel = new AuditoriaModel();
-$logs = $auditoriaModel->getRecent(100);
+$logs = [];
+try {
+    $auditoriaModel = new AuditoriaModel();
+    $logs = $auditoriaModel->getRecent(100);
+} catch (Throwable $e) {
+    // Degrada graciosamente
+}
 ?>
 
 <div style="margin-bottom:1.5rem;">

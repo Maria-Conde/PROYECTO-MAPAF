@@ -28,8 +28,6 @@ if not exist "C:\xampp\htdocs\mapaf" (
         mkdir "C:\xampp\htdocs\mapaf"
         xcopy /E /Y /I /EXCLUDE:%~dp0.gitignore "%~dp0*" "C:\xampp\htdocs\mapaf\" >nul
     )
-) else (
-    xcopy /E /Y /I /D "%~dp0*" "C:\xampp\htdocs\mapaf\" >nul 2>nul
 )
 
 :: 3. Iniciar MySQL si no esta corriendo

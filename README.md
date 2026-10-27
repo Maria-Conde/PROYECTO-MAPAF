@@ -20,7 +20,8 @@ El proyecto **MAPAF** ha sido reestructurado como una solución nativa basada en
 PROYECTO-MAPAF/
 │
 ├── config/                  # Configuración y conexión desacoplada
-│   ├── config.php           # Constantes globales, rutas y credenciales de MySQL
+│   ├── db_config.php        # Credenciales de MySQL y carga de variables de entorno (.env)
+│   ├── config.php           # Constantes globales, rutas del proyecto y sesiones
 │   ├── database.php         # Clase Database (Patrón Singleton PDO + Prepared Statements)
 │   └── cors.php             # Cabeceras HTTP y respuestas JSON estándar
 │
@@ -88,11 +89,11 @@ PROYECTO-MAPAF/
 - **Intérprete PHP:** `C:\xampp\php\php.exe` (PHP 8.2+)
 - **Base de Datos MySQL:** `127.0.0.1:3306`
 
-### 2.2 Conexión de PHP a MySQL (PDO Singleton)
-La conexión a la base de datos se encuentra desacoplada en `config/database.php` y lee sus parámetros desde `config/config.php` (con soporte para variables de entorno `.env` y valores de fallback para XAMPP):
+### 2.2 Conexión de PHP a MySQL (PDO Singleton & Credenciales Desacopladas)
+Las credenciales de base de datos se encuentran completamente desacopladas en `config/db_config.php` (con soporte para variables de entorno `.env` y valores de fallback para XAMPP), mientras que la gestión de conexiones y sentencias preparadas se realiza en `config/database.php`:
 
 ```php
-// config/config.php
+// config/db_config.php (Archivo dedicado exclusivo para credenciales)
 define('DB_HOST', getenv('DB_HOST') ?: '127.0.0.1');
 define('DB_PORT', getenv('DB_PORT') ?: '3306');
 define('DB_NAME', getenv('DB_NAME') ?: 'mapaf_db');

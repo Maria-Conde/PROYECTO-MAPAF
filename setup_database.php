@@ -9,6 +9,7 @@
  *   http://localhost/mapaf/setup_database.php
  */
 
+require_once __DIR__ . '/config/db_config.php';
 require_once __DIR__ . '/config/config.php';
 require_once __DIR__ . '/config/cors.php';
 

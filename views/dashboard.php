@@ -3,14 +3,23 @@
  * PROYECTO MAPAF - Vista: Tablero General SCADA (Dashboard)
  * SENA ADSO - Ficha 3413988
  */
-$telemetriaModel = new TelemetriaModel();
-$pozoModel = new PozoModel();
-$alarmaModel = new AlarmaModel();
+$metrics = [];
+$wells = [];
+$alarms = [];
+$kpis = ['total_production' => 0, 'avg_tubing_pressure' => 0, 'active_wells_count' => 0, 'total_wells_count' => 0];
 
-$metrics = $telemetriaModel->getAll();
-$wells = $pozoModel->getAll();
-$alarms = $alarmaModel->getAll(true); // Solo pendientes
-$kpis = $telemetriaModel->getPlantKpis();
+try {
+    $telemetriaModel = new TelemetriaModel();
+    $pozoModel = new PozoModel();
+    $alarmaModel = new AlarmaModel();
+
+    $metrics = $telemetriaModel->getAll();
+    $wells = $pozoModel->getAll();
+    $alarms = $alarmaModel->getAll(true); // Solo pendientes
+    $kpis = $telemetriaModel->getPlantKpis();
+} catch (Throwable $e) {
+    // Degrada graciosamente si la base de datos se esta migrando
+}
 ?>
 
 <!-- Banner Hero con Imagen de Sala de Control RTOC -->

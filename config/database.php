@@ -7,6 +7,7 @@
  * la saturación de conexiones y fugas de memoria en Apache / MySQL.
  */
 
+require_once __DIR__ . '/db_config.php';
 require_once __DIR__ . '/config.php';
 
 class Database {
@@ -18,6 +19,13 @@ class Database {
      * Constructor privado: Inicializa la conexión PDO segura
      */
     private function __construct() {
+        $this->connect();
+    }
+
+    /**
+     * Establece o restablece la conexión PDO con MySQL
+     */
+    public function connect(): void {
         $dsn = sprintf(
             'mysql:host=%s;port=%s;dbname=%s;charset=%s',
             DB_HOST,
@@ -35,6 +43,7 @@ class Database {
 
         try {
             $this->pdo = new PDO($dsn, DB_USER, DB_PASS, $options);
+            $this->connectionError = null;
         } catch (PDOException $e) {
             $this->pdo = null;
             $this->connectionError = $e->getMessage();
@@ -58,9 +67,20 @@ class Database {
     }
 
     /**
-     * Devuelve la conexión PDO activa o null si no se pudo conectar
+     * Devuelve la conexión PDO activa (reintentando si estaba en null)
      */
     public function getConnection(): ?PDO {
+        if ($this->pdo === null) {
+            $this->connect();
+        }
+        return $this->pdo;
+    }
+
+    /**
+     * Fuerza un reinicio explícito de la conexión PDO
+     */
+    public function reconnect(): ?PDO {
+        $this->connect();
         return $this->pdo;
     }
 

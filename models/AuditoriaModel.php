@@ -31,7 +31,7 @@ class AuditoriaModel {
             return false;
         }
 
-        $id = 'aud-' . substr(uniqid(), -7);
+        $id = 'aud-' . date('YmdHis') . '-' . bin2hex(random_bytes(2));
         $timeStr = date('H:i:s');
 
         $stmt = $this->db->prepare("

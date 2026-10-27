@@ -31,7 +31,7 @@ class AlarmaModel {
         if ($unacknowledgedOnly) {
             $sql .= "WHERE a.`reconocida` = 0 ";
         }
-        $sql .= "ORDER BY FIELD(a.severidad, 'critical', 'warning', 'advisory', 'nominal'), a.fecha_registro DESC";
+        $sql .= "ORDER BY (CASE a.severidad WHEN 'critical' THEN 1 WHEN 'warning' THEN 2 WHEN 'advisory' THEN 3 ELSE 4 END) ASC, a.fecha_registro DESC";
 
         $stmt = $this->db->prepare($sql);
         $stmt->execute();

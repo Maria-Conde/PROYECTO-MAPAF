@@ -23,32 +23,49 @@ if (-not (Test-Path $xamppPath)) {
 Write-Host "[1/5] XAMPP detectado en: $xamppPath" -ForegroundColor Green
 
 # 2. Copiar y vincular archivos a C:\xampp\htdocs\mapaf
-Write-Host "[2/5] Vinculando archivos limpios a $htdocsTarget..." -ForegroundColor Yellow
+Write-Host "[2/5] Vinculando archivos a $htdocsTarget..." -ForegroundColor Yellow
 
-if (-not (Test-Path $htdocsTarget)) {
-    New-Item -ItemType Directory -Path $htdocsTarget -Force | Out-Null
-}
-
-# Copiar carpetas del proyecto PHP
-$foldersToCopy = @("config", "models", "controllers", "views", "api", "assets", "sql")
-foreach ($folder in $foldersToCopy) {
-    $src = Join-Path $projectRoot $folder
-    $dst = Join-Path $htdocsTarget $folder
-    if (Test-Path $src) {
-        Copy-Item -Path $src -Destination $htdocsTarget -Recurse -Force
+$isLinked = $false
+if (Test-Path $htdocsTarget) {
+    $item = Get-Item $htdocsTarget -Force
+    if ($item.LinkType -eq "Junction" -or $item.LinkType -eq "SymbolicLink") {
+        Write-Host "      ✓ Junction activo detectado: $htdocsTarget -> $projectRoot" -ForegroundColor Green
+        $isLinked = $true
     }
 }
 
-# Copiar archivos raíz
-$filesToCopy = @("index.php", "setup_database.php", ".env.example")
-foreach ($file in $filesToCopy) {
-    $src = Join-Path $projectRoot $file
-    if (Test-Path $src) {
-        Copy-Item -Path $src -Destination $htdocsTarget -Force
+if (-not $isLinked) {
+    if (-not (Test-Path $htdocsTarget)) {
+        try {
+            New-Item -ItemType Junction -Path $htdocsTarget -Target $projectRoot -ErrorAction Stop | Out-Null
+            Write-Host "      ✓ Junction creado exitosamente: $htdocsTarget -> $projectRoot" -ForegroundColor Green
+            $isLinked = $true
+        } catch {
+            Write-Host "      [AVISO] No se pudo crear junction directo. Sincronizando por copia..." -ForegroundColor Yellow
+        }
+    }
+
+    if (-not $isLinked) {
+        if (-not (Test-Path $htdocsTarget)) {
+            New-Item -ItemType Directory -Path $htdocsTarget -Force | Out-Null
+        }
+        $foldersToCopy = @("config", "models", "controllers", "views", "api", "assets", "sql")
+        foreach ($folder in $foldersToCopy) {
+            $src = Join-Path $projectRoot $folder
+            if (Test-Path $src) {
+                Copy-Item -Path $src -Destination $htdocsTarget -Recurse -Force
+            }
+        }
+        $filesToCopy = @("index.php", "setup_database.php", ".env.example")
+        foreach ($file in $filesToCopy) {
+            $src = Join-Path $projectRoot $file
+            if (Test-Path $src) {
+                Copy-Item -Path $src -Destination $htdocsTarget -Force
+            }
+        }
+        Write-Host "      ✓ Estructura MVC sincronizada en htdocs\mapaf" -ForegroundColor Green
     }
 }
-
-Write-Host "      ✓ Estructura MVC sincronizada en htdocs\mapaf" -ForegroundColor Green
 
 # 3. Iniciar MySQL si no está activo
 Write-Host "[3/5] Verificando servicio de Base de Datos MySQL (Puerto 3306)..." -ForegroundColor Yellow

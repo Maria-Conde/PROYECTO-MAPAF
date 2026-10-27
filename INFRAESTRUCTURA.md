@@ -84,25 +84,25 @@ graph TD
 ---
 
 ### Capa 2: Pasarela de Adquisición & Adaptadores Industriales (Gateway)
-- **Patrón de Diseño:** `GoF Adapter` ([`IndustrialProtocolAdapter.php`](file:///c:/Users/MAJO/.antigravity-ide/PROYECTO-MAPAF/backend_php/patterns/Adapter/IndustrialProtocolAdapter.php)).
-- **Función:** Conectar fuentes de datos dispares de campo y transformarlas al modelo unificado JSON de MAPAF:
-  1. Tramas binarias **Modbus RTU / TCP** con registros analógicos codificados en punto flotante `IEEE 754` (ej. `0x44E7, 0x5000` = `1850.5 PSI`).
-  2. Nodos de servidor **OPC-UA** (`ns=2;s=Facility.Separators.V-101.Pressure`).
+- **Patrón de Diseño:** `GoF Adapter` & `Singleton PDO`.
+- **Función:** Conectar fuentes de datos de campo y transformarlas al modelo unificado JSON de MAPAF:
+  1. Tramas de telemetría y sensores normalizados en base de datos MySQL (`telemetria_metricas`).
+  2. Parámetros de proceso (presión tubing, anular, caudal, temperatura, frecuencia ESP, GOR).
 
 ---
 
-### Capa 3: API Gateway & Microcontroladores REST (PHP 8)
-Para evitar el antipatrón arquitectónico **The God Object (Blob Monolítico)**, la capa de servicios se desacopló en 6 microcontroladores independientes ubicados en [`backend_php/api/`](file:///c:/Users/MAJO/.antigravity-ide/PROYECTO-MAPAF/backend_php/api/):
+### Capa 3: API Gateway & Controladores REST (PHP 8 Puro)
+Para evitar el antipatrón arquitectónico **The God Object (Blob Monolítico)**, la capa de servicios se encuentra desacoplada en controladores y endpoints REST independientes ubicados en [`controllers/`](file:///c:/Users/MAJO/.antigravity-ide/PROYECTO-MAPAF/controllers/) y [`api/`](file:///c:/Users/MAJO/.antigravity-ide/PROYECTO-MAPAF/api/):
 
-| Endpoint | Método | Dominio DDD | Tabla MySQL | Responsabilidad Específica |
+| Endpoint | Método | Controlador | Tabla MySQL | Responsabilidad Específica |
 |---|:---:|---|---|---|
-| [`api/sync.php`](file:///c:/Users/MAJO/.antigravity-ide/PROYECTO-MAPAF/backend_php/api/sync.php) | `GET` | `TELEMETRY-CTX` | `telemetria_metricas` | Suministro continuo de telemetría cada 3 segundos y cálculo de flujo polimórfico. |
-| [`api/wellheads.php`](file:///c:/Users/MAJO/.antigravity-ide/PROYECTO-MAPAF/backend_php/api/wellheads.php) | `POST/GET` | `WELLHEAD-CTX` | `pozos` | Ejecución de maniobras de Choke y SSV con enclavamiento de seguridad y soporte de **UNDO**. |
-| [`api/alarms.php`](file:///c:/Users/MAJO/.antigravity-ide/PROYECTO-MAPAF/backend_php/api/alarms.php) | `POST/GET` | `ALARMS-CTX` | `alarmas` | Ciclo de vida ISA-18.2 y acuse trazable con bloqueo de silenciamiento ciego (**Blind ACK**). |
-| [`api/login.php`](file:///c:/Users/MAJO/.antigravity-ide/PROYECTO-MAPAF/backend_php/api/login.php) | `POST/GET` | `IDENTITY-CTX` | `usuarios`, `roles` | Emisión y validación criptográfica de tokens JWT HMAC-SHA256 con control RBAC. |
-| [`api/patterns.php`](file:///c:/Users/MAJO/.antigravity-ide/PROYECTO-MAPAF/backend_php/api/patterns.php) | `POST/GET` | `ARCHITECTURE` | `mapaf_db` | Laboratorio de diagnóstico interactivo de los 8 patrones GoF y mitigación de antipatrones. |
-| [`api/audit.php`](file:///c:/Users/MAJO/.antigravity-ide/PROYECTO-MAPAF/backend_php/api/audit.php) | `GET` | `AUDIT-CTX` | `bitacora_auditoria` | Consulta de la bitácora electrónica inmutable conforme a 21 CFR Part 11. |
-| [`api/status.php`](file:///c:/Users/MAJO/.antigravity-ide/PROYECTO-MAPAF/backend_php/api/status.php) | `GET` | `INFRASTRUCTURE` | Socket MySQL | Diagnóstico en tiempo real de Apache, PHP, conexión PDO y latencia de red. |
+| [`api/telemetry.php`](file:///c:/Users/MAJO/.antigravity-ide/PROYECTO-MAPAF/api/telemetry.php) | `GET` | `TelemetryController` | `telemetria_metricas` | Suministro continuo de telemetría y KPIs consolidados de producción. |
+| [`api/wellheads.php`](file:///c:/Users/MAJO/.antigravity-ide/PROYECTO-MAPAF/api/wellheads.php) | `POST/GET` | `WellheadController` | `pozos` | Ejecución de maniobras de Choke y SSV con enclavamiento SIS ESD-1. |
+| [`api/alarms.php`](file:///c:/Users/MAJO/.antigravity-ide/PROYECTO-MAPAF/api/alarms.php) | `POST/GET` | `AlarmController` | `alarmas` | Ciclo de vida ISA-18.2 y acuse trazable contra acuse ciego (**Blind ACK**). |
+| [`api/esd.php`](file:///c:/Users/MAJO/.antigravity-ide/PROYECTO-MAPAF/api/esd.php) | `POST/GET` | `EsdController` | `configuracion_sistema` | Parada de Emergencia ESD-1 (IEC 61511) y rearme seguro de planta. |
+| [`api/auth.php`](file:///c:/Users/MAJO/.antigravity-ide/PROYECTO-MAPAF/api/auth.php) | `POST/GET` | `AuthController` | `usuarios`, `roles` | Control de operadores en turno y matriz de permisos RBAC. |
+| [`api/audit.php`](file:///c:/Users/MAJO/.antigravity-ide/PROYECTO-MAPAF/api/audit.php) | `GET` | `AuditController` | `bitacora_auditoria` | Consulta de la bitácora electrónica inmutable conforme a 21 CFR Part 11. |
+| [`api/status.php`](file:///c:/Users/MAJO/.antigravity-ide/PROYECTO-MAPAF/api/status.php) | `GET` | `StatusController` | Socket MySQL | Diagnóstico en tiempo real de Apache, PHP, conexión PDO y tablas. |
 
 ---
 
