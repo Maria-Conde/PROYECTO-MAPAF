@@ -84,8 +84,11 @@ Write-Host "[*] Enviando commits a origin/$currentBranch..." -ForegroundColor Ye
 
 $env:GIT_TERMINAL_PROMPT = "0"
 $env:GCM_INTERACTIVE = "never"
-$pushOutput = git push origin $currentBranch 2>&1
+$origPref = $ErrorActionPreference
+$ErrorActionPreference = "SilentlyContinue"
+$pushOutput = (git push origin $currentBranch 2>&1) | Out-String
 $pushCode = $LASTEXITCODE
+$ErrorActionPreference = $origPref
 
 Write-Host "======================================================================" -ForegroundColor Cyan
 if ($pushCode -eq 0) {
