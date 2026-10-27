@@ -1,8 +1,42 @@
+# ==============================================================================
+# PROYECTO MAPAF - Reglas de Exclusión de Git (.gitignore)
+# ==============================================================================
+
+# Entorno y Secretos (Seguridad)
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.pem
+*.key
+*.cert
+*.id_rsa
+secrets/
+credentials.json
+!/.env.example
+
+# Logs y archivos temporales
+*.log
+*.tmp
+*.bak
+*.swp
+scratch/
+tmp/
+
+# Archivos del Sistema Operativo
+.DS_Store
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Dependencias y compilados (no aplicables a PHP puro pero excluidos por seguridad)
 node_modules/
 build/
 dist/
 coverage/
-.DS_Store
-*.log
-.env*
-!.env.example
+vendor/
+
+# Entornos de desarrollo
+.idea/
+.vscode/
