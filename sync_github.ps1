@@ -70,9 +70,12 @@ if ($hasUncommittedChanges) {
     }
 
     # 6. Preparar y realizar commit
+    $env:MAPAF_SYNCING = "1"
     git add .
     git commit -m "$Message"
-    if ($LASTEXITCODE -ne 0) {
+    $commitCode = $LASTEXITCODE
+    $env:MAPAF_SYNCING = "0"
+    if ($commitCode -ne 0) {
         Write-Host "[ERROR] No se pudo crear el commit en Git." -ForegroundColor Red
         exit 1
     }
