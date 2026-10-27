@@ -31,7 +31,22 @@ define('ASSETS_DIR', BASE_DIR . DIRECTORY_SEPARATOR . 'assets');
 // Incluir archivo desacoplado de credenciales de base de datos (MySQL/XAMPP)
 require_once __DIR__ . '/db_config.php';
 
+// Autoloader modular para Modelos y Controladores
+spl_autoload_register(function (string $className): void {
+    $candidates = [
+        MODELS_DIR . DIRECTORY_SEPARATOR . $className . '.php',
+        CONTROLLERS_DIR . DIRECTORY_SEPARATOR . $className . '.php',
+    ];
+    foreach ($candidates as $file) {
+        if (file_exists($file)) {
+            require_once $file;
+            return;
+        }
+    }
+});
+
 // Configuración de Sesión y Seguridad
 if (session_status() === PHP_SESSION_NONE && !headers_sent()) {
     session_start();
 }
+

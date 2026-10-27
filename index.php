@@ -9,12 +9,6 @@
 
 require_once __DIR__ . '/config/config.php';
 require_once __DIR__ . '/config/database.php';
-require_once __DIR__ . '/models/PozoModel.php';
-require_once __DIR__ . '/models/TelemetriaModel.php';
-require_once __DIR__ . '/models/AlarmaModel.php';
-require_once __DIR__ . '/models/EsdModel.php';
-require_once __DIR__ . '/models/UsuarioModel.php';
-require_once __DIR__ . '/models/AuditoriaModel.php';
 
 // Definir vista solicitada (por defecto 'dashboard')
 $view = $_GET['view'] ?? 'dashboard';
@@ -23,6 +17,7 @@ $allowedViews = [
     'wellheads' => ['file' => 'views/wellheads.php', 'title' => 'Control de Pozos (API 6A) · PROYECTO MAPAF'],
     'alarms'    => ['file' => 'views/alarms.php',    'title' => 'Consola de Alarmas (ANSI/ISA-18.2) · PROYECTO MAPAF'],
     'audit'     => ['file' => 'views/audit.php',     'title' => 'Bitácora de Auditoría (21 CFR Part 11) · PROYECTO MAPAF'],
+    'modules'   => ['file' => 'views/modules.php',   'title' => 'Arquitectura & Módulos · PROYECTO MAPAF'],
     'status'    => ['file' => 'views/status.php',    'title' => 'Diagnóstico XAMPP & MySQL · PROYECTO MAPAF'],
 ];
 

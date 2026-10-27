@@ -31,6 +31,13 @@ $currentView = $currentView ?? 'dashboard';
         <span class="sidebar-text">Bitácora de Auditoría</span>
     </a>
 
+    <div class="sidebar-category" style="margin-top: 1rem;">Estructura & Arquitectura</div>
+
+    <a href="index.php?view=modules" class="sidebar-link <?= ($currentView === 'modules') ? 'active' : '' ?>">
+        <span>🧩</span>
+        <span class="sidebar-text">Módulos del Sistema</span>
+    </a>
+
     <div class="sidebar-category" style="margin-top: 1rem;">Servicios XAMPP</div>
 
     <a href="index.php?view=status" class="sidebar-link <?= ($currentView === 'status') ? 'active' : '' ?>">
