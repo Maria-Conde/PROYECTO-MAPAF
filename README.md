@@ -163,3 +163,13 @@ El esquema se encuentra normalizado en `sql/database.sql` bajo el motor **InnoDB
    - *Motivo:* Catálogos de texto que sobrecargaban el repositorio sin aportar funcionalidad operativa al SCADA. Los patrones de diseño reales (Singleton, Prepared Statements, Repository, State) quedaron integrados directamente en el código de producción.
 4. **Archivos SQL y Scripts Duplicados (`database.sql`, `mapaf_db.sql`, `test_all_patterns_live.php`):**
    - *Motivo:* Había 3 copias redundantes del dump de base de datos. Se unificaron en `sql/database.sql`.
+
+---
+
+## 🔄 6. Sincronización Automática con GitHub (CI/CD Local)
+
+El proyecto cuenta con un flujo de sincronización automática permanente respaldado por reglas del agente (`AGENTS.md` y `GEMINI.md`) y el script `sync_github.ps1`:
+- **Auditoría de Seguridad:** Escaneo pre-commit que bloquea automáticamente cualquier archivo `.env`, claves privadas (`*.pem`, `*.key`) o credenciales.
+- **Validación Sintáctica PHP:** Ejecución automática de `php -l` mediante `C:\xampp\php\php.exe` antes de registrar cada commit.
+- **Sincronización Inmediata:** Despacho automático de commits hacia la rama `main` en `https://github.com/Maria-Conde/PROYECTO-MAPAF` tras cada modificación realizada por el asistente o desarrollador.
+
