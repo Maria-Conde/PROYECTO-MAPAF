@@ -62,12 +62,24 @@ const SCADA = {
         }, 4000);
     },
 
+    authFetch(url, options = {}) {
+        options.headers = options.headers || {};
+        const token = sessionStorage.getItem('mapaf_jwt');
+        if (token && !options.headers['Authorization']) {
+            options.headers['Authorization'] = `Bearer ${token}`;
+        }
+        return fetch(url, options);
+    },
+
     async fetchOperatorInfo() {
         try {
-            const res = await fetch('api/auth.php');
+            const res = await this.authFetch('api/auth.php');
             const data = await res.json();
             if (data.success && data.current_user) {
                 this.currentOperator = data.current_user;
+                if (data.token) {
+                    sessionStorage.setItem('mapaf_jwt', data.token);
+                }
                 const opSelect = document.getElementById('operatorSelect');
                 if (opSelect && data.users) {
                     opSelect.innerHTML = data.users.map(u => `
@@ -84,7 +96,7 @@ const SCADA = {
 
     async switchOperator(code) {
         try {
-            const res = await fetch('api/auth.php', {
+            const res = await this.authFetch('api/auth.php', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ codigo_empleado: code })
@@ -92,7 +104,10 @@ const SCADA = {
             const data = await res.json();
             if (data.success) {
                 this.currentOperator = data.user;
-                this.showToast(data.message);
+                if (data.token) {
+                    sessionStorage.setItem('mapaf_jwt', data.token);
+                }
+                this.showToast(data.message + ' · [JWT HS256]');
                 this.pollData();
             } else {
                 this.showToast(data.error || 'Error al cambiar operador', true);
@@ -105,28 +120,28 @@ const SCADA = {
     async pollData() {
         try {
             // 1. Estado ESD y Planta
-            const esdRes = await fetch('api/esd.php');
+            const esdRes = await this.authFetch('api/esd.php');
             const esdData = await esdRes.json();
             if (esdData.success) {
                 this.updateEsdState(esdData.state);
             }
 
             // 2. Telemetría y KPIs
-            const telRes = await fetch('api/telemetry.php');
+            const telRes = await this.authFetch('api/telemetry.php');
             const telData = await telRes.json();
             if (telData.success) {
                 this.updateTelemetryUi(telData);
             }
 
             // 3. Pozos
-            const wellsRes = await fetch('api/wellheads.php');
+            const wellsRes = await this.authFetch('api/wellheads.php');
             const wellsData = await wellsRes.json();
             if (wellsData.success) {
                 this.updateWellsUi(wellsData.data);
             }
 
             // 4. Alarmas
-            const alarmsRes = await fetch('api/alarms.php');
+            const alarmsRes = await this.authFetch('api/alarms.php');
             const alarmsData = await alarmsRes.json();
             if (alarmsData.success) {
                 this.updateAlarmsUi(alarmsData);
@@ -135,6 +150,7 @@ const SCADA = {
             console.warn('Error en sondeo de telemetría:', e);
         }
     },
+
 
     updateEsdState(state) {
         this.isEsdActive = !!state.esd_triggered;
@@ -222,7 +238,7 @@ const SCADA = {
     // Maniobra: Ajustar Choke
     async setChoke(wellId, val) {
         try {
-            const res = await fetch('api/wellheads.php', {
+            const res = await this.authFetch('api/wellheads.php', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -248,7 +264,7 @@ const SCADA = {
     async toggleSsv(wellId, currentOpen) {
         const nextState = !currentOpen;
         try {
-            const res = await fetch('api/wellheads.php', {
+            const res = await this.authFetch('api/wellheads.php', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -273,7 +289,7 @@ const SCADA = {
     // Maniobra: Rearmar Pozo Disparado
     async resetWell(wellId) {
         try {
-            const res = await fetch('api/wellheads.php', {
+            const res = await this.authFetch('api/wellheads.php', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -327,7 +343,7 @@ const SCADA = {
         }
 
         try {
-            const res = await fetch('api/alarms.php', {
+            const res = await this.authFetch('api/alarms.php', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -367,7 +383,7 @@ const SCADA = {
         const reason = reasonInput ? reasonInput.value.trim() : 'Disparo manual preventivo desde consola SCADA';
 
         try {
-            const res = await fetch('api/esd.php', {
+            const res = await this.authFetch('api/esd.php', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -396,7 +412,7 @@ const SCADA = {
         }
 
         try {
-            const res = await fetch('api/esd.php', {
+            const res = await this.authFetch('api/esd.php', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({

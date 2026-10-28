@@ -55,6 +55,14 @@ if (!defined('DB_CHARSET')) {
     define('DB_CHARSET', 'utf8mb4');
 }
 
+// Configuración de Seguridad para Autenticación JWT (JSON Web Tokens - RFC 7519)
+if (!defined('JWT_SECRET')) {
+    define('JWT_SECRET', getenv('JWT_SECRET') ?: 'MAPAF_SCADA_SECURE_JWT_SECRET_KEY_2026_ADSO');
+}
+if (!defined('JWT_EXPIRATION_SECONDS')) {
+    define('JWT_EXPIRATION_SECONDS', (int)(getenv('JWT_EXPIRATION_SECONDS') ?: 86400)); // 24 horas de vigencia
+}
+
 /**
  * Devuelve un array con las credenciales activas de conexión
  */

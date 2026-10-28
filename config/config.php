@@ -25,17 +25,23 @@ define('BASE_DIR', dirname(__DIR__));
 define('CONFIG_DIR', __DIR__);
 define('MODELS_DIR', BASE_DIR . DIRECTORY_SEPARATOR . 'models');
 define('CONTROLLERS_DIR', BASE_DIR . DIRECTORY_SEPARATOR . 'controllers');
+define('SERVICES_DIR', BASE_DIR . DIRECTORY_SEPARATOR . 'services');
+define('REPOSITORIES_DIR', BASE_DIR . DIRECTORY_SEPARATOR . 'repositories');
+define('DOMAIN_DIR', BASE_DIR . DIRECTORY_SEPARATOR . 'domain');
 define('VIEWS_DIR', BASE_DIR . DIRECTORY_SEPARATOR . 'views');
 define('ASSETS_DIR', BASE_DIR . DIRECTORY_SEPARATOR . 'assets');
 
 // Incluir archivo desacoplado de credenciales de base de datos (MySQL/XAMPP)
 require_once __DIR__ . '/db_config.php';
 
-// Autoloader modular para Modelos y Controladores
+// Autoloader modular para Modelos, Controladores, Servicios, Repositorios y Dominio
 spl_autoload_register(function (string $className): void {
     $candidates = [
         MODELS_DIR . DIRECTORY_SEPARATOR . $className . '.php',
         CONTROLLERS_DIR . DIRECTORY_SEPARATOR . $className . '.php',
+        SERVICES_DIR . DIRECTORY_SEPARATOR . $className . '.php',
+        REPOSITORIES_DIR . DIRECTORY_SEPARATOR . $className . '.php',
+        DOMAIN_DIR . DIRECTORY_SEPARATOR . $className . '.php',
     ];
     foreach ($candidates as $file) {
         if (file_exists($file)) {
@@ -45,8 +51,9 @@ spl_autoload_register(function (string $className): void {
     }
 });
 
-// Configuración de Sesión y Seguridad
-if (session_status() === PHP_SESSION_NONE && !headers_sent()) {
+
+// Configuración de Sesión y Seguridad (no inicializar en entorno CLI para evitar bloqueos)
+if (session_status() === PHP_SESSION_NONE && !headers_sent() && php_sapi_name() !== 'cli') {
     session_start();
 }
 

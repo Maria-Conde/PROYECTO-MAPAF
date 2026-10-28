@@ -9,14 +9,14 @@ $alarms = [];
 $kpis = ['total_production' => 0, 'avg_tubing_pressure' => 0, 'active_wells_count' => 0, 'total_wells_count' => 0];
 
 try {
-    $telemetriaModel = new TelemetriaModel();
-    $pozoModel = new PozoModel();
-    $alarmaModel = new AlarmaModel();
+    $telemetryService = new TelemetryService();
+    $wellheadService = new WellheadService();
+    $alarmService = new AlarmService();
 
-    $metrics = $telemetriaModel->getAll();
-    $wells = $pozoModel->getAll();
-    $alarms = $alarmaModel->getAll(true); // Solo pendientes
-    $kpis = $telemetriaModel->getPlantKpis();
+    $metrics = $telemetryService->getAllMetrics();
+    $wells = $wellheadService->getAllWells();
+    $alarms = $alarmService->getAlarms(true); // Solo pendientes
+    $kpis = $telemetryService->getConsolidatedKpis();
 } catch (Throwable $e) {
     // Degrada graciosamente si la base de datos se esta migrando
 }

@@ -5,8 +5,8 @@
  */
 $wells = [];
 try {
-    $pozoModel = new PozoModel();
-    $wells = $pozoModel->getAll();
+    $wellheadService = new WellheadService();
+    $wells = $wellheadService->getAllWells();
 } catch (Throwable $e) {
     // Degrada graciosamente
 }

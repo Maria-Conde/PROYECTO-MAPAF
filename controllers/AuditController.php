@@ -1,27 +1,28 @@
 <?php
 /**
  * PROYECTO MAPAF - Controlador: AuditController
- * SENA ADSO - Ficha 3413988
+ * SENA Centro de la Industria, la Empresa y los Servicios (Regional Huila)
+ * Ficha: 3413988 - ADSO
  * 
- * Expone la bitácora inmutable de eventos y maniobras (21 CFR Part 11).
+ * Expone la consulta de la bitácora de auditoría inmutable (21 CFR Part 11).
  */
 
-require_once __DIR__ . '/../models/AuditoriaModel.php';
+require_once __DIR__ . '/../repositories/AuditRepository.php';
 require_once __DIR__ . '/../config/cors.php';
 
 class AuditController {
-    private AuditoriaModel $auditoriaModel;
+    private AuditRepository $auditRepo;
 
-    public function __construct() {
-        $this->auditoriaModel = new AuditoriaModel();
+    public function __construct(?AuditRepository $auditRepo = null) {
+        $this->auditRepo = $auditRepo ?: new AuditRepository();
     }
 
     /**
-     * Lista los registros más recientes de la bitácora
+     * Consulta los registros más recientes de auditoría
      */
     public function index(): void {
         $limit = isset($_GET['limit']) ? (int)$_GET['limit'] : 50;
-        $logs = $this->auditoriaModel->getRecent($limit);
+        $logs = $this->auditRepo->getRecent($limit);
 
         sendJsonResponse([
             'success' => true,

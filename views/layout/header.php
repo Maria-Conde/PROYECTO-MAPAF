@@ -4,8 +4,10 @@
  * SENA ADSO - Ficha 3413988
  */
 try {
-    $kpis = (new TelemetriaModel())->getPlantKpis();
-    $esdState = (new EsdModel())->getSystemState();
+    $telemetryService = new TelemetryService();
+    $kpis = $telemetryService->getConsolidatedKpis();
+    $esdService = new EsdService();
+    $esdState = $esdService->getSystemState();
 } catch (Throwable $e) {
     $kpis = [
         'total_production'    => 0,

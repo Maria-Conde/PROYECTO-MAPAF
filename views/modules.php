@@ -59,21 +59,25 @@ try {
                 El <strong>PROYECTO MAPAF</strong> es un sistema SCADA táctico para supervisión industrial de pozos petroleros.
                 Está organizado en <strong>5 módulos funcionales</strong> que se comunican a través de una arquitectura limpia en 4 capas:
             </p>
-            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:0.75rem; font-size:0.8rem; font-family:var(--font-mono);">
+            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:0.75rem; font-size:0.8rem; font-family:var(--font-mono);">
                 <div style="background:#090e1d; padding:0.6rem 0.8rem; border-radius:6px; border:1px solid var(--border-color);">
-                    <strong style="color:#38bdf8;">1. VISTAS (UI):</strong><br>
-                    <span style="color:#94a3b8;">HTML5, CSS industrial y JS asíncrono. Muestran gráficos y controles.</span>
+                    <strong style="color:#38bdf8;">1. VISTAS (HMI):</strong><br>
+                    <span style="color:#94a3b8;">HTML5, CSS industrial y Fetch API asíncrono con tokens Bearer JWT.</span>
                 </div>
                 <div style="background:#090e1d; padding:0.6rem 0.8rem; border-radius:6px; border:1px solid var(--border-color);">
                     <strong style="color:#a855f7;">2. CONTROLADORES:</strong><br>
-                    <span style="color:#94a3b8;">Reciben las acciones del operador, validan permisos y enclavamientos.</span>
+                    <span style="color:#94a3b8;">Controladores delgados HTTP/JSON, sin SQL ni reglas de negocio.</span>
                 </div>
                 <div style="background:#090e1d; padding:0.6rem 0.8rem; border-radius:6px; border:1px solid var(--border-color);">
-                    <strong style="color:#34d399;">3. MODELOS (PDO):</strong><br>
-                    <span style="color:#94a3b8;">Consultas seguras mediante sentencias preparadas contra SQL Injection.</span>
+                    <strong style="color:#e879f9;">3. SERVICIOS & DOMINIO:</strong><br>
+                    <span style="color:#94a3b8;">Service Layer, Value Objects (Choke, Status), Observer y JWT (HS256).</span>
                 </div>
                 <div style="background:#090e1d; padding:0.6rem 0.8rem; border-radius:6px; border:1px solid var(--border-color);">
-                    <strong style="color:#fbbf24;">4. MYSQL (InnoDB):</strong><br>
+                    <strong style="color:#34d399;">4. REPOSITORIOS (PDO):</strong><br>
+                    <span style="color:#94a3b8;">Consultas preparadas desacopladas con fallback resiliente en memoria.</span>
+                </div>
+                <div style="background:#090e1d; padding:0.6rem 0.8rem; border-radius:6px; border:1px solid var(--border-color);">
+                    <strong style="color:#fbbf24;">5. MYSQL (InnoDB):</strong><br>
                     <span style="color:#94a3b8;">7 tablas normalizadas con claves foráneas e integridad referencial.</span>
                 </div>
             </div>
@@ -84,32 +88,37 @@ try {
 <!-- FLUJO DE DATOS BIDIRECCIONAL -->
 <div class="scada-card" style="margin-bottom:2rem;">
     <h3 style="color:#fff; font-size:1.05rem; margin-bottom:0.75rem; display:flex; align-items:center; gap:0.5rem;">
-        <span>🔄</span> Flujo de una Petición Operativa (Ejemplo: Ajuste de Estrangulador Choke)
+        <span>🔄</span> Flujo de una Petición Operativa con Arquitectura Limpia y JWT
     </h3>
-    <div style="display:flex; flex-wrap:wrap; gap:0.75rem; align-items:center; justify-content:space-between; font-family:var(--font-mono); font-size:0.78rem;">
-        <div style="background:#090e1d; border:1px solid #38bdf8; padding:0.75rem; border-radius:6px; flex:1; min-width:160px; text-align:center;">
+    <div style="display:flex; flex-wrap:wrap; gap:0.6rem; align-items:center; justify-content:space-between; font-family:var(--font-mono); font-size:0.76rem;">
+        <div style="background:#090e1d; border:1px solid #38bdf8; padding:0.65rem; border-radius:6px; flex:1; min-width:140px; text-align:center;">
             <div style="color:#38bdf8; font-weight:bold;">1. Operador (HMI)</div>
-            <div style="color:var(--text-muted); font-size:0.7rem; margin-top:0.2rem;">Mueve el slider de choke al 45%</div>
+            <div style="color:var(--text-muted); font-size:0.68rem; margin-top:0.2rem;">Consigna Choke 45% + Token JWT</div>
         </div>
-        <span style="color:var(--primary); font-size:1.2rem;">➔</span>
-        <div style="background:#090e1d; border:1px solid #38bdf8; padding:0.75rem; border-radius:6px; flex:1; min-width:160px; text-align:center;">
-            <div style="color:#38bdf8; font-weight:bold;">2. Fetch JS ➔ api/wellheads.php</div>
-            <div style="color:var(--text-muted); font-size:0.7rem; margin-top:0.2rem;">Envía JSON por POST asíncrono</div>
+        <span style="color:var(--primary); font-size:1.1rem;">➔</span>
+        <div style="background:#090e1d; border:1px solid #38bdf8; padding:0.65rem; border-radius:6px; flex:1; min-width:140px; text-align:center;">
+            <div style="color:#38bdf8; font-weight:bold;">2. authFetch ➔ api/wellheads.php</div>
+            <div style="color:var(--text-muted); font-size:0.68rem; margin-top:0.2rem;">Header Bearer Authorization</div>
         </div>
-        <span style="color:var(--primary); font-size:1.2rem;">➔</span>
-        <div style="background:#090e1d; border:1px solid #a855f7; padding:0.75rem; border-radius:6px; flex:1; min-width:160px; text-align:center;">
+        <span style="color:var(--primary); font-size:1.1rem;">➔</span>
+        <div style="background:#090e1d; border:1px solid #a855f7; padding:0.65rem; border-radius:6px; flex:1; min-width:140px; text-align:center;">
             <div style="color:#a855f7; font-weight:bold;">3. WellheadController</div>
-            <div style="color:var(--text-muted); font-size:0.7rem; margin-top:0.2rem;">Verifica ESD-1 y roles RBAC</div>
+            <div style="color:var(--text-muted); font-size:0.68rem; margin-top:0.2rem;">Controlador delgado HTTP/JSON</div>
         </div>
-        <span style="color:var(--primary); font-size:1.2rem;">➔</span>
-        <div style="background:#090e1d; border:1px solid #34d399; padding:0.75rem; border-radius:6px; flex:1; min-width:160px; text-align:center;">
-            <div style="color:#34d399; font-weight:bold;">4. PozoModel & Auditoria</div>
-            <div style="color:var(--text-muted); font-size:0.7rem; margin-top:0.2rem;">Sentencia preparada PDO UPDATE</div>
+        <span style="color:var(--primary); font-size:1.1rem;">➔</span>
+        <div style="background:#090e1d; border:1px solid #e879f9; padding:0.65rem; border-radius:6px; flex:1; min-width:140px; text-align:center;">
+            <div style="color:#e879f9; font-weight:bold;">4. WellheadService & Dominio</div>
+            <div style="color:var(--text-muted); font-size:0.68rem; margin-top:0.2rem;">Value Object Choke + Observer</div>
         </div>
-        <span style="color:var(--primary); font-size:1.2rem;">➔</span>
-        <div style="background:#090e1d; border:1px solid #fbbf24; padding:0.75rem; border-radius:6px; flex:1; min-width:160px; text-align:center;">
-            <div style="color:#fbbf24; font-weight:bold;">5. MySQL `mapaf_db`</div>
-            <div style="color:var(--text-muted); font-size:0.7rem; margin-top:0.2rem;">Persistencia en tabla `pozos`</div>
+        <span style="color:var(--primary); font-size:1.1rem;">➔</span>
+        <div style="background:#090e1d; border:1px solid #34d399; padding:0.65rem; border-radius:6px; flex:1; min-width:140px; text-align:center;">
+            <div style="color:#34d399; font-weight:bold;">5. WellheadRepository</div>
+            <div style="color:var(--text-muted); font-size:0.68rem; margin-top:0.2rem;">Acceso a datos + Fallback</div>
+        </div>
+        <span style="color:var(--primary); font-size:1.1rem;">➔</span>
+        <div style="background:#090e1d; border:1px solid #fbbf24; padding:0.65rem; border-radius:6px; flex:1; min-width:140px; text-align:center;">
+            <div style="color:#fbbf24; font-weight:bold;">6. MySQL `mapaf_db`</div>
+            <div style="color:var(--text-muted); font-size:0.68rem; margin-top:0.2rem;">InnoDB & Bitácora 21 CFR Part 11</div>
         </div>
     </div>
 </div>
@@ -131,13 +140,14 @@ try {
         </p>
         <div style="font-size:0.78rem; font-family:var(--font-mono); background:#090e1d; padding:0.75rem; border-radius:6px; border:1px solid var(--border-color); display:flex; flex-direction:column; gap:0.4rem;">
             <div><span style="color:var(--text-muted);">Tabla MySQL:</span> <code style="color:#34d399;">pozos</code> (<?= $stats['pozos'] ?> registrados)</div>
-            <div><span style="color:var(--text-muted);">Modelo PDO:</span> <code style="color:#38bdf8;">models/PozoModel.php</code></div>
+            <div><span style="color:var(--text-muted);">Servicio Dominio:</span> <code style="color:#e879f9;">services/WellheadService.php</code></div>
+            <div><span style="color:var(--text-muted);">Repositorio:</span> <code style="color:#38bdf8;">repositories/WellheadRepository.php</code></div>
             <div><span style="color:var(--text-muted);">Controlador:</span> <code style="color:#a855f7;">controllers/WellheadController.php</code></div>
             <div><span style="color:var(--text-muted);">Endpoint REST:</span> <code style="color:#fbbf24;">api/wellheads.php</code></div>
             <div><span style="color:var(--text-muted);">Vista HMI:</span> <code style="color:#cbd5e1;">views/wellheads.php</code></div>
         </div>
         <div style="margin-top:0.75rem; font-size:0.75rem; color:var(--text-muted);">
-            ✓ Funciones: Ajuste continuo de estrangulador Choke (0-100%), apertura/cierre de válvulas maestras SSV y rearme de pozo disparado.
+            ✓ Funciones: Invariante ChokeOpening (0-100%), enclavamiento SIS ESD-1, conmutación SSV y Observer de auditoría.
         </div>
     </div>
 
@@ -155,7 +165,8 @@ try {
         </p>
         <div style="font-size:0.78rem; font-family:var(--font-mono); background:#090e1d; padding:0.75rem; border-radius:6px; border:1px solid var(--border-color); display:flex; flex-direction:column; gap:0.4rem;">
             <div><span style="color:var(--text-muted);">Tabla MySQL:</span> <code style="color:#34d399;">telemetria_metricas</code> (<?= $stats['telemetria'] ?> sensores)</div>
-            <div><span style="color:var(--text-muted);">Modelo PDO:</span> <code style="color:#38bdf8;">models/TelemetriaModel.php</code></div>
+            <div><span style="color:var(--text-muted);">Servicio Dominio:</span> <code style="color:#e879f9;">services/TelemetryService.php</code></div>
+            <div><span style="color:var(--text-muted);">Repositorio:</span> <code style="color:#38bdf8;">repositories/TelemetryRepository.php</code></div>
             <div><span style="color:var(--text-muted);">Controlador:</span> <code style="color:#a855f7;">controllers/TelemetryController.php</code></div>
             <div><span style="color:var(--text-muted);">Endpoint REST:</span> <code style="color:#fbbf24;">api/telemetry.php</code></div>
             <div><span style="color:var(--text-muted);">Vista HMI:</span> <code style="color:#cbd5e1;">views/dashboard.php</code></div>
@@ -179,13 +190,14 @@ try {
         </p>
         <div style="font-size:0.78rem; font-family:var(--font-mono); background:#090e1d; padding:0.75rem; border-radius:6px; border:1px solid var(--border-color); display:flex; flex-direction:column; gap:0.4rem;">
             <div><span style="color:var(--text-muted);">Tabla MySQL:</span> <code style="color:#34d399;">alarmas</code> (<?= $stats['alarmas'] ?> registradas)</div>
-            <div><span style="color:var(--text-muted);">Modelo PDO:</span> <code style="color:#38bdf8;">models/AlarmaModel.php</code></div>
+            <div><span style="color:var(--text-muted);">Servicio Dominio:</span> <code style="color:#e879f9;">services/AlarmService.php</code></div>
+            <div><span style="color:var(--text-muted);">Repositorio:</span> <code style="color:#38bdf8;">repositories/AlarmRepository.php</code></div>
             <div><span style="color:var(--text-muted);">Controlador:</span> <code style="color:#a855f7;">controllers/AlarmController.php</code></div>
             <div><span style="color:var(--text-muted);">Endpoint REST:</span> <code style="color:#fbbf24;">api/alarms.php</code></div>
             <div><span style="color:var(--text-muted);">Vista HMI:</span> <code style="color:#cbd5e1;">views/alarms.php</code></div>
         </div>
         <div style="margin-top:0.75rem; font-size:0.75rem; color:var(--text-muted);">
-            ✓ Mitigación Antipatrón: Bloquea el "Blind Alarm ACK" exigiendo al menos 8 caracteres de explicación y firma de operador.
+            ✓ Mitigación Antipatrón: Bloquea el "Blind Alarm ACK" mediante AlarmSeverity, exigiendo mín. 8 caracteres y firma Bearer JWT.
         </div>
     </div>
 
@@ -203,7 +215,8 @@ try {
         </p>
         <div style="font-size:0.78rem; font-family:var(--font-mono); background:#090e1d; padding:0.75rem; border-radius:6px; border:1px solid var(--border-color); display:flex; flex-direction:column; gap:0.4rem;">
             <div><span style="color:var(--text-muted);">Tabla MySQL:</span> <code style="color:#34d399;">configuracion_sistema</code> (clave: <code>esd_triggered</code>)</div>
-            <div><span style="color:var(--text-muted);">Modelo PDO:</span> <code style="color:#38bdf8;">models/EsdModel.php</code></div>
+            <div><span style="color:var(--text-muted);">Servicio Dominio:</span> <code style="color:#e879f9;">services/EsdService.php</code></div>
+            <div><span style="color:var(--text-muted);">Repositorio:</span> <code style="color:#38bdf8;">repositories/EsdRepository.php</code></div>
             <div><span style="color:var(--text-muted);">Controlador:</span> <code style="color:#a855f7;">controllers/EsdController.php</code></div>
             <div><span style="color:var(--text-muted);">Endpoint REST:</span> <code style="color:#fbbf24;">api/esd.php</code></div>
             <div><span style="color:var(--text-muted);">Componentes UI:</span> <code style="color:#cbd5e1;">Banner ESD & Modal en footer.php</code></div>
@@ -223,17 +236,18 @@ try {
             <span style="font-size:1.8rem;">📜</span>
         </div>
         <p style="font-size:0.83rem; color:#94a3b8; line-height:1.45; margin:0.75rem 0;">
-            <strong>Responsabilidad Única:</strong> Gestionar la matriz de operadores y roles de turno, registrando cada consigna, acuse o cambio de estado en una bitácora inmutable conforme a 21 CFR Part 11.
+            <strong>Responsabilidad Única:</strong> Gestionar la matriz de operadores y roles de turno mediante JWT (HS256), registrando cada consigna, acuse o cambio de estado en una bitácora inmutable conforme a 21 CFR Part 11.
         </p>
         <div style="font-size:0.78rem; font-family:var(--font-mono); background:#090e1d; padding:0.75rem; border-radius:6px; border:1px solid var(--border-color); display:flex; flex-direction:column; gap:0.4rem;">
             <div><span style="color:var(--text-muted);">Tablas MySQL:</span> <code style="color:#34d399;">roles</code>, <code style="color:#34d399;">usuarios</code>, <code style="color:#34d399;">bitacora_auditoria</code> (<?= $stats['auditoria'] ?> registros)</div>
-            <div><span style="color:var(--text-muted);">Modelos PDO:</span> <code style="color:#38bdf8;">UsuarioModel.php</code>, <code style="color:#38bdf8;">AuditoriaModel.php</code></div>
+            <div><span style="color:var(--text-muted);">Servicios:</span> <code style="color:#e879f9;">AuthService.php</code>, <code style="color:#e879f9;">JwtService.php</code>, <code style="color:#e879f9;">EventDispatcher.php</code></div>
+            <div><span style="color:var(--text-muted);">Repositorios:</span> <code style="color:#38bdf8;">UserRepository.php</code>, <code style="color:#38bdf8;">AuditRepository.php</code></div>
             <div><span style="color:var(--text-muted);">Controladores:</span> <code style="color:#a855f7;">AuthController.php</code>, <code style="color:#a855f7;">AuditController.php</code></div>
             <div><span style="color:var(--text-muted);">Endpoints REST:</span> <code style="color:#fbbf24;">api/auth.php</code>, <code style="color:#fbbf24;">api/audit.php</code></div>
             <div><span style="color:var(--text-muted);">Vista HMI:</span> <code style="color:#cbd5e1;">views/audit.php</code></div>
         </div>
         <div style="margin-top:0.75rem; font-size:0.75rem; color:var(--text-muted);">
-            ✓ Integridad Inmutable: Genera identificadores únicos basados en timestamp sin colisiones y sin opción de borrado.
+            ✓ Integridad Inmutable: Observer desacoplado que registra eventos de dominio sin opción de alteración ni borrado.
         </div>
     </div>
 

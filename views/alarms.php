@@ -6,11 +6,13 @@
 $alarms = [];
 $counts = ['critical' => 0, 'warning' => 0, 'advisory' => 0, 'total' => 0];
 $pendingOnly = isset($_GET['filter']) && $_GET['filter'] === 'pending';
+$totalAlarmsCount = 0;
 
 try {
-    $alarmaModel = new AlarmaModel();
-    $alarms = $alarmaModel->getAll($pendingOnly);
-    $counts = $alarmaModel->getPendingCounts();
+    $alarmService = new AlarmService();
+    $alarms = $alarmService->getAlarms($pendingOnly);
+    $counts = $alarmService->getAlarmCounts();
+    $totalAlarmsCount = count($alarmService->getAlarms(false));
 } catch (Throwable $e) {
     // Degrada graciosamente
 }
@@ -26,7 +28,7 @@ try {
 
     <div style="display:flex; gap:0.5rem;">
         <a href="index.php?view=alarms" class="btn-well <?= !$pendingOnly ? 'btn-ssv-open' : '' ?>" style="text-decoration:none; padding:0.5rem 1rem;">
-            Todas (<?= count($alarmaModel->getAll(false)) ?>)
+            Todas (<?= $totalAlarmsCount ?>)
         </a>
         <a href="index.php?view=alarms&filter=pending" class="btn-well <?= $pendingOnly ? 'btn-ssv-open' : '' ?>" style="text-decoration:none; padding:0.5rem 1rem;">
             Pendientes (<?= $counts['total'] ?>)

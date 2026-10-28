@@ -5,8 +5,8 @@
  */
 $logs = [];
 try {
-    $auditoriaModel = new AuditoriaModel();
-    $logs = $auditoriaModel->getRecent(100);
+    $auditRepo = new AuditRepository();
+    $logs = $auditRepo->getRecent(100);
 } catch (Throwable $e) {
     // Degrada graciosamente
 }

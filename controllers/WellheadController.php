@@ -1,32 +1,31 @@
 <?php
 /**
  * PROYECTO MAPAF - Controlador: WellheadController
- * SENA ADSO - Ficha 3413988
+ * SENA Centro de la Industria, la Empresa y los Servicios (Regional Huila)
+ * Ficha: 3413988 - ADSO
  * 
- * Orquesta las maniobras operativas sobre cabezales de pozo (API 6A).
+ * Controlador delgado (Thin Controller):
+ * Delega toda la lógica de negocio, validaciones y enclavamientos a WellheadService.
  */
 
-require_once __DIR__ . '/../models/PozoModel.php';
-require_once __DIR__ . '/../models/EsdModel.php';
-require_once __DIR__ . '/../models/AuditoriaModel.php';
+require_once __DIR__ . '/../services/WellheadService.php';
+require_once __DIR__ . '/../services/AuthService.php';
 require_once __DIR__ . '/../config/cors.php';
 
 class WellheadController {
-    private PozoModel $pozoModel;
-    private EsdModel $esdModel;
-    private AuditoriaModel $auditoriaModel;
+    private WellheadService $wellheadService;
+    private AuthService $authService;
 
-    public function __construct() {
-        $this->pozoModel = new PozoModel();
-        $this->esdModel = new EsdModel();
-        $this->auditoriaModel = new AuditoriaModel();
+    public function __construct(?WellheadService $wellheadService = null, ?AuthService $authService = null) {
+        $this->wellheadService = $wellheadService ?: new WellheadService();
+        $this->authService = $authService ?: new AuthService();
     }
 
     /**
      * Lista todos los pozos
      */
     public function index(): void {
-        $wells = $this->pozoModel->getAll();
+        $wells = $this->wellheadService->getAllWells();
         sendJsonResponse([
             'success' => true,
             'data'    => $wells
@@ -34,114 +33,47 @@ class WellheadController {
     }
 
     /**
-     * Ejecuta una maniobra sobre el pozo (Choke o SSV)
+     * Ejecuta una maniobra sobre el pozo (Choke, SSV o Rearme)
      */
     public function update(): void {
         $input = getJsonInput();
         $wellId = $input['id'] ?? null;
-        $operatorCode = $input['operatorCode'] ?? ($_SESSION['user']['codigo_empleado'] ?? 'EMP-8812');
-        $operatorName = $input['operatorName'] ?? ($_SESSION['user']['nombre_completo'] ?? 'Operador de Turno');
 
         if (!$wellId) {
-            sendJsonResponse(['success' => false, 'error' => 'Se requiere el parámetro "id" del pozo'], 400);
+            sendJsonResponse(['success' => false, 'error' => 'Se requiere el parámetro "id" del cabezal de pozo'], 400);
         }
 
-        $well = $this->pozoModel->getById($wellId);
-        if (!$well) {
-            sendJsonResponse(['success' => false, 'error' => "Pozo '{$wellId}' no encontrado"], 404);
-        }
+        // Resolver operador desde token JWT (o sesión de respaldo)
+        $operator = $this->authService->getCurrentOperator();
 
-        // Si la planta está en parada de emergencia ESD-1, no permitir maniobras de apertura
-        if ($this->esdModel->isTriggered()) {
-            $this->auditoriaModel->log(
-                $operatorCode,
-                $operatorName,
-                'Operador',
-                "Intento de maniobra en pozo {$well['nombre']}",
-                'SEGURIDAD',
-                'RECHAZADO',
-                "Maniobra bloqueada: La planta se encuentra en estado de Parada de Emergencia ESD-1 activa."
-            );
-            sendJsonResponse([
-                'success' => false,
-                'error'   => 'Enclavamiento activo: La estación está en Parada de Emergencia ESD-1. Maniobra denegada.'
-            ], 403);
-        }
-
-        // Caso 1: Actualizar apertura de Choke
-        if (isset($input['chokeOpening'])) {
-            $newChoke = (float)$input['chokeOpening'];
-            $oldChoke = (float)$well['apertura_choke'];
-
-            $ok = $this->pozoModel->setChoke($wellId, $newChoke);
-            if ($ok) {
-                $this->auditoriaModel->log(
-                    $operatorCode,
-                    $operatorName,
-                    'Operador / Ingeniero',
-                    "Ajuste Estrangulador Choke en {$well['nombre']}",
-                    'MANIOBRA',
-                    'EXITOSO',
-                    sprintf("Apertura ajustada de %.1f%% a %.1f%%", $oldChoke, $newChoke)
-                );
-                sendJsonResponse([
-                    'success' => true,
-                    'message' => "Choke de {$well['nombre']} ajustado a {$newChoke}%",
-                    'well'    => $this->pozoModel->getById($wellId)
-                ]);
-            } else {
-                sendJsonResponse(['success' => false, 'error' => "No se pudo actualizar el estrangulador de {$well['nombre']}"], 500);
+        try {
+            // Caso 1: Actualizar apertura de Choke
+            if (isset($input['chokeOpening'])) {
+                $rawChoke = (float)$input['chokeOpening'];
+                $result = $this->wellheadService->adjustChoke($wellId, $rawChoke, $operator);
+                sendJsonResponse($result);
             }
-        }
 
-        // Caso 2: Conmutar Válvula de Seguridad SSV
-        if (isset($input['ssvOpen'])) {
-            $ssvOpen = (bool)$input['ssvOpen'];
-            $ok = $this->pozoModel->setSsvValve($wellId, $ssvOpen);
-            if ($ok) {
-                $actionTxt = $ssvOpen ? 'APERTURA de Válvula SSV' : 'CIERRE de Válvula SSV';
-                $this->auditoriaModel->log(
-                    $operatorCode,
-                    $operatorName,
-                    'Supervisor / Operador',
-                    "{$actionTxt} en {$well['nombre']}",
-                    'MANIOBRA',
-                    'EXITOSO',
-                    "Estado de válvula SSV conmutado a: " . ($ssvOpen ? 'ABIERTA' : 'CERRADA')
-                );
-                sendJsonResponse([
-                    'success' => true,
-                    'message' => "Válvula SSV de {$well['nombre']} conmutada a " . ($ssvOpen ? 'ABIERTA' : 'CERRADA'),
-                    'well'    => $this->pozoModel->getById($wellId)
-                ]);
-            } else {
-                sendJsonResponse(['success' => false, 'error' => "No se pudo conmutar la válvula SSV de {$well['nombre']}"], 500);
+            // Caso 2: Conmutar Válvula de Seguridad SSV
+            if (isset($input['ssvOpen'])) {
+                $ssvOpen = (bool)$input['ssvOpen'];
+                $result = $this->wellheadService->toggleSsvValve($wellId, $ssvOpen, $operator);
+                sendJsonResponse($result);
             }
-        }
 
-        // Caso 3: Rearme de pozo disparado
-        if (isset($input['action']) && $input['action'] === 'reset') {
-            $ok = $this->pozoModel->resetWellhead($wellId);
-            if ($ok) {
-                $this->auditoriaModel->log(
-                    $operatorCode,
-                    $operatorName,
-                    'Supervisor de Turno',
-                    "Rearme de Cabezal {$well['nombre']}",
-                    'SEGURIDAD',
-                    'EXITOSO',
-                    "Pozo rearmado a estado 'EN LÍNEA' con estrangulador en 15% seguro."
-                );
-                sendJsonResponse([
-                    'success' => true,
-                    'message' => "Pozo {$well['nombre']} rearmado exitosamente a estado EN LÍNEA",
-                    'well'    => $this->pozoModel->getById($wellId)
-                ]);
-            } else {
-                sendJsonResponse(['success' => false, 'error' => "No se pudo rearmar el pozo {$well['nombre']}"], 500);
+            // Caso 3: Rearme de pozo disparado
+            if (isset($input['action']) && $input['action'] === 'reset') {
+                $result = $this->wellheadService->resetWell($wellId, $operator);
+                sendJsonResponse($result);
             }
-        }
 
-        sendJsonResponse(['success' => false, 'error' => 'No se especificó ninguna acción válida'], 400);
+            sendJsonResponse(['success' => false, 'error' => 'No se especificó ninguna acción válida'], 400);
+        } catch (ValidationException $e) {
+            sendJsonResponse(['success' => false, 'error' => $e->getMessage()], 422);
+        } catch (DomainException $e) {
+            sendJsonResponse(['success' => false, 'error' => $e->getMessage()], 500);
+        } catch (Throwable $e) {
+            sendJsonResponse(['success' => false, 'error' => 'Error inesperado: ' . $e->getMessage()], 500);
+        }
     }
 }
