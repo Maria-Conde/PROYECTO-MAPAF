@@ -38,16 +38,16 @@ $currentView = $currentView ?? 'dashboard';
         <span class="sidebar-text">Módulos del Sistema</span>
     </a>
 
-    <div class="sidebar-category" style="margin-top: 1rem;">Servicios XAMPP</div>
+    <div class="sidebar-category" style="margin-top: 1rem;">Sistema & Servicios</div>
 
     <a href="index.php?view=status" class="sidebar-link <?= ($currentView === 'status') ? 'active' : '' ?>">
         <span>⚙️</span>
-        <span class="sidebar-text">Diagnóstico XAMPP</span>
+        <span class="sidebar-text">Diagnóstico del Sistema</span>
     </a>
 
-    <a href="setup_database.php" target="_blank" class="sidebar-link" title="Abrir instalador de base de datos en nueva pestaña">
+    <a href="setup_database.php" target="_blank" class="sidebar-link" title="Abrir asistente de base de datos">
         <span>💾</span>
-        <span class="sidebar-text">Instalador MySQL</span>
+        <span class="sidebar-text">Gestión de Base de Datos</span>
     </a>
 </aside>
 <main class="app-content">

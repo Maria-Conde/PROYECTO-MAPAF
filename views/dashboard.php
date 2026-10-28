@@ -54,7 +54,7 @@ try {
     <div>
         <h2 class="section-title" style="margin-bottom:0.25rem;">📡 Sensores y Transmisores en Tiempo Real</h2>
         <p style="font-size:0.8rem; color:var(--text-muted); font-family:var(--font-mono);">
-            Transmisión continua de telemetría · Persistencia relacional MySQL (mapaf_db)
+            Transmisión continua de telemetría de campo y variables de proceso
         </p>
     </div>
     <span class="badge-status badge-nominal" style="padding:0.4rem 0.8rem;">● TRANSMISORES ONLINE</span>

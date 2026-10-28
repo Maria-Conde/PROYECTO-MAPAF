@@ -15,7 +15,7 @@ try {
 <div style="margin-bottom:1.5rem;">
     <h2 class="section-title">📜 Bitácora de Auditoría Forense Inmutable</h2>
     <p style="font-size:0.85rem; color:var(--text-muted); font-family:var(--font-mono);">
-        Cumplimiento normativo 21 CFR Part 11 · Registro estricto de cada consigna de choke, acuse y maniobra SIS
+        Registro cronológico e inmutable de consignas de proceso, maniobras y eventos operacionales (21 CFR Part 11)
     </p>
 </div>
 

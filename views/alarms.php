@@ -22,7 +22,7 @@ try {
     <div>
         <h2 class="section-title" style="margin-bottom:0.25rem;">🔔 Consola de Gestión de Alarmas (ANSI/ISA-18.2)</h2>
         <p style="font-size:0.85rem; color:var(--text-muted); font-family:var(--font-mono);">
-            Trazabilidad obligatoria de acuse · Mitigación de Antipatrón Blind Alarm ACK
+            Supervisión continua, priorización y reconocimiento formal bajo norma ANSI/ISA-18.2
         </p>
     </div>
 

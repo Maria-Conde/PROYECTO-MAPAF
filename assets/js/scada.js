@@ -107,7 +107,7 @@ const SCADA = {
                 if (data.token) {
                     sessionStorage.setItem('mapaf_jwt', data.token);
                 }
-                this.showToast(data.message + ' · [JWT HS256]');
+                this.showToast(data.message);
                 this.pollData();
             } else {
                 this.showToast(data.error || 'Error al cambiar operador', true);

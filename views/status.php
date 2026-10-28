@@ -7,9 +7,9 @@ $health = Database::checkHealth();
 ?>
 
 <div style="margin-bottom:1.5rem;">
-    <h2 class="section-title">⚙️ Diagnóstico de Conectividad XAMPP & MySQL</h2>
+    <h2 class="section-title">⚙️ Diagnóstico de Conectividad & Servicios del Sistema</h2>
     <p style="font-size:0.85rem; color:var(--text-muted); font-family:var(--font-mono);">
-        Verificación de Apache 2.4 · Intérprete PHP 8 · Motor MySQL/MariaDB (Puerto 3306)
+        Verificación de Servidor Web · Intérprete PHP · Motor de Base de Datos MySQL/MariaDB
     </p>
 </div>
 

@@ -38,12 +38,12 @@ try {
         <div>
             <h2 class="section-title" style="margin-bottom:0.25rem;">🧩 Arquitectura Modular del Prototipo MAPAF</h2>
             <p style="font-size:0.85rem; color:var(--text-muted); font-family:var(--font-mono);">
-                Guía interactiva de diseño modular · Separación estricta de responsabilidades en PHP 8 & MySQL
+                Guía interactiva de componentes del sistema · Separación de responsabilidades en 5 capas
             </p>
         </div>
         <div>
             <span class="badge-status badge-nominal" style="padding:0.4rem 0.85rem; font-size:0.75rem;">
-                ● ARQUITECTURA LIMPIA MVC · AUTONOMÍA EN XAMPP
+                ● ARQUITECTURA LIMPIA · 5 CAPAS
             </span>
         </div>
     </div>
