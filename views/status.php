@@ -90,48 +90,39 @@ $health = Database::checkHealth();
     <?php endif; ?>
 </div>
 
-<!-- PANEL DE ARQUITECTURA, PATRONES DE DISEÑO Y AUTENTICACIÓN JWT -->
+<!-- PANEL DE ARQUITECTURA Y CIBERSEGURIDAD -->
 <div class="scada-card" style="margin-top:2rem; border-top:3px solid #8b5cf6;">
-    <div class="card-header-flex">
+    <div class="card-header-flex" style="margin-bottom:1rem;">
         <div>
-            <span class="badge-status badge-nominal" style="font-size:0.7rem;">ARQUITECTURA ACTIVA & CIBERSEGURIDAD</span>
-            <h3 style="color:#fff; font-size:1.15rem; margin-top:0.35rem;">🛡️ Estado de Patrones de Diseño, Dominio & JWT</h3>
+            <span class="badge-status badge-nominal" style="font-size:0.7rem;">CIBERSEGURIDAD & NÚCLEO TÉCNICO</span>
+            <h3 style="color:#fff; font-size:1.15rem; margin-top:0.35rem;">🛡️ Estado de Seguridad & Servicios de Backend</h3>
         </div>
-        <span style="font-size:2rem;">🔐</span>
+        <span class="badge-status badge-nominal" style="padding:0.35rem 0.75rem;">SERVICIOS EN LÍNEA</span>
     </div>
 
-    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:1.25rem; margin-top:1rem; font-size:0.82rem;">
+    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:1rem; font-size:0.82rem;">
         <div style="background:#090e1d; border:1px solid var(--border-color); border-radius:8px; padding:1rem;">
-            <div style="color:#38bdf8; font-weight:bold; font-size:0.9rem; margin-bottom:0.5rem;">🔑 Autenticación JWT (RFC 7519 / RFC 7515)</div>
-            <ul style="color:#cbd5e1; line-height:1.6; padding-left:1.2rem; margin:0;">
-                <li><strong>Algoritmo forzado:</strong> HS256 (HMAC-SHA256)</li>
-                <li><strong>Comparación segura:</strong> <code>hash_equals()</code> (Timing attack proof)</li>
-                <li><strong>Vigencia token:</strong> 24 Horas (<?= defined('JWT_EXPIRATION_SECONDS') ? JWT_EXPIRATION_SECONDS : 86400 ?>s)</li>
-                <li><strong>Transporte:</strong> Cabecera <code>Authorization: Bearer &lt;token&gt;</code></li>
-                <li><strong>Servicio:</strong> <code>services/JwtService.php</code></li>
-            </ul>
+            <div style="font-size:0.72rem; color:var(--text-muted); font-family:var(--font-mono);">AUTENTICACIÓN</div>
+            <div style="color:#38bdf8; font-weight:bold; font-size:1rem; margin:0.3rem 0;">JWT HS256</div>
+            <div style="color:#34d399; font-size:0.75rem;">● Tokens Activos (24h)</div>
         </div>
 
         <div style="background:#090e1d; border:1px solid var(--border-color); border-radius:8px; padding:1rem;">
-            <div style="color:#a855f7; font-weight:bold; font-size:0.9rem; margin-bottom:0.5rem;">🏗️ Patrones de Diseño Implementados</div>
-            <ul style="color:#cbd5e1; line-height:1.6; padding-left:1.2rem; margin:0;">
-                <li><strong>Repository Pattern:</strong> Abstracción de datos con fallback en memoria</li>
-                <li><strong>Service Layer:</strong> Lógica de negocio y reglas aisladas</li>
-                <li><strong>Observer Pattern:</strong> <code>EventDispatcher</code> + <code>AuditObserver</code> (21 CFR Part 11)</li>
-                <li><strong>Singleton:</strong> Conexión única <code>Database::getInstance()</code></li>
-                <li><strong>Thin Controller:</strong> Controladores delgados HTTP/JSON</li>
-            </ul>
+            <div style="font-size:0.72rem; color:var(--text-muted); font-family:var(--font-mono);">ARQUITECTURA</div>
+            <div style="color:#a855f7; font-weight:bold; font-size:1rem; margin:0.3rem 0;">Service & Repository</div>
+            <div style="color:#34d399; font-size:0.75rem;">● Capa de Acceso Desacoplada</div>
         </div>
 
         <div style="background:#090e1d; border:1px solid var(--border-color); border-radius:8px; padding:1rem;">
-            <div style="color:#34d399; font-weight:bold; font-size:0.9rem; margin-bottom:0.5rem;">🎯 Modelado de Dominios (DDD) & Reglas</div>
-            <ul style="color:#cbd5e1; line-height:1.6; padding-left:1.2rem; margin:0;">
-                <li><strong>ChokeOpening:</strong> Invariante de estrangulador (0.0% a 100.0%)</li>
-                <li><strong>WellheadStatus:</strong> Estados operacionales norma API 6A</li>
-                <li><strong>AlarmSeverity:</strong> Mitigación antipatrón Blind ACK (ANSI/ISA-18.2)</li>
-                <li><strong>OperatorIdentity:</strong> Matriz RBAC de permisos por operador</li>
-                <li><strong>Enclavamientos SIS:</strong> Bloqueo durante parada ESD-1</li>
-            </ul>
+            <div style="font-size:0.72rem; color:var(--text-muted); font-family:var(--font-mono);">AUDITORÍA FORENSE</div>
+            <div style="color:#fbbf24; font-weight:bold; font-size:1rem; margin:0.3rem 0;">Observer Pattern</div>
+            <div style="color:#34d399; font-size:0.75rem;">● Bitácora Inmutable Activa</div>
+        </div>
+
+        <div style="background:#090e1d; border:1px solid var(--border-color); border-radius:8px; padding:1rem;">
+            <div style="font-size:0.72rem; color:var(--text-muted); font-family:var(--font-mono);">ENCLAVAMIENTO</div>
+            <div style="color:#34d399; font-weight:bold; font-size:1rem; margin:0.3rem 0;">Norma API 6A & SIS</div>
+            <div style="color:#34d399; font-size:0.75rem;">● Reglas de Dominio Válidas</div>
         </div>
     </div>
 </div>
