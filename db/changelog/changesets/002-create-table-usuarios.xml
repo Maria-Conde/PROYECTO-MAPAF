@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="002-create-table-usuarios" author="maria-conde">
+        <comment>Creación de tabla usuarios vinculada con roles mediante clave foránea</comment>
+
+        <createTable tableName="usuarios" remarks="Cuentas de Operadores y Personal Técnico de Planta">
+            <column name="id" type="varchar(50)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="codigo_empleado" type="varchar(50)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="nombre_completo" type="varchar(150)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="varchar(150)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="password_hash" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="rol_id" type="varchar(50)">
+                <constraints nullable="false" foreignKeyName="fk_usuarios_rol" references="roles(id)"/>
+            </column>
+            <column name="sector_asignado" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="estado" type="varchar(20)" defaultValue="ACTIVO"/>
+            <column name="ultimo_acceso" type="datetime" defaultValueComputed="CURRENT_TIMESTAMP"/>
+            <column name="fecha_registro" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <rollback>
+            <dropTable tableName="usuarios"/>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>

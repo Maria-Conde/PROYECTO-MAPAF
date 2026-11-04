@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="007-create-table-configuracion-sistema" author="maria-conde">
+        <comment>Creación de tabla configuracion_sistema para parámetros globales y estado SIS ESD-1</comment>
+
+        <createTable tableName="configuracion_sistema" remarks="Parámetros Globales y Estado SIS ESD-1">
+            <column name="clave" type="varchar(50)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="valor" type="text">
+                <constraints nullable="false"/>
+            </column>
+            <column name="descripcion" type="varchar(255)"/>
+            <column name="fecha_actualizacion" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <rollback>
+            <dropTable tableName="configuracion_sistema"/>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>

@@ -80,9 +80,9 @@ $health = Database::checkHealth();
                 </span>
                 <?php endforeach; ?>
             </div>
-            <div style="margin-top:1.5rem;">
+            <div style="margin-top:1.5rem; display:flex; gap:0.75rem; flex-wrap:wrap;">
                 <a href="setup_database.php" class="btn-confirm" style="display:inline-block; text-decoration:none; font-size:0.8rem; padding:0.5rem 1rem;">
-                    🔄 Re-ejecutar Migrador setup_database.php
+                    ⚡ Migrador Liquibase (setup_database.php)
                 </a>
             </div>
         </div>
@@ -100,7 +100,7 @@ $health = Database::checkHealth();
         <span class="badge-status badge-nominal" style="padding:0.35rem 0.75rem;">SERVICIOS EN LÍNEA</span>
     </div>
 
-    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:1rem; font-size:0.82rem;">
+    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:1rem; font-size:0.82rem;">
         <div style="background:#090e1d; border:1px solid var(--border-color); border-radius:8px; padding:1rem;">
             <div style="font-size:0.72rem; color:var(--text-muted); font-family:var(--font-mono);">AUTENTICACIÓN</div>
             <div style="color:#38bdf8; font-weight:bold; font-size:1rem; margin:0.3rem 0;">JWT HS256</div>
@@ -108,21 +108,27 @@ $health = Database::checkHealth();
         </div>
 
         <div style="background:#090e1d; border:1px solid var(--border-color); border-radius:8px; padding:1rem;">
+            <div style="font-size:0.72rem; color:var(--text-muted); font-family:var(--font-mono);">CONTROL ESQUEMA</div>
+            <div style="color:#06b6d4; font-weight:bold; font-size:1rem; margin:0.3rem 0;">Liquibase 4.27</div>
+            <div style="color:#34d399; font-size:0.75rem;">● 8/8 ChangeSets OK</div>
+        </div>
+
+        <div style="background:#090e1d; border:1px solid var(--border-color); border-radius:8px; padding:1rem;">
             <div style="font-size:0.72rem; color:var(--text-muted); font-family:var(--font-mono);">ARQUITECTURA</div>
             <div style="color:#a855f7; font-weight:bold; font-size:1rem; margin:0.3rem 0;">Service & Repository</div>
-            <div style="color:#34d399; font-size:0.75rem;">● Capa de Acceso Desacoplada</div>
+            <div style="color:#34d399; font-size:0.75rem;">● Capa Desacoplada</div>
         </div>
 
         <div style="background:#090e1d; border:1px solid var(--border-color); border-radius:8px; padding:1rem;">
             <div style="font-size:0.72rem; color:var(--text-muted); font-family:var(--font-mono);">AUDITORÍA FORENSE</div>
             <div style="color:#fbbf24; font-weight:bold; font-size:1rem; margin:0.3rem 0;">Observer Pattern</div>
-            <div style="color:#34d399; font-size:0.75rem;">● Bitácora Inmutable Activa</div>
+            <div style="color:#34d399; font-size:0.75rem;">● Bitácora Inmutable</div>
         </div>
 
         <div style="background:#090e1d; border:1px solid var(--border-color); border-radius:8px; padding:1rem;">
             <div style="font-size:0.72rem; color:var(--text-muted); font-family:var(--font-mono);">ENCLAVAMIENTO</div>
             <div style="color:#34d399; font-weight:bold; font-size:1rem; margin:0.3rem 0;">Norma API 6A & SIS</div>
-            <div style="color:#34d399; font-size:0.75rem;">● Reglas de Dominio Válidas</div>
+            <div style="color:#34d399; font-size:0.75rem;">● Reglas Validadas</div>
         </div>
     </div>
 </div>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="004-create-table-telemetria-metricas" author="maria-conde">
+        <comment>Creación de tabla telemetria_metricas para adquisición de sensores físicas e IIoT</comment>
+
+        <createTable tableName="telemetria_metricas" remarks="Sensores Físicos y Monitoreo de Variables de Proceso">
+            <column name="id" type="varchar(50)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="tag" type="varchar(50)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="etiqueta" type="varchar(150)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="valor" type="decimal(12,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="unidad" type="varchar(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="valor_objetivo" type="decimal(12,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="trip_bajo" type="decimal(12,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="alarma_alta" type="decimal(12,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="trip_alto" type="decimal(12,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tendencia" type="varchar(20)" defaultValue="stable"/>
+            <column name="severidad" type="varchar(20)" defaultValue="nominal"/>
+            <column name="historial" type="json">
+                <constraints nullable="false"/>
+            </column>
+            <column name="pozo_id" type="varchar(50)">
+                <constraints foreignKeyName="fk_telemetria_pozo" references="pozos(id)"/>
+            </column>
+            <column name="fecha_actualizacion" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <rollback>
+            <dropTable tableName="telemetria_metricas"/>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>

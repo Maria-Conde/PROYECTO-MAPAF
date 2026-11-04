@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <!-- ====================================================================== -->
+    <!-- PROYECTO MAPAF - CHANGELOG MAESTRO DE LIQUIBASE                        -->
+    <!-- SENA ADSO - Ficha: 3413988-ADSO | SCADA Upstream Oil & Gas             -->
+    <!-- ====================================================================== -->
+
+    <!-- Inclusión secuencial y controlada de ChangeSets -->
+    <include file="changesets/001-create-table-roles.xml" relativeToChangelogFile="true"/>
+    <include file="changesets/002-create-table-usuarios.xml" relativeToChangelogFile="true"/>
+    <include file="changesets/003-create-table-pozos.xml" relativeToChangelogFile="true"/>
+    <include file="changesets/004-create-table-telemetria-metricas.xml" relativeToChangelogFile="true"/>
+    <include file="changesets/005-create-table-alarmas.xml" relativeToChangelogFile="true"/>
+    <include file="changesets/006-create-table-bitacora-auditoria.xml" relativeToChangelogFile="true"/>
+    <include file="changesets/007-create-table-configuracion-sistema.xml" relativeToChangelogFile="true"/>
+    <include file="changesets/008-seed-initial-data.xml" relativeToChangelogFile="true"/>
+
+</databaseChangeLog>

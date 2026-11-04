@@ -69,14 +69,15 @@ echo                     OPCIONES DEL SISTEMA MAPAF
 echo ======================================================================
 echo   [1] Abrir Dashboard SCADA en el Navegador (http://localhost/mapaf/)
 echo   [2] Abrir Base de Datos en phpMyAdmin
-echo   [3] Inicializar / Restaurar Base de Datos MySQL (setup_database.php)
-echo   [4] Ver Estado de Infraestructura en JSON (api/status.php)
-echo   [5] Abrir Documentacion Tecnica (README.md)
+echo   [3] Inicializar / Montar Base de Datos con Liquibase (setup_database.php)
+echo   [4] Gestor Avanzado de Migraciones Liquibase (ejecutar_liquibase.bat)
+echo   [5] Ver Estado de Infraestructura en JSON (api/status.php)
+echo   [6] Abrir Documentacion Tecnica (README.md)
 echo   [0] Salir
 echo ======================================================================
 echo.
 
-set /p OPT="Seleccione una opcion (0-5) [Por defecto 1]: "
+set /p OPT="Seleccione una opcion (0-6) [Por defecto 1]: "
 if "%OPT%"=="" set OPT=1
 
 if "%OPT%"=="1" (
@@ -93,7 +94,7 @@ if "%OPT%"=="2" (
 
 if "%OPT%"=="3" (
     cls
-    echo Inicializando y verificando base de datos mapaf_db en MySQL...
+    echo Inicializando y montando base de datos mapaf_db mediante Liquibase...
     echo.
     if exist "C:\xampp\php\php.exe" (
         "C:\xampp\php\php.exe" "%~dp0setup_database.php"
@@ -104,11 +105,16 @@ if "%OPT%"=="3" (
 )
 
 if "%OPT%"=="4" (
-    start http://localhost/mapaf/api/status.php
+    call "%~dp0ejecutar_liquibase.bat"
     goto MAIN_MENU
 )
 
 if "%OPT%"=="5" (
+    start http://localhost/mapaf/api/status.php
+    goto MAIN_MENU
+)
+
+if "%OPT%"=="6" (
     start notepad "%~dp0README.md"
     goto MAIN_MENU
 )

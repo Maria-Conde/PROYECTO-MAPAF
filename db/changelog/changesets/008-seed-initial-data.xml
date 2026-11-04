@@ -1,0 +1,397 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="008-seed-initial-data" author="maria-conde">
+        <comment>Población inicial de datos: roles RBAC, usuarios, pozos API 6A, sensores y configuración SIS</comment>
+
+        <!-- 1. Roles RBAC -->
+        <insert tableName="roles">
+            <column name="id" value="role-admin"/>
+            <column name="nombre" value="Administrador del Sistema"/>
+            <column name="codigo" value="SYS-ADMIN"/>
+            <column name="descripcion" value="Control total de ciberseguridad, gestión de usuarios, enclavamientos y configuración de planta."/>
+            <column name="color" value="rose"/>
+            <column name="es_sistema" valueNumeric="1"/>
+            <column name="permisos" value='["view_telemetry", "control_valves", "control_choke", "execute_esd", "reset_esd", "ack_alarms", "export_historian", "manage_users"]'/>
+        </insert>
+        <insert tableName="roles">
+            <column name="id" value="role-engineer"/>
+            <column name="nombre" value="Ingeniero de Operaciones"/>
+            <column name="codigo" value="OPS-ENG"/>
+            <column name="descripcion" value="Ajuste de consignas de proceso, curvas de producción, estranguladores y bypass bajo protocolo."/>
+            <column name="color" value="purple"/>
+            <column name="es_sistema" valueNumeric="0"/>
+            <column name="permisos" value='["view_telemetry", "control_valves", "control_choke", "execute_esd", "reset_esd", "ack_alarms", "export_historian"]'/>
+        </insert>
+        <insert tableName="roles">
+            <column name="id" value="role-operator"/>
+            <column name="nombre" value="Operador de Consola"/>
+            <column name="codigo" value="CONSOLE-OP"/>
+            <column name="descripcion" value="Monitoreo continuo de cabezales, maniobra de choke y reconocimiento de alarmas operacionales."/>
+            <column name="color" value="emerald"/>
+            <column name="es_sistema" valueNumeric="0"/>
+            <column name="permisos" value='["view_telemetry", "control_choke", "ack_alarms"]'/>
+        </insert>
+        <insert tableName="roles">
+            <column name="id" value="role-supervisor"/>
+            <column name="nombre" value="Supervisor de Turno"/>
+            <column name="codigo" value="SHIFT-SUPV"/>
+            <column name="descripcion" value="Supervisión de sala de control, autorización de maniobras críticas y acuse de alarmas ISA-18.2."/>
+            <column name="color" value="amber"/>
+            <column name="es_sistema" valueNumeric="0"/>
+            <column name="permisos" value='["view_telemetry", "control_valves", "execute_esd", "ack_alarms", "export_historian"]'/>
+        </insert>
+        <insert tableName="roles">
+            <column name="id" value="role-viewer"/>
+            <column name="nombre" value="Auditor / Observador"/>
+            <column name="codigo" value="AUDIT-VIEW"/>
+            <column name="descripcion" value="Acceso exclusivo de sólo lectura para fiscalización de producción y reportes históricos."/>
+            <column name="color" value="sky"/>
+            <column name="es_sistema" valueNumeric="0"/>
+            <column name="permisos" value='["view_telemetry", "export_historian"]'/>
+        </insert>
+
+        <!-- 2. Usuarios Iniciales -->
+        <insert tableName="usuarios">
+            <column name="id" value="usr-001"/>
+            <column name="codigo_empleado" value="EMP-8812"/>
+            <column name="nombre_completo" value="María José Conde Dussan"/>
+            <column name="email" value="m.conde@mapaf.senacontrol.co"/>
+            <column name="password_hash" value="$2y$10$wT8yZ00xX/G3.qD...adminhash"/>
+            <column name="rol_id" value="role-admin"/>
+            <column name="sector_asignado" value="Planta Central Huila / RTOC"/>
+            <column name="estado" value="EN TURNO"/>
+        </insert>
+        <insert tableName="usuarios">
+            <column name="id" value="usr-002"/>
+            <column name="codigo_empleado" value="EMP-8813"/>
+            <column name="nombre_completo" value="Hernann Thomas Manchola"/>
+            <column name="email" value="h.manchola@mapaf.senacontrol.co"/>
+            <column name="password_hash" value="$2y$10$wT8yZ00xX/G3.qD...adminhash"/>
+            <column name="rol_id" value="role-engineer"/>
+            <column name="sector_asignado" value="Pad 04 &amp; 09 Upstream"/>
+            <column name="estado" value="EN TURNO"/>
+        </insert>
+        <insert tableName="usuarios">
+            <column name="id" value="usr-003"/>
+            <column name="codigo_empleado" value="EMP-8814"/>
+            <column name="nombre_completo" value="Emilin Tatiana Vargas"/>
+            <column name="email" value="e.vargas@mapaf.senacontrol.co"/>
+            <column name="password_hash" value="$2y$10$wT8yZ00xX/G3.qD...adminhash"/>
+            <column name="rol_id" value="role-supervisor"/>
+            <column name="sector_asignado" value="Sala de Control y Despacho"/>
+            <column name="estado" value="EN TURNO"/>
+        </insert>
+        <insert tableName="usuarios">
+            <column name="id" value="usr-004"/>
+            <column name="codigo_empleado" value="EMP-5521"/>
+            <column name="nombre_completo" value="Carlos Méndez Arango"/>
+            <column name="email" value="c.mendez@mapaf.senacontrol.co"/>
+            <column name="password_hash" value="$2y$10$wT8yZ00xX/G3.qD...userhash"/>
+            <column name="rol_id" value="role-operator"/>
+            <column name="sector_asignado" value="Batería de Separación 02"/>
+            <column name="estado" value="ACTIVO"/>
+        </insert>
+        <insert tableName="usuarios">
+            <column name="id" value="usr-005"/>
+            <column name="codigo_empleado" value="EMP-1109"/>
+            <column name="nombre_completo" value="Javier Humberto Pinto Díaz"/>
+            <column name="email" value="j.pinto@sena.edu.co"/>
+            <column name="password_hash" value="$2y$10$wT8yZ00xX/G3.qD...userhash"/>
+            <column name="rol_id" value="role-admin"/>
+            <column name="sector_asignado" value="Auditoría Académica ADSO"/>
+            <column name="estado" value="ACTIVO"/>
+        </insert>
+
+        <!-- 3. Cabezales de Pozo API 6A -->
+        <insert tableName="pozos">
+            <column name="id" value="well-a12"/>
+            <column name="nombre" value="POZO ALFA-12"/>
+            <column name="sector" value="PAD 04-A"/>
+            <column name="estado" value="EN LÍNEA"/>
+            <column name="presion_tubing" valueNumeric="1842.50"/>
+            <column name="presion_casing" valueNumeric="642.00"/>
+            <column name="caudal_produccion" valueNumeric="4210.00"/>
+            <column name="temperatura" valueNumeric="78.40"/>
+            <column name="apertura_choke" valueNumeric="42.80"/>
+            <column name="objetivo_choke" valueNumeric="42.80"/>
+            <column name="frecuencia_esp" valueNumeric="58.20"/>
+            <column name="vibracion_esp" valueNumeric="1.840"/>
+            <column name="valvula_ssv_abierta" valueNumeric="1"/>
+            <column name="purga_anular_abierta" valueNumeric="0"/>
+            <column name="inyeccion_quimica" valueNumeric="1"/>
+            <column name="arena_acustica_ppm" valueNumeric="4.20"/>
+        </insert>
+        <insert tableName="pozos">
+            <column name="id" value="well-b04"/>
+            <column name="nombre" value="POZO BRAVO-04"/>
+            <column name="sector" value="PAD 04-B"/>
+            <column name="estado" value="EN LÍNEA"/>
+            <column name="presion_tubing" valueNumeric="2050.00"/>
+            <column name="presion_casing" valueNumeric="710.00"/>
+            <column name="caudal_produccion" valueNumeric="4890.00"/>
+            <column name="temperatura" valueNumeric="81.20"/>
+            <column name="apertura_choke" valueNumeric="38.50"/>
+            <column name="objetivo_choke" valueNumeric="38.50"/>
+            <column name="frecuencia_esp" valueNumeric="60.00"/>
+            <column name="vibracion_esp" valueNumeric="2.150"/>
+            <column name="valvula_ssv_abierta" valueNumeric="1"/>
+            <column name="purga_anular_abierta" valueNumeric="0"/>
+            <column name="inyeccion_quimica" valueNumeric="1"/>
+            <column name="arena_acustica_ppm" valueNumeric="6.80"/>
+        </insert>
+        <insert tableName="pozos">
+            <column name="id" value="well-c09"/>
+            <column name="nombre" value="POZO CHARLIE-09"/>
+            <column name="sector" value="PAD 09-NORTH"/>
+            <column name="estado" value="ESTRANGULADO"/>
+            <column name="presion_tubing" valueNumeric="1620.00"/>
+            <column name="presion_casing" valueNumeric="580.00"/>
+            <column name="caudal_produccion" valueNumeric="2980.00"/>
+            <column name="temperatura" valueNumeric="74.60"/>
+            <column name="apertura_choke" valueNumeric="22.00"/>
+            <column name="objetivo_choke" valueNumeric="22.00"/>
+            <column name="frecuencia_esp" valueNumeric="52.00"/>
+            <column name="vibracion_esp" valueNumeric="1.450"/>
+            <column name="valvula_ssv_abierta" valueNumeric="1"/>
+            <column name="purga_anular_abierta" valueNumeric="0"/>
+            <column name="inyeccion_quimica" valueNumeric="1"/>
+            <column name="arena_acustica_ppm" valueNumeric="2.10"/>
+        </insert>
+        <insert tableName="pozos">
+            <column name="id" value="well-d02"/>
+            <column name="nombre" value="POZO DELTA-02"/>
+            <column name="sector" value="PAD 09-SOUTH"/>
+            <column name="estado" value="MANTENIMIENTO"/>
+            <column name="presion_tubing" valueNumeric="420.00"/>
+            <column name="presion_casing" valueNumeric="150.00"/>
+            <column name="caudal_produccion" valueNumeric="0.00"/>
+            <column name="temperatura" valueNumeric="32.10"/>
+            <column name="apertura_choke" valueNumeric="0.00"/>
+            <column name="objetivo_choke" valueNumeric="0.00"/>
+            <column name="frecuencia_esp" valueNumeric="0.00"/>
+            <column name="vibracion_esp" valueNumeric="0.020"/>
+            <column name="valvula_ssv_abierta" valueNumeric="0"/>
+            <column name="purga_anular_abierta" valueNumeric="1"/>
+            <column name="inyeccion_quimica" valueNumeric="0"/>
+            <column name="arena_acustica_ppm" valueNumeric="0.00"/>
+        </insert>
+
+        <!-- 4. Telemetría de Sensores -->
+        <insert tableName="telemetria_metricas">
+            <column name="id" value="pt-101"/>
+            <column name="tag" value="WHTP-101A"/>
+            <column name="etiqueta" value="PRESIÓN DE CABEZAL (TUBING)"/>
+            <column name="valor" valueNumeric="1842.50"/>
+            <column name="unidad" value="PSI"/>
+            <column name="valor_objetivo" valueNumeric="1800.00"/>
+            <column name="trip_bajo" valueNumeric="850.00"/>
+            <column name="alarma_alta" valueNumeric="2100.00"/>
+            <column name="trip_alto" valueNumeric="2350.00"/>
+            <column name="tendencia" value="stable"/>
+            <column name="severidad" value="nominal"/>
+            <column name="historial" value="[1810, 1822, 1835, 1830, 1845, 1840, 1838, 1842.5]"/>
+            <column name="pozo_id" value="well-a12"/>
+        </insert>
+        <insert tableName="telemetria_metricas">
+            <column name="id" value="pt-102"/>
+            <column name="tag" value="CASING-101B"/>
+            <column name="etiqueta" value="PRESIÓN ANULAR (CASING)"/>
+            <column name="valor" valueNumeric="642.00"/>
+            <column name="unidad" value="PSI"/>
+            <column name="valor_objetivo" valueNumeric="600.00"/>
+            <column name="trip_bajo" valueNumeric="100.00"/>
+            <column name="alarma_alta" valueNumeric="800.00"/>
+            <column name="trip_alto" valueNumeric="950.00"/>
+            <column name="tendencia" value="rising"/>
+            <column name="severidad" value="advisory"/>
+            <column name="historial" value="[610, 618, 622, 630, 635, 638, 640, 642]"/>
+            <column name="pozo_id" value="well-a12"/>
+        </insert>
+        <insert tableName="telemetria_metricas">
+            <column name="id" value="tt-301"/>
+            <column name="tag" value="TEMP-FLOW-301"/>
+            <column name="etiqueta" value="TEMPERATURA DE MANIFOLD"/>
+            <column name="valor" valueNumeric="78.40"/>
+            <column name="unidad" value="°C"/>
+            <column name="valor_objetivo" valueNumeric="75.00"/>
+            <column name="trip_bajo" valueNumeric="20.00"/>
+            <column name="alarma_alta" valueNumeric="92.00"/>
+            <column name="trip_alto" valueNumeric="105.00"/>
+            <column name="tendencia" value="rising"/>
+            <column name="severidad" value="nominal"/>
+            <column name="historial" value="[75.2, 75.8, 76.5, 77.0, 77.5, 78.0, 78.2, 78.4]"/>
+            <column name="pozo_id" value="well-a12"/>
+        </insert>
+        <insert tableName="telemetria_metricas">
+            <column name="id" value="ft-201"/>
+            <column name="tag" value="MFM-201"/>
+            <column name="etiqueta" value="CAUDAL BRUTO DE PRODUCCIÓN"/>
+            <column name="valor" valueNumeric="14820.00"/>
+            <column name="unidad" value="BPD"/>
+            <column name="valor_objetivo" valueNumeric="15000.00"/>
+            <column name="trip_bajo" valueNumeric="4000.00"/>
+            <column name="alarma_alta" valueNumeric="16500.00"/>
+            <column name="trip_alto" valueNumeric="18000.00"/>
+            <column name="tendencia" value="stable"/>
+            <column name="severidad" value="nominal"/>
+            <column name="historial" value="[14750, 14780, 14810, 14800, 14830, 14815, 14820, 14820]"/>
+            <column name="pozo_id" value="well-b04"/>
+        </insert>
+        <insert tableName="telemetria_metricas">
+            <column name="id" value="esp-01"/>
+            <column name="tag" value="ESP-FREQ-01"/>
+            <column name="etiqueta" value="FRECUENCIA BOMBA ESP"/>
+            <column name="valor" valueNumeric="58.20"/>
+            <column name="unidad" value="Hz"/>
+            <column name="valor_objetivo" valueNumeric="60.00"/>
+            <column name="trip_bajo" valueNumeric="35.00"/>
+            <column name="alarma_alta" valueNumeric="63.50"/>
+            <column name="trip_alto" valueNumeric="66.00"/>
+            <column name="tendencia" value="stable"/>
+            <column name="severidad" value="nominal"/>
+            <column name="historial" value="[57.8, 58.0, 58.1, 58.2, 58.0, 58.2, 58.1, 58.2]"/>
+            <column name="pozo_id" value="well-a12"/>
+        </insert>
+        <insert tableName="telemetria_metricas">
+            <column name="id" value="gor-402"/>
+            <column name="tag" value="GOR-ANALYZER"/>
+            <column name="etiqueta" value="RELACIÓN GAS/PETRÓLEO (GOR)"/>
+            <column name="valor" valueNumeric="462.80"/>
+            <column name="unidad" value="SCF/BBL"/>
+            <column name="valor_objetivo" valueNumeric="450.00"/>
+            <column name="trip_bajo" valueNumeric="200.00"/>
+            <column name="alarma_alta" valueNumeric="550.00"/>
+            <column name="trip_alto" valueNumeric="680.00"/>
+            <column name="tendencia" value="falling"/>
+            <column name="severidad" value="nominal"/>
+            <column name="historial" value="[475, 471, 468, 465, 464, 463, 463.5, 462.8]"/>
+            <column name="pozo_id" value="well-c09"/>
+        </insert>
+
+        <!-- 5. Alarmas Industriales ANSI/ISA-18.2 -->
+        <insert tableName="alarmas">
+            <column name="id" value="alm-101"/>
+            <column name="timestamp_evento" value="14:28:12"/>
+            <column name="tag" value="CASING-101B"/>
+            <column name="pozo_id" value="well-a12"/>
+            <column name="subsistema" value="PAD 04-A"/>
+            <column name="descripcion" value="Presión Anular Casing en ascenso acelerado"/>
+            <column name="valor" value="642.0 PSI"/>
+            <column name="umbral" value="&gt; 600.0 PSI Advisory"/>
+            <column name="severidad" value="advisory"/>
+            <column name="reconocida" valueNumeric="0"/>
+            <column name="causa_disparo" value="Restricción en flujo de retorno"/>
+        </insert>
+        <insert tableName="alarmas">
+            <column name="id" value="alm-102"/>
+            <column name="timestamp_evento" value="13:52:04"/>
+            <column name="tag" value="VIB-ESP-B04"/>
+            <column name="pozo_id" value="well-b04"/>
+            <column name="subsistema" value="BOMBA ESP"/>
+            <column name="descripcion" value="Vibración axial de bomba ESP fuera de tolerancia ISO 10816"/>
+            <column name="valor" value="2.15 mm/s"/>
+            <column name="umbral" value="&gt; 2.0 mm/s Warning"/>
+            <column name="severidad" value="warning"/>
+            <column name="reconocida" valueNumeric="0"/>
+            <column name="causa_disparo" value="Posible desgaste en rodamiento inferior"/>
+        </insert>
+        <insert tableName="alarmas">
+            <column name="id" value="alm-103"/>
+            <column name="timestamp_evento" value="11:15:30"/>
+            <column name="tag" value="ESD-LOOP-9"/>
+            <column name="pozo_id" value="well-a12"/>
+            <column name="subsistema" value="SEGURIDAD RTU"/>
+            <column name="descripcion" value="Test de bucle de presión neumática completado exitosamente"/>
+            <column name="valor" value="120 PSI"/>
+            <column name="umbral" value="120 PSI Nominal"/>
+            <column name="severidad" value="nominal"/>
+            <column name="reconocida" valueNumeric="1"/>
+            <column name="reconocida_por" value="María José Conde"/>
+            <column name="ack_timestamp" value="11:16:05"/>
+            <column name="causa_disparo" value="Prueba de rutina programada"/>
+        </insert>
+
+        <!-- 6. Bitácora de Auditoría 21 CFR Part 11 -->
+        <insert tableName="bitacora_auditoria">
+            <column name="id" value="aud-001"/>
+            <column name="timestamp_log" value="14:55:00"/>
+            <column name="codigo_usuario" value="EMP-8812"/>
+            <column name="nombre_usuario" value="María José Conde Dussan"/>
+            <column name="nombre_rol" value="Administrador del Sistema"/>
+            <column name="accion" value="Inicialización de Base de Datos mediante Liquibase Migrations"/>
+            <column name="categoria" value="CONFIGURACIÓN"/>
+            <column name="estado" value="EXITOSO"/>
+            <column name="detalles" value="Migraciones ejecutadas y registradas en DATABASECHANGELOG."/>
+        </insert>
+        <insert tableName="bitacora_auditoria">
+            <column name="id" value="aud-002"/>
+            <column name="timestamp_log" value="14:35:12"/>
+            <column name="codigo_usuario" value="EMP-8812"/>
+            <column name="nombre_usuario" value="María José Conde Dussan"/>
+            <column name="nombre_rol" value="Administrador del Sistema"/>
+            <column name="accion" value="Ajuste de Estrangulador Pozo ALFA-12"/>
+            <column name="categoria" value="MANIOBRA"/>
+            <column name="estado" value="EXITOSO"/>
+            <column name="detalles" value="Apertura de Choke ajustada a 42.8% (+2.5% de incremento sostenido)."/>
+        </insert>
+        <insert tableName="bitacora_auditoria">
+            <column name="id" value="aud-003"/>
+            <column name="timestamp_log" value="13:50:00"/>
+            <column name="codigo_usuario" value="EMP-8813"/>
+            <column name="nombre_usuario" value="Hernann Thomas Manchola"/>
+            <column name="nombre_rol" value="Ingeniero de Operaciones"/>
+            <column name="accion" value="Sincronización de Umbrales de Telemetría"/>
+            <column name="categoria" value="CONFIGURACIÓN"/>
+            <column name="estado" value="EXITOSO"/>
+            <column name="detalles" value="Verificación de consignas para pozo BRAVO-04 y caudalímetro Coriolis."/>
+        </insert>
+
+        <!-- 7. Configuración de Planta y Estado SIS -->
+        <insert tableName="configuracion_sistema">
+            <column name="clave" value="plant_name"/>
+            <column name="valor" value="MAPAF RTOC - Estación Central de Telemetría"/>
+            <column name="descripcion" value="Nombre de la instalación"/>
+        </insert>
+        <insert tableName="configuracion_sistema">
+            <column name="clave" value="sena_ficha"/>
+            <column name="valor" value="3413988-ADSO"/>
+            <column name="descripcion" value="Ficha del programa SENA ADSO"/>
+        </insert>
+        <insert tableName="configuracion_sistema">
+            <column name="clave" value="production_rate"/>
+            <column name="valor" value="14820"/>
+            <column name="descripcion" value="Tasa bruta de producción en BPD"/>
+        </insert>
+        <insert tableName="configuracion_sistema">
+            <column name="clave" value="flow_state"/>
+            <column name="valor" value="nominal"/>
+            <column name="descripcion" value="Estado del flujo general: nominal, throttled, tripped"/>
+        </insert>
+        <insert tableName="configuracion_sistema">
+            <column name="clave" value="esd_triggered"/>
+            <column name="valor" value="0"/>
+            <column name="descripcion" value="Estado de Parada de Emergencia ESD-1 (0=Normal, 1=Disparado)"/>
+        </insert>
+        <insert tableName="configuracion_sistema">
+            <column name="clave" value="esd_trigger_time"/>
+            <column name="valor" value=""/>
+            <column name="descripcion" value="Hora del último disparo ESD"/>
+        </insert>
+
+        <rollback>
+            <delete tableName="configuracion_sistema"/>
+            <delete tableName="bitacora_auditoria"/>
+            <delete tableName="alarmas"/>
+            <delete tableName="telemetria_metricas"/>
+            <delete tableName="pozos"/>
+            <delete tableName="usuarios"/>
+            <delete tableName="roles"/>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>

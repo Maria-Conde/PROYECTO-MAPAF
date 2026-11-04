@@ -175,3 +175,59 @@ Contiene las reglas de negocio del SCADA y los algoritmos matemáticos:
    Observarás en pantalla la descripción exacta de cómo la petición atraviesa cada una de las 6 capas.
 4. **Verificar el monitor de salud en vivo:**  
    Pulsa el botón **`⚡ Test de Latencia & Salud`** para medir el ping real de ida y vuelta hacia el backend PHP y MySQL.
+
+---
+
+## 5. Control de Versiones de Base de Datos con Liquibase 4.27
+
+El proyecto integra de forma nativa **Liquibase** para el versionamiento formal del esquema relacional y la trazabilidad de cambios en base de datos.
+
+### 5.1 Estructura de Archivos Liquibase
+
+```
+PROYECTO-MAPAF/
+├── liquibase.properties                 # Configuración de conexión JDBC y changelog maestro
+├── liquibase.properties.example         # Plantilla con variables de entorno para CI/CD
+├── docker-compose.liquibase.yml         # Contenedor oficial de Liquibase CLI
+├── ejecutar_liquibase.bat               # Gestor interactivo en consola para Windows
+├── run_liquibase.ps1                    # Script de automatización en PowerShell
+├── db/
+│   └── changelog/
+│       ├── db.changelog-master.xml      # Changelog maestro oficial XML
+│       ├── db.changelog-master.sql      # Changelog maestro SQL formateado (--liquibase formatted sql)
+│       └── changesets/                  # ChangeSets modulares versionados
+│           ├── 001-create-table-roles.xml
+│           ├── 002-create-table-usuarios.xml
+│           ├── 003-create-table-pozos.xml
+│           ├── 004-create-table-telemetria-metricas.xml
+│           ├── 005-create-table-alarmas.xml
+│           ├── 006-create-table-bitacora-auditoria.xml
+│           ├── 007-create-table-configuracion-sistema.xml
+│           └── 008-seed-initial-data.xml
+├── services/
+│   └── LiquibaseService.php             # Motor nativo PHP compatible con Liquibase
+└── scripts/
+    └── liquibase_runner.php             # Runner CLI con soporte de update, status, rollback y reset
+```
+
+### 5.2 Tablas de Auditoría Liquibase en MySQL (`mapaf_db`)
+
+| Tabla de Control | Función Técnica |
+|---|---|
+| `DATABASECHANGELOG` | Registra cada ChangeSet ejecutado con su ID, autor, fecha, orden, checksum MD5 y descripción. |
+| `DATABASECHANGELOGLOCK` | Garantiza atomicidad y previene ejecuciones simultáneas mediante candado distribuido. |
+
+### 5.3 Comandos de Operación
+
+- **Montar y actualizar base de datos:**  
+  `php scripts/liquibase_runner.php update`  
+  o doble clic en `ejecutar_liquibase.bat` (Opción 1).
+- **Consultar estado y sumas MD5 de ChangeSets:**  
+  `php scripts/liquibase_runner.php status`
+- **Revertir último ChangeSet (Rollback):**  
+  `php scripts/liquibase_runner.php rollback 1`
+- **Montaje limpio desde cero (Reset):**  
+  `php scripts/liquibase_runner.php reset`
+- **Ejecución vía Docker oficial:**  
+  `docker-compose -f docker-compose.liquibase.yml run --rm liquibase update`
+

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="005-create-table-alarmas" author="maria-conde">
+        <comment>Creación de tabla alarmas conforme a la norma ANSI/ISA-18.2</comment>
+
+        <createTable tableName="alarmas" remarks="Registro y Acuse Trazable de Alarmas ANSI/ISA-18.2">
+            <column name="id" type="varchar(50)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="timestamp_evento" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tag" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="pozo_id" type="varchar(50)">
+                <constraints foreignKeyName="fk_alarmas_pozo" references="pozos(id)"/>
+            </column>
+            <column name="subsistema" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="descripcion" type="text">
+                <constraints nullable="false"/>
+            </column>
+            <column name="valor" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="umbral" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="severidad" type="varchar(20)" defaultValue="warning"/>
+            <column name="reconocida" type="tinyint(1)" defaultValueNumeric="0"/>
+            <column name="reconocida_por" type="varchar(100)"/>
+            <column name="ack_timestamp" type="varchar(50)"/>
+            <column name="causa_disparo" type="text"/>
+            <column name="fecha_registro" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <rollback>
+            <dropTable tableName="alarmas"/>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>

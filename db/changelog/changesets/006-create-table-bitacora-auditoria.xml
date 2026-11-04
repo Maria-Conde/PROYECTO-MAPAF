@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="006-create-table-bitacora-auditoria" author="maria-conde">
+        <comment>Creación de tabla bitacora_auditoria inmutable conforme a 21 CFR Part 11</comment>
+
+        <createTable tableName="bitacora_auditoria" remarks="Trazabilidad Forense Inmutable 21 CFR Part 11">
+            <column name="id" type="varchar(50)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="timestamp_log" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="codigo_usuario" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="nombre_usuario" type="varchar(150)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="nombre_rol" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="accion" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="categoria" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="estado" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="detalles" type="text">
+                <constraints nullable="false"/>
+            </column>
+            <column name="fecha_registro" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <rollback>
+            <dropTable tableName="bitacora_auditoria"/>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>

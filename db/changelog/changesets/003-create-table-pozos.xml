@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="003-create-table-pozos" author="maria-conde">
+        <comment>Creación de tabla pozos para cabezales de producción API 6A y actuadores</comment>
+
+        <createTable tableName="pozos" remarks="Cabezales de Producción API 6A y Actuadores Choke / SSV">
+            <column name="id" type="varchar(50)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nombre" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sector" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="estado" type="varchar(30)" defaultValue="EN LÍNEA"/>
+            <column name="presion_tubing" type="decimal(10,2)" defaultValueNumeric="0.00">
+                <constraints nullable="false"/>
+            </column>
+            <column name="presion_casing" type="decimal(10,2)" defaultValueNumeric="0.00">
+                <constraints nullable="false"/>
+            </column>
+            <column name="caudal_produccion" type="decimal(10,2)" defaultValueNumeric="0.00">
+                <constraints nullable="false"/>
+            </column>
+            <column name="temperatura" type="decimal(10,2)" defaultValueNumeric="0.00">
+                <constraints nullable="false"/>
+            </column>
+            <column name="apertura_choke" type="decimal(5,2)" defaultValueNumeric="40.00">
+                <constraints nullable="false"/>
+            </column>
+            <column name="objetivo_choke" type="decimal(5,2)" defaultValueNumeric="40.00">
+                <constraints nullable="false"/>
+            </column>
+            <column name="frecuencia_esp" type="decimal(5,2)" defaultValueNumeric="58.00">
+                <constraints nullable="false"/>
+            </column>
+            <column name="vibracion_esp" type="decimal(6,3)" defaultValueNumeric="1.800">
+                <constraints nullable="false"/>
+            </column>
+            <column name="valvula_ssv_abierta" type="tinyint(1)" defaultValueNumeric="1"/>
+            <column name="purga_anular_abierta" type="tinyint(1)" defaultValueNumeric="0"/>
+            <column name="inyeccion_quimica" type="tinyint(1)" defaultValueNumeric="1"/>
+            <column name="arena_acustica_ppm" type="decimal(8,2)" defaultValueNumeric="4.20"/>
+            <column name="fecha_actualizacion" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <rollback>
+            <dropTable tableName="pozos"/>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>

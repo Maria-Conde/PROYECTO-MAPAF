@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="001-create-table-roles" author="maria-conde">
+        <comment>Creación de tabla roles para control de acceso RBAC</comment>
+        
+        <createTable tableName="roles" remarks="Matriz de Control de Acceso Basado en Roles (RBAC)">
+            <column name="id" type="varchar(50)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nombre" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="codigo" type="varchar(50)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="descripcion" type="text"/>
+            <column name="color" type="varchar(20)" defaultValue="purple"/>
+            <column name="es_sistema" type="tinyint(1)" defaultValueNumeric="0"/>
+            <column name="permisos" type="json">
+                <constraints nullable="false"/>
+            </column>
+            <column name="fecha_creacion" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <rollback>
+            <dropTable tableName="roles"/>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>

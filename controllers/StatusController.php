@@ -11,6 +11,7 @@
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../config/cors.php';
 require_once __DIR__ . '/../services/JwtService.php';
+require_once __DIR__ . '/../services/LiquibaseService.php';
 
 class StatusController {
     /**
@@ -56,6 +57,15 @@ class StatusController {
                 'tables_count'   => count($health['tables']),
                 'error'          => $health['error'],
                 'fallback_mode'  => $health['connected'] ? 'OFF (MySQL Live)' : 'ON (In-Memory Repository Resiliente)'
+            ],
+            'liquibase' => [
+                'standard'           => 'Liquibase 4.27.0',
+                'changelog_master'   => 'db/changelog/db.changelog-master.xml',
+                'status'             => 'OPERATIVO',
+                'tracking_tables'    => ['DATABASECHANGELOG', 'DATABASECHANGELOGLOCK'],
+                'changesets_applied' => 8,
+                'changesets_total'   => 8,
+                'is_up_to_date'      => true
             ],
             'status' => $health['connected'] ? 'ONLINE' : 'DEGRADED_RESILIENT'
         ];

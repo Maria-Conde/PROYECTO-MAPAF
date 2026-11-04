@@ -1,0 +1,16 @@
+version: '3.8'
+
+# ==============================================================================
+# PROYECTO MAPAF - Contenedor Oficial de Liquibase CLI
+# Ejecutar: docker-compose -f docker-compose.liquibase.yml run --rm liquibase update
+# ==============================================================================
+
+services:
+  liquibase:
+    image: liquibase/liquibase:4.27.0
+    container_name: mapaf_liquibase
+    volumes:
+      - .:/liquibase/workspace
+    working_dir: /liquibase/workspace
+    command: --defaults-file=liquibase.properties update
+    network_mode: host
