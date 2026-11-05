@@ -95,3 +95,4 @@ try {
     echo "\n[ERROR CRÍTICO LIQUIBASE] " . $e->getMessage() . "\n\n";
     exit(1);
 }
+

@@ -7,3 +7,4 @@ username=${DB_USER:root}
 password=${DB_PASSWORD:}
 driver=com.mysql.cj.jdbc.Driver
 liquibase.hub.mode=off
+

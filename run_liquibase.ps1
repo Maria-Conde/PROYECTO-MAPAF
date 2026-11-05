@@ -26,3 +26,4 @@ if ($Command -eq "rollback") {
 } else {
     & $phpExe $runnerScript $Command
 }
+

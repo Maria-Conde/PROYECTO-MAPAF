@@ -182,3 +182,4 @@ INSERT INTO `configuracion_sistema` (`clave`, `valor`, `descripcion`) VALUES
 --rollback DELETE FROM `pozos`;
 --rollback DELETE FROM `usuarios`;
 --rollback DELETE FROM `roles`;
+

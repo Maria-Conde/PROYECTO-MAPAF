@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="009-create-tables-equipos-cisternas" author="maria-conde">
+        <comment>Creación de tablas para Equipos Industriales y Despacho de Cisternas</comment>
+
+        <!-- 1. Tabla: equipos_industriales -->
+        <createTable tableName="equipos_industriales" remarks="Equipos de Proceso, Cabezas de Pozo, Tanques y Separadores">
+            <column name="id" type="varchar(50)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="tag" type="varchar(50)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="nombre" type="varchar(150)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tipo" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="campo" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="presion_critica" type="decimal(10,2)" defaultValueNumeric="0.00">
+                <constraints nullable="false"/>
+            </column>
+            <column name="caudal_produccion" type="decimal(10,2)" defaultValueNumeric="0.00">
+                <constraints nullable="false"/>
+            </column>
+            <column name="estado" type="varchar(30)" defaultValue="OPERATIVO"/>
+            <column name="tiempo_conexion_seg" type="int" defaultValueNumeric="2"/>
+            <column name="fecha_actualizacion" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"/>
+        </createTable>
+
+        <!-- 2. Tabla: despachos_cisternas -->
+        <createTable tableName="despachos_cisternas" remarks="Registro de Cargas de Hidrocarburos en Islas de Despacho">
+            <column name="id" type="varchar(50)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="numero_guia" type="varchar(50)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="placa_cisterna" type="varchar(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="transportadora" type="varchar(150)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="conductor" type="varchar(150)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="isla" type="varchar(30)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="volumen_solicitado" type="decimal(10,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="volumen_cargado" type="decimal(10,2)" defaultValueNumeric="0.00">
+                <constraints nullable="false"/>
+            </column>
+            <column name="precinto_fiscal" type="varchar(50)"/>
+            <column name="estado" type="varchar(30)" defaultValue="EN LLENADO"/>
+            <column name="fecha_despacho" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP"/>
+        </createTable>
+
+        <!-- Inserción de Equipos Industriales de la Interfaz -->
+        <insert tableName="equipos_industriales">
+            <column name="id" value="eq-001"/>
+            <column name="tag" value="PZ-LIZ-104"/>
+            <column name="nombre" value="Cabeza de Pozo"/>
+            <column name="tipo" value="Pozo"/>
+            <column name="campo" value="Campo Lizama"/>
+            <column name="presion_critica" valueNumeric="538.20"/>
+            <column name="caudal_produccion" valueNumeric="1253.00"/>
+            <column name="estado" value="OPERATIVO"/>
+            <column name="tiempo_conexion_seg" valueNumeric="2"/>
+        </insert>
+        <insert tableName="equipos_industriales">
+            <column name="id" value="eq-002"/>
+            <column name="tag" value="TK-ALM-01"/>
+            <column name="nombre" value="Tanque Fiscal Cusiana"/>
+            <column name="tipo" value="Tanque"/>
+            <column name="campo" value="Campo Cusiana"/>
+            <column name="presion_critica" valueNumeric="14.60"/>
+            <column name="caudal_produccion" valueNumeric="3171.00"/>
+            <column name="estado" value="OPERATIVO"/>
+            <column name="tiempo_conexion_seg" valueNumeric="5"/>
+        </insert>
+        <insert tableName="equipos_industriales">
+            <column name="id" value="eq-003"/>
+            <column name="tag" value="PZ-ALF-12"/>
+            <column name="nombre" value="Cabeza de Pozo API 6A"/>
+            <column name="tipo" value="Pozo"/>
+            <column name="campo" value="Campo Neiva Huila"/>
+            <column name="presion_critica" valueNumeric="1842.50"/>
+            <column name="caudal_produccion" valueNumeric="4210.00"/>
+            <column name="estado" value="OPERATIVO"/>
+            <column name="tiempo_conexion_seg" valueNumeric="1"/>
+        </insert>
+        <insert tableName="equipos_industriales">
+            <column name="id" value="eq-004"/>
+            <column name="tag" value="SEP-V201"/>
+            <column name="nombre" value="Separador Trifásico V-201"/>
+            <column name="tipo" value="Separador"/>
+            <column name="campo" value="Campo Lizama"/>
+            <column name="presion_critica" valueNumeric="450.00"/>
+            <column name="caudal_produccion" valueNumeric="14820.00"/>
+            <column name="estado" value="OPERATIVO"/>
+            <column name="tiempo_conexion_seg" valueNumeric="3"/>
+        </insert>
+        <insert tableName="equipos_industriales">
+            <column name="id" value="eq-005"/>
+            <column name="tag" value="BMB-ESP-01"/>
+            <column name="nombre" value="Bomba Electrosumergible ESP"/>
+            <column name="tipo" value="Bomba"/>
+            <column name="campo" value="Campo Cusiana"/>
+            <column name="presion_critica" valueNumeric="820.00"/>
+            <column name="caudal_produccion" valueNumeric="4890.00"/>
+            <column name="estado" value="OPERATIVO"/>
+            <column name="tiempo_conexion_seg" valueNumeric="2"/>
+        </insert>
+        <insert tableName="equipos_industriales">
+            <column name="id" value="eq-006"/>
+            <column name="tag" value="TK-DES-02"/>
+            <column name="nombre" value="Tanque de Decantación 02"/>
+            <column name="tipo" value="Tanque"/>
+            <column name="campo" value="Campo Neiva Huila"/>
+            <column name="presion_critica" valueNumeric="8.50"/>
+            <column name="caudal_produccion" valueNumeric="2980.00"/>
+            <column name="estado" value="OPERATIVO"/>
+            <column name="tiempo_conexion_seg" valueNumeric="4"/>
+        </insert>
+
+        <!-- Inserción de Despachos Iniciales en Islas -->
+        <insert tableName="despachos_cisternas">
+            <column name="id" value="dsp-001"/>
+            <column name="numero_guia" value="DSP-2026-0842"/>
+            <column name="placa_cisterna" value="SQP-418"/>
+            <column name="transportadora" value="TransCaribe Hidrocarburos SAS"/>
+            <column name="conductor" value="Jairo Ortiz Morales"/>
+            <column name="isla" value="Isla 1 (Crudo Liviano API 32)"/>
+            <column name="volumen_solicitado" valueNumeric="300.00"/>
+            <column name="volumen_cargado" valueNumeric="220.00"/>
+            <column name="precinto_fiscal" value="SEC-984210"/>
+            <column name="estado" value="EN LLENADO"/>
+        </insert>
+        <insert tableName="despachos_cisternas">
+            <column name="id" value="dsp-002"/>
+            <column name="numero_guia" value="DSP-2026-0843"/>
+            <column name="placa_cisterna" value="WMC-902"/>
+            <column name="transportadora" value="Transportes Petroleros del Huila"/>
+            <column name="conductor" value="Andrés Castro Rivera"/>
+            <column name="isla" value="Isla 3 (Nafta / Diluyente)"/>
+            <column name="volumen_solicitado" valueNumeric="250.00"/>
+            <column name="volumen_cargado" valueNumeric="250.00"/>
+            <column name="precinto_fiscal" value="SEC-984211"/>
+            <column name="estado" value="COMPLETADO"/>
+        </insert>
+        <insert tableName="despachos_cisternas">
+            <column name="id" value="dsp-003"/>
+            <column name="numero_guia" value="DSP-2026-0844"/>
+            <column name="placa_cisterna" value="TGA-551"/>
+            <column name="transportadora" value="Logística Cusiana Oriente"/>
+            <column name="conductor" value="Fabián Gómez Soler"/>
+            <column name="isla" value="Isla 2 (Crudo Pesado Castilla)"/>
+            <column name="volumen_solicitado" valueNumeric="280.00"/>
+            <column name="volumen_cargado" valueNumeric="0.00"/>
+            <column name="precinto_fiscal" value="SEC-984212"/>
+            <column name="estado" value="AUTORIZADO"/>
+        </insert>
+
+        <rollback>
+            <dropTable tableName="despachos_cisternas"/>
+            <dropTable tableName="equipos_industriales"/>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>

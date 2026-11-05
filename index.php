@@ -13,12 +13,33 @@ require_once __DIR__ . '/config/database.php';
 // Definir vista solicitada (por defecto 'dashboard')
 $view = $_GET['view'] ?? 'dashboard';
 $allowedViews = [
-    'dashboard' => ['file' => 'views/dashboard.php', 'title' => 'Tablero General · PROYECTO MAPAF SCADA'],
-    'wellheads' => ['file' => 'views/wellheads.php', 'title' => 'Control de Pozos (API 6A) · PROYECTO MAPAF'],
-    'alarms'    => ['file' => 'views/alarms.php',    'title' => 'Consola de Alarmas (ANSI/ISA-18.2) · PROYECTO MAPAF'],
-    'audit'     => ['file' => 'views/audit.php',     'title' => 'Bitácora de Auditoría (21 CFR Part 11) · PROYECTO MAPAF'],
-    'modules'   => ['file' => 'views/modules.php',   'title' => 'Arquitectura & Módulos · PROYECTO MAPAF'],
-    'status'    => ['file' => 'views/status.php',    'title' => 'Diagnóstico XAMPP & MySQL · PROYECTO MAPAF'],
+    // 1. OPERACIÓN & DESPACHO
+    'dashboard'   => ['file' => 'views/dashboard.php',   'title' => 'Dashboard de Producción · PROYECTO MAPAF SCADA'],
+    'equipos'     => ['file' => 'views/equipos.php',     'title' => 'Equipos Industriales · PROYECTO MAPAF SCADA'],
+    'cisternas'   => ['file' => 'views/cisternas.php',   'title' => 'Despacho de Cisternas (Islas) · PROYECTO MAPAF'],
+    'alarms'      => ['file' => 'views/alarms.php',      'title' => 'Alertas ISA 18.2 · PROYECTO MAPAF'],
+    'historial'   => ['file' => 'views/historial.php',   'title' => 'Historial de Parámetros · PROYECTO MAPAF'],
+    
+    // 2. PARÁMETROS & CONFIGURACIÓN
+    'parametros'  => ['file' => 'views/parametros.php',  'title' => 'Parámetros del Sistema · PROYECTO MAPAF'],
+    'carga_csv'   => ['file' => 'views/carga_csv.php',   'title' => 'Carga CSV de Parámetros · PROYECTO MAPAF'],
+
+    // 3. LICENCIAMIENTO & FACTURACIÓN
+    'facturacion' => ['file' => 'views/facturacion.php', 'title' => 'Pago Mensual Empresa · PROYECTO MAPAF'],
+
+    // 4. ADMINISTRACIÓN
+    'usuarios'    => ['file' => 'views/usuarios.php',    'title' => 'Usuarios & Roles RBAC · PROYECTO MAPAF'],
+
+    // 5. ARQUITECTURA & PATRONES
+    'patrones'    => ['file' => 'views/modules.php',     'title' => 'Patrones & Arquitectura · PROYECTO MAPAF'],
+    'modules'     => ['file' => 'views/modules.php',     'title' => 'Patrones & Arquitectura · PROYECTO MAPAF'],
+
+    // 6. DIAGNÓSTICO & SERVICIOS
+    'status'      => ['file' => 'views/status.php',      'title' => 'Estado Servidor & Diagnóstico · PROYECTO MAPAF'],
+
+    // Vistas adicionales operacionales
+    'wellheads'   => ['file' => 'views/wellheads.php',   'title' => 'Control de Pozos (API 6A) · PROYECTO MAPAF'],
+    'audit'       => ['file' => 'views/audit.php',       'title' => 'Bitácora de Auditoría (21 CFR Part 11) · PROYECTO MAPAF'],
 ];
 
 if (!isset($allowedViews[$view])) {

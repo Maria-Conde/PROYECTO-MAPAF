@@ -19,5 +19,7 @@
     <include file="changesets/006-create-table-bitacora-auditoria.xml" relativeToChangelogFile="true"/>
     <include file="changesets/007-create-table-configuracion-sistema.xml" relativeToChangelogFile="true"/>
     <include file="changesets/008-seed-initial-data.xml" relativeToChangelogFile="true"/>
+    <include file="changesets/009-create-tables-equipos-cisternas.xml" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>
+

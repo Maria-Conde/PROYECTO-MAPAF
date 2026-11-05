@@ -41,6 +41,12 @@ class UserRepository implements RepositoryInterface {
     ];
 
     private static array $fallbackUsers = [
+        'usr-000' => [
+            'id' => 'usr-000', 'codigo_empleado' => 'EMP-001', 'nombre_completo' => 'Ing. Rodrigo Valenzuela',
+            'email' => 'r.valenzuela@mapaf.senacontrol.co', 'rol_id' => 'role-admin', 'rol_nombre' => 'Administrador del Sistema',
+            'rol_codigo' => 'SYS-ADMIN', 'rol_color' => 'rose', 'sector_asignado' => 'Administración Central & Sala RTOC SPS-01',
+            'estado' => 'EN TURNO', 'permisos' => ['view_telemetry', 'control_valves', 'control_choke', 'execute_esd', 'reset_esd', 'ack_alarms', 'export_historian', 'manage_users']
+        ],
         'usr-001' => [
             'id' => 'usr-001', 'codigo_empleado' => 'EMP-8812', 'nombre_completo' => 'María José Conde Dussan',
             'email' => 'm.conde@mapaf.senacontrol.co', 'rol_id' => 'role-admin', 'rol_nombre' => 'Administrador del Sistema',

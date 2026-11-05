@@ -368,6 +368,62 @@ class LiquibaseService {
                     DELETE FROM `usuarios`;
                     DELETE FROM `roles`;
                 "
+            ],
+            [
+                'id'          => '009-create-tables-equipos-cisternas',
+                'author'      => 'maria-conde',
+                'filename'    => 'db/changelog/changesets/009-create-tables-equipos-cisternas.xml',
+                'description' => 'createTable tableName=equipos_industriales, despachos_cisternas',
+                'comments'    => 'Equipos industriales de campo y despacho de carrotanques en islas',
+                'up'          => "
+                    CREATE TABLE IF NOT EXISTS `equipos_industriales` (
+                      `id` VARCHAR(50) NOT NULL,
+                      `tag` VARCHAR(50) NOT NULL UNIQUE,
+                      `nombre` VARCHAR(150) NOT NULL,
+                      `tipo` VARCHAR(50) NOT NULL,
+                      `campo` VARCHAR(100) NOT NULL,
+                      `presion_critica` DECIMAL(10,2) NOT NULL DEFAULT 0.00,
+                      `caudal_produccion` DECIMAL(10,2) NOT NULL DEFAULT 0.00,
+                      `estado` VARCHAR(30) DEFAULT 'OPERATIVO',
+                      `tiempo_conexion_seg` INT DEFAULT 2,
+                      `fecha_actualizacion` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                      PRIMARY KEY (`id`)
+                    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+                    CREATE TABLE IF NOT EXISTS `despachos_cisternas` (
+                      `id` VARCHAR(50) NOT NULL,
+                      `numero_guia` VARCHAR(50) NOT NULL UNIQUE,
+                      `placa_cisterna` VARCHAR(20) NOT NULL,
+                      `transportadora` VARCHAR(150) NOT NULL,
+                      `conductor` VARCHAR(150) NOT NULL,
+                      `isla` VARCHAR(30) NOT NULL,
+                      `volumen_solicitado` DECIMAL(10,2) NOT NULL,
+                      `volumen_cargado` DECIMAL(10,2) NOT NULL DEFAULT 0.00,
+                      `precinto_fiscal` VARCHAR(50) DEFAULT NULL,
+                      `estado` VARCHAR(30) DEFAULT 'EN LLENADO',
+                      `fecha_despacho` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                      PRIMARY KEY (`id`)
+                    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+                    INSERT INTO `equipos_industriales` (`id`, `tag`, `nombre`, `tipo`, `campo`, `presion_critica`, `caudal_produccion`, `estado`, `tiempo_conexion_seg`) VALUES
+                    ('eq-001', 'PZ-LIZ-104', 'Cabeza de Pozo', 'Pozo', 'Campo Lizama', 538.20, 1253.00, 'OPERATIVO', 2),
+                    ('eq-002', 'TK-ALM-01', 'Tanque Fiscal Cusiana', 'Tanque', 'Campo Cusiana', 14.60, 3171.00, 'OPERATIVO', 5),
+                    ('eq-003', 'PZ-ALF-12', 'Cabeza de Pozo API 6A', 'Pozo', 'Campo Neiva Huila', 1842.50, 4210.00, 'OPERATIVO', 1),
+                    ('eq-004', 'SEP-V201', 'Separador Trifásico V-201', 'Separador', 'Campo Lizama', 450.00, 14820.00, 'OPERATIVO', 3),
+                    ('eq-005', 'BMB-ESP-01', 'Bomba Electrosumergible ESP', 'Bomba', 'Campo Cusiana', 820.00, 4890.00, 'OPERATIVO', 2),
+                    ('eq-006', 'TK-DES-02', 'Tanque de Decantación 02', 'Tanque', 'Campo Neiva Huila', 8.50, 2980.00, 'OPERATIVO', 4)
+                    ON DUPLICATE KEY UPDATE `presion_critica` = VALUES(`presion_critica`);
+
+                    INSERT INTO `despachos_cisternas` (`id`, `numero_guia`, `placa_cisterna`, `transportadora`, `conductor`, `isla`, `volumen_solicitado`, `volumen_cargado`, `precinto_fiscal`, `estado`) VALUES
+                    ('dsp-001', 'DSP-2026-0842', 'SQP-418', 'TransCaribe Hidrocarburos SAS', 'Jairo Ortiz Morales', 'Isla 1 (Crudo Liviano API 32)', 300.00, 220.00, 'SEC-984210', 'EN LLENADO'),
+                    ('dsp-002', 'DSP-2026-0843', 'WMC-902', 'Transportes Petroleros del Huila', 'Andrés Castro Rivera', 'Isla 3 (Nafta / Diluyente)', 250.00, 250.00, 'SEC-984211', 'COMPLETADO'),
+                    ('dsp-003', 'DSP-2026-0844', 'TGA-551', 'Logística Cusiana Oriente', 'Fabián Gómez Soler', 'Isla 2 (Crudo Pesado Castilla)', 280.00, 0.00, 'SEC-984212', 'AUTORIZADO')
+                    ON DUPLICATE KEY UPDATE `volumen_cargado` = VALUES(`volumen_cargado`);
+                ",
+                'down'        => "
+                    DROP TABLE IF EXISTS `despachos_cisternas`;
+                    DROP TABLE IF EXISTS `equipos_industriales`;
+                "
             ]
         ];
     }

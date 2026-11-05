@@ -220,6 +220,149 @@ body {
     font-weight: 600;
 }
 
+/* Badges de Barra Lateral (Estilo SCADA Petrolero) */
+.badge-sidebar-pill {
+    margin-left: auto;
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 0.15rem 0.5rem;
+    border-radius: 999px;
+    letter-spacing: 0.04em;
+    font-family: var(--font-mono);
+    line-height: 1.2;
+}
+
+.badge-pill-isla {
+    background: #f59e0b;
+    color: #0b0f19;
+    font-weight: 800;
+}
+
+.badge-pill-count {
+    background: #ef4444;
+    color: #ffffff;
+    font-weight: 800;
+}
+
+.badge-pill-admin {
+    background: #b91c1c;
+    color: #ffffff;
+    border: 1px solid rgba(239, 68, 68, 0.5);
+    font-size: 0.62rem;
+}
+
+.badge-pill-cyan {
+    background: #0284c7;
+    color: #ffffff;
+    border: 1px solid rgba(56, 189, 248, 0.4);
+    font-size: 0.62rem;
+}
+
+/* Encabezado de Marca en Sidebar */
+.sidebar-brand-box {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1.15rem 1.25rem 0.85rem;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 0.5rem;
+}
+
+.sidebar-logo-icon {
+    width: 36px;
+    height: 36px;
+    background: linear-gradient(135deg, #0284c7, #2563eb);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    box-shadow: 0 4px 12px rgba(2, 132, 199, 0.35);
+}
+
+.sidebar-brand-name {
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: 0.02em;
+    text-transform: lowercase;
+}
+
+.sidebar-brand-sub {
+    font-size: 0.68rem;
+    color: var(--text-dim);
+    font-family: var(--font-mono);
+}
+
+/* Tarjeta de Perfil de Usuario en Footer de Sidebar */
+.sidebar-user-profile {
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.85rem 1.15rem;
+    background: #090e1d;
+    border-top: 1px solid var(--border-color);
+}
+
+.user-avatar-crown {
+    width: 36px;
+    height: 36px;
+    background: linear-gradient(135deg, #b45309, #d97706);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    box-shadow: 0 2px 8px rgba(217, 119, 6, 0.3);
+}
+
+.user-info-text {
+    flex: 1;
+    min-width: 0;
+}
+
+.user-name {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #fff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.user-role-title {
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 0.2rem;
+}
+
+.user-badge-row {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+}
+
+.user-badge-admin {
+    background: #991b1b;
+    color: #fca5a5;
+    font-size: 0.6rem;
+    font-weight: 800;
+    padding: 0.05rem 0.35rem;
+    border-radius: 4px;
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+}
+
+.user-handle {
+    font-size: 0.65rem;
+    color: var(--text-dim);
+    font-family: var(--font-mono);
+}
+
 .app-content {
     flex: 1;
     overflow-y: auto;
