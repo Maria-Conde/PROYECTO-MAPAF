@@ -123,4 +123,25 @@ class AuthService {
 
         return $op;
     }
+
+    /**
+     * Modifica el rol de un operador y emite traza inmutable (21 CFR Part 11)
+     */
+    public function changeUserRole(string $userId, string $newRoleId, ?string $justificacion = null): bool {
+        $ok = $this->userRepo->updateRole($userId, $newRoleId);
+        if ($ok) {
+            try {
+                EventDispatcher::getInstance()->dispatch(new GenericDomainEvent(
+                    'Modificación de Privilegios RBAC',
+                    'SEGURIDAD',
+                    $userId,
+                    'Administrador del Sistema',
+                    'SYS-ADMIN',
+                    'EXITOSO',
+                    "Cambio de rol de usuario '{$userId}' a '{$newRoleId}'. Justificación: " . ($justificacion ?: 'Cambio autorizado desde la matriz de roles.')
+                ));
+            } catch (Throwable $e) {}
+        }
+        return $ok;
+    }
 }

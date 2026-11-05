@@ -179,4 +179,45 @@ class UserRepository implements RepositoryInterface {
         }
         return self::$fallbackRoles;
     }
+
+    /**
+     * Actualiza el rol asignado a un usuario u operador
+     */
+    public function updateRole(string $userId, string $roleId): bool {
+        $targetRole = null;
+        $allRoles = $this->getRoles();
+        foreach ($allRoles as $r) {
+            if ($r['id'] === $roleId || $r['codigo'] === $roleId) {
+                $targetRole = $r;
+                break;
+            }
+        }
+        if (!$targetRole) {
+            return false;
+        }
+
+        $success = false;
+        if ($this->db) {
+            try {
+                $stmt = $this->db->prepare("UPDATE `usuarios` SET `rol_id` = :rol_id WHERE `id` = :uid OR `codigo_empleado` = :code");
+                $stmt->execute([':rol_id' => $targetRole['id'], ':uid' => $userId, ':code' => $userId]);
+                $success = true;
+            } catch (Throwable $e) {
+                error_log('[UserRepository] Error updating role: ' . $e->getMessage());
+            }
+        }
+
+        foreach (self::$fallbackUsers as $k => &$u) {
+            if ($u['id'] === $userId || $u['codigo_empleado'] === $userId) {
+                $u['rol_id'] = $targetRole['id'];
+                $u['rol_nombre'] = $targetRole['nombre'];
+                $u['rol_codigo'] = $targetRole['codigo'];
+                $u['rol_color'] = $targetRole['color'] ?? 'sky';
+                $u['permisos'] = $targetRole['permisos'] ?? [];
+                $success = true;
+            }
+        }
+
+        return $success;
+    }
 }
