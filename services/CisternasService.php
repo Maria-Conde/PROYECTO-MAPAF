@@ -70,3 +70,4 @@ class CisternasService {
         return $this->repository->create($data);
     }
 }
+

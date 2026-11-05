@@ -317,3 +317,4 @@ function exportarHistorial(formato) {
     alert("Exportando registros del Historian SCADA en formato " + formato.toUpperCase() + "...");
 }
 </script>
+

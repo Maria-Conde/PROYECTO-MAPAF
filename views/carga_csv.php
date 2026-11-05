@@ -178,3 +178,4 @@ RTU_POLLING_INTERVAL_MS,1000,Frecuencia Polling RTU Modbus`;
     document.body.removeChild(link);
 }
 </script>
+

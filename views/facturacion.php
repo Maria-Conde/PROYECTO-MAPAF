@@ -246,3 +246,4 @@ function closePaymentModal() {
     document.getElementById('modalPago').style.display = 'none';
 }
 </script>
+

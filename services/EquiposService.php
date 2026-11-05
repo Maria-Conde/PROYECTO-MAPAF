@@ -51,3 +51,4 @@ class EquiposService {
         return $this->repository->updateStatus($id, $nuevoEstado);
     }
 }
+
